@@ -1,4 +1,4 @@
-# Agrosathi AI
+# Agro AI
 
 **Smart Agriculture / Smart Farming platform for farmers**
 
