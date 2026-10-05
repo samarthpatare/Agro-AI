@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Smart Kisan AI - Smart agriculture platform for farmers"
+    >
+
+    <title>Smart Kisan AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+
+            <div class="logo-icon">
+                🌾
+            </div>
+
+            <div class="logo-text">
+
+                <span class="logo-name">
+                    Smart Kisan
+                </span>
+
+                <span class="logo-ai">
+                    AI
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav class="desktop-nav">
+
+            <a
+                href="#home"
+                class="nav-link active"
+                data-i18n="home"
+            >
+                Home
+            </a>
+
+            <a
+                href="#features"
+                class="nav-link"
+                data-i18n="features"
+            >
+                Features
+            </a>
+
+            <a
+                href="#about"
+                class="nav-link"
+                data-i18n="about"
+            >
+                About
+            </a>
+
+            <a
+                href="#contact"
+                class="nav-link"
+                data-i18n="contact"
+            >
+                Contact
+            </a>
+
+        </nav>
+
+
+        <div class="nav-right">
+
+            <select
+                id="languageSelector"
+                class="language-selector"
+                aria-label="Select language"
+            >
+
+                <option value="en">
+                    English
+                </option>
+
+                <option value="hi">
+                    हिन्दी
+                </option>
+
+                <option value="mr">
+                    मराठी
+                </option>
+
+            </select>
+
+
+            <a
+                href="/login"
+                class="nav-login"
+                data-i18n="login"
+            >
+                Login
+            </a>
+
+
+            <a
+                href="/register"
+                class="nav-register"
+                data-i18n="register"
+            >
+                Register
+            </a>
+
+        </div>
+
+
+        <button
+            id="menuButton"
+            class="menu-button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE MENU
+    ====================================================== -->
+
+    <div
+        id="mobileMenu"
+        class="mobile-menu"
+    >
+
+        <a
+            href="#home"
+            data-i18n="home"
+        >
+            Home
+        </a>
+
+
+        <a
+            href="#features"
+            data-i18n="features"
+        >
+            Features
+        </a>
+
+
+        <a
+            href="#about"
+            data-i18n="about"
+        >
+            About
+        </a>
+
+
+        <a
+            href="#contact"
+            data-i18n="contact"
+        >
+            Contact
+        </a>
+
+
+        <div class="mobile-actions">
+
+            <a
+                href="/login"
+                class="mobile-login"
+                data-i18n="login"
+            >
+                Login
+            </a>
+
+
+            <a
+                href="/register"
+                class="mobile-register"
+                data-i18n="register"
+            >
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
+<section
+    id="home"
+    class="hero-section"
+>
+
+    <div class="hero-overlay"></div>
+
+
+    <div class="hero-container">
+
+
+        <!-- =================================================
+             HERO CONTENT
+        ================================================== -->
+
+        <div class="hero-content">
+
+
+            <div class="hero-badge">
+
+                <span class="badge-dot"></span>
+
+                <span data-i18n="hero_badge">
+                    AI Powered Agriculture
+                </span>
+
+            </div>
+
+
+            <h1>
+
+                <span data-i18n="hero_line_1">
+                    Smart Farming.
+                </span>
+
+                <br>
+
+                <span
+                    class="hero-green"
+                    data-i18n="hero_line_2"
+                >
+                    Better Future.
+                </span>
+
+            </h1>
+
+
+            <p data-i18n="hero_description">
+                Smart Kisan AI brings farming tools, weather information,
+                AI assistance, crop reports and government schemes together
+                in one simple platform for farmers.
+            </p>
+
+
+            <div class="hero-actions">
+
+
+                <a
+                    href="/register"
+                    class="primary-button"
+                    data-i18n="get_started"
+                >
+                    Get Started
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="#features"
+                    class="secondary-button"
+                    data-i18n="explore_features"
+                >
+                    Explore Features
+                </a>
+
+
+            </div>
+
+
+            <div class="hero-points">
+
+
+                <div class="hero-point">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="hero_point_1">
+                        Farmer Friendly
+                    </p>
+
+                </div>
+
+
+                <div class="hero-point">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="hero_point_2">
+                        AI Powered
+                    </p>
+
+                </div>
+
+
+                <div class="hero-point">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="hero_point_3">
+                        Location Based
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HERO IMAGE
+        ================================================== -->
+
+        <div class="hero-image-container">
+
+
+            <div class="hero-image-frame">
+
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/farm-details.png'
+                    ) }}"
+                    alt="Smart farming"
+                    class="hero-image"
+                >
+
+
+                <div class="hero-image-shade"></div>
+
+
+                <div class="hero-image-label">
+
+
+                    <div class="label-icon">
+                        🌾
+                    </div>
+
+
+                    <div>
+
+                        <small data-i18n="smart_agriculture">
+                            SMART AGRICULTURE
+                        </small>
+
+
+                        <strong data-i18n="future_farming">
+                            Future of Farming
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- FLOATING WEATHER -->
+
+            <div
+                class="hero-floating-card weather-floating"
+            >
+
+                <div class="floating-icon">
+                    🌦️
+                </div>
+
+
+                <div>
+
+                    <small data-i18n="live_weather">
+                        Live Weather
+                    </small>
+
+
+                    <strong>
+                        28°C
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- FLOATING AI -->
+
+            <div
+                class="hero-floating-card ai-floating"
+            >
+
+                <div class="floating-icon ai-floating-icon">
+                    🤖
+                </div>
+
+
+                <div>
+
+                    <small data-i18n="ai_tools">
+                        AI Tools
+                    </small>
+
+
+                    <strong data-i18n="ready">
+                        Ready
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FEATURE SECTION
+     
+     IMPORTANT:
+     These six cards are DISPLAY ONLY.
+     They are NOT clickable.
+========================================================= -->
+
+<section
+    id="features"
+    class="features-section"
+>
+
+    <div class="section-container">
+
+
+        <div class="section-heading">
+
+
+            <div
+                class="section-label"
+                data-i18n="main_features"
+            >
+                SMART KISAN FEATURES
+            </div>
+
+
+            <h2 data-i18n="features_title">
+                Everything a Farmer Needs
+            </h2>
+
+
+            <p data-i18n="features_description">
+                Important farming services are available in one place,
+                designed to be simple and easy for farmers to use.
+            </p>
+
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <!-- =================================================
+                 01 FARMER DETAILS
+                 
+                 DISPLAY ONLY
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <div class="feature-image">
+
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/farmer-details.png'
+                        ) }}"
+                        alt="Farmer Details"
+                    >
+
+
+                    <div class="feature-image-overlay"></div>
+
+
+                    <span class="feature-number">
+                        01
+                    </span>
+
+
+                </div>
+
+
+                <div class="feature-content">
+
+
+                    <div class="feature-title-row">
+
+
+                        <div class="feature-icon">
+                            👨‍🌾
+                        </div>
+
+
+                        <h3 data-i18n="farmer_details">
+                            Farmer Details
+                        </h3>
+
+
+                    </div>
+
+
+                    <p data-i18n="farmer_description">
+                        Manage farmer name, mobile number, location
+                        and language information.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 02 FARM DETAILS
+                 
+                 DISPLAY ONLY
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <div class="feature-image">
+
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/farm-details.png'
+                        ) }}"
+                        alt="Farm Details"
+                    >
+
+
+                    <div class="feature-image-overlay"></div>
+
+
+                    <span class="feature-number">
+                        02
+                    </span>
+
+
+                </div>
+
+
+                <div class="feature-content">
+
+
+                    <div class="feature-title-row">
+
+
+                        <div class="feature-icon">
+                            🚜
+                        </div>
+
+
+                        <h3 data-i18n="farm_details">
+                            Farm Details
+                        </h3>
+
+
+                    </div>
+
+
+                    <p data-i18n="farm_description">
+                        Store farm area, soil type, irrigation,
+                        water source, season and location.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 03 LIVE WEATHER
+                 
+                 DISPLAY ONLY
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <div class="feature-image">
+
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/live-weather.png'
+                        ) }}"
+                        alt="Live Weather"
+                    >
+
+
+                    <div class="feature-image-overlay"></div>
+
+
+                    <span class="feature-number">
+                        03
+                    </span>
+
+
+                </div>
+
+
+                <div class="feature-content">
+
+
+                    <div class="feature-title-row">
+
+
+                        <div class="feature-icon">
+                            🌦️
+                        </div>
+
+
+                        <h3 data-i18n="live_weather_title">
+                            Live Weather
+                        </h3>
+
+
+                    </div>
+
+
+                    <p data-i18n="weather_description">
+                        Get live weather information for your farm
+                        location and monitor farming conditions.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 04 AI TOOLS
+                 
+                 DISPLAY ONLY
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <div class="feature-image">
+
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/ai-tools.png'
+                        ) }}"
+                        alt="AI Tools"
+                    >
+
+
+                    <div class="feature-image-overlay"></div>
+
+
+                    <span class="feature-number">
+                        04
+                    </span>
+
+
+                </div>
+
+
+                <div class="feature-content">
+
+
+                    <div class="feature-title-row">
+
+
+                        <div class="feature-icon">
+                            🤖
+                        </div>
+
+
+                        <h3 data-i18n="ai_tools_title">
+                            AI Tools
+                        </h3>
+
+
+                    </div>
+
+
+                    <p data-i18n="ai_description">
+                        Access smart agriculture AI tools including
+                        crop assistance, disease analysis and more.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 05 CROP REPORT
+                 
+                 DISPLAY ONLY
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <div class="feature-image">
+
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/crop-report.png'
+                        ) }}"
+                        alt="Crop Report"
+                    >
+
+
+                    <div class="feature-image-overlay"></div>
+
+
+                    <span class="feature-number">
+                        05
+                    </span>
+
+
+                </div>
+
+
+                <div class="feature-content">
+
+
+                    <div class="feature-title-row">
+
+
+                        <div class="feature-icon">
+                            🌾
+                        </div>
+
+
+                        <h3 data-i18n="crop_report">
+                            Crop Report
+                        </h3>
+
+
+                    </div>
+
+
+                    <p data-i18n="crop_description">
+                        Explore useful crop information, reports and
+                        farming insights.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 06 GOVERNMENT SCHEMES
+                 
+                 DISPLAY ONLY
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <div class="feature-image">
+
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/Government-schemes.png'
+                        ) }}"
+                        alt="Government Schemes"
+                    >
+
+
+                    <div class="feature-image-overlay"></div>
+
+
+                    <span class="feature-number">
+                        06
+                    </span>
+
+
+                </div>
+
+
+                <div class="feature-content">
+
+
+                    <div class="feature-title-row">
+
+
+                        <div class="feature-icon">
+                            🏛️
+                        </div>
+
+
+                        <h3 data-i18n="government_schemes">
+                            Government Schemes
+                        </h3>
+
+
+                    </div>
+
+
+                    <p data-i18n="scheme_description">
+                        Find useful government agriculture schemes
+                        and farmer support information.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
+<section
+    id="about"
+    class="about-section"
+>
+
+    <div
+        class="section-container about-container"
+    >
+
+
+        <div class="about-content">
+
+
+            <div
+                class="section-label"
+                data-i18n="about_label"
+            >
+                ABOUT SMART KISAN AI
+            </div>
+
+
+            <h2 data-i18n="about_title">
+                Technology Made for Farmers
+            </h2>
+
+
+            <p data-i18n="about_text">
+                Smart Kisan AI is designed to bring important
+                agricultural information and smart farming tools
+                into one easy-to-use platform.
+            </p>
+
+
+            <div class="about-list">
+
+
+                <div class="about-item">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="about_point_1">
+                        Farmer-friendly interface
+                    </p>
+
+                </div>
+
+
+                <div class="about-item">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="about_point_2">
+                        English, Hindi and Marathi support
+                    </p>
+
+                </div>
+
+
+                <div class="about-item">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="about_point_3">
+                        Location-based farming information
+                    </p>
+
+                </div>
+
+
+                <div class="about-item">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <p data-i18n="about_point_4">
+                        AI-powered agriculture tools
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="about-visual">
+
+
+            <div class="about-card">
+
+
+                <div class="about-card-icon">
+                    🌱
+                </div>
+
+
+                <h3>
+                    Smart Kisan
+                </h3>
+
+
+                <p data-i18n="about_card">
+                    Smart technology for smarter farming.
+                </p>
+
+
+            </div>
+
+
+            <div
+                class="about-decoration decoration-one"
+            ></div>
+
+
+            <div
+                class="about-decoration decoration-two"
+            ></div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="cta-section">
+
+
+    <div class="cta-container">
+
+
+        <div>
+
+
+            <span class="cta-small">
+                SMART KISAN AI
+            </span>
+
+
+            <h2 data-i18n="cta_title">
+                Make Your Farming Smarter
+            </h2>
+
+
+            <p data-i18n="cta_text">
+                Create your farmer profile and start using
+                Smart Kisan AI.
+            </p>
+
+
+        </div>
+
+
+        <a
+            href="/register"
+            class="cta-button"
+            data-i18n="register_now"
+        >
+            Register Now →
+        </a>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section
+    id="contact"
+    class="contact-section"
+>
+
+    <div class="section-container">
+
+
+        <div
+            class="section-heading contact-heading"
+        >
+
+
+            <div
+                class="section-label"
+                data-i18n="contact_label"
+            >
+                CONTACT
+            </div>
+
+
+            <h2 data-i18n="contact_title">
+                Smart Support for Smart Farmers
+            </h2>
+
+
+            <p data-i18n="contact_text">
+                Smart Kisan AI is built to make agricultural
+                technology easier and more useful for farmers.
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+
+    <div class="footer-container">
+
+
+        <div class="footer-brand">
+
+
+            <a
+                href="/"
+                class="logo"
+            >
+
+
+                <div class="logo-icon">
+                    🌾
+                </div>
+
+
+                <div class="logo-text">
+
+
+                    <span
+                        class="logo-name footer-logo-name"
+                    >
+                        Smart Kisan
+                    </span>
+
+
+                    <span class="logo-ai">
+                        AI
+                    </span>
+
+
+                </div>
+
+
+            </a>
+
+
+            <p data-i18n="footer_text">
+                Smart technology for a smarter agricultural future.
+            </p>
+
+
+        </div>
+
+
+        <div class="footer-links">
+
+
+            <a
+                href="#home"
+                data-i18n="home"
+            >
+                Home
+            </a>
+
+
+            <a
+                href="#features"
+                data-i18n="features"
+            >
+                Features
+            </a>
+
+
+            <a
+                href="#about"
+                data-i18n="about"
+            >
+                About
+            </a>
+
+
+            <a
+                href="#contact"
+                data-i18n="contact"
+            >
+                Contact
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+
+        <p>
+
+            ©
+
+            <span id="year"></span>
+
+            Smart Kisan AI.
+
+            <span data-i18n="rights">
+                All rights reserved.
+            </span>
+
+        </p>
+
+
+    </div>
+
+
+</footer>
+
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}"
+></script>
+
+
+</body>
+</html>

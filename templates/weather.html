@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Smart Kisan AI - Live Farm Weather"
+    >
+
+    <title>Live Weather | Smart Kisan AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background: #041009;
+
+            color: white;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .weather-page {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 12% 12%,
+                    rgba(55, 173, 99, .10),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 88% 72%,
+                    rgba(47, 146, 182, .08),
+                    transparent 30%
+                ),
+                #041009;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .weather-navbar {
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(3, 13, 7, .84);
+
+            border-bottom:
+                1px solid rgba(255,255,255,.08);
+
+            backdrop-filter:
+                blur(20px);
+
+            -webkit-backdrop-filter:
+                blur(20px);
+        }
+
+        .weather-nav {
+            width: min(
+                calc(100% - 42px),
+                1250px
+            );
+
+            min-height: 76px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .weather-brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            text-decoration: none;
+        }
+
+        .weather-brand-icon {
+            width: 45px;
+            height: 45px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(82,210,124,.18),
+                    rgba(20,120,57,.12)
+                );
+
+            border:
+                1px solid rgba(121,226,153,.16);
+
+            box-shadow:
+                0 0 30px
+                rgba(46,190,92,.10);
+
+            font-size: 23px;
+        }
+
+        .weather-brand-name {
+            color: white;
+
+            font-size: 19px;
+
+            font-weight: 850;
+        }
+
+        .weather-brand-name span {
+            color: #63d88a;
+        }
+
+        .weather-back {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 10px 14px;
+
+            border:
+                1px solid rgba(255,255,255,.10);
+
+            border-radius: 10px;
+
+            color: #b9d6c2;
+
+            background:
+                rgba(255,255,255,.035);
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .weather-back:hover {
+            color: white;
+
+            background:
+                rgba(255,255,255,.07);
+
+            border-color:
+                rgba(99,216,138,.25);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .weather-main {
+            width: min(
+                calc(100% - 42px),
+                1100px
+            );
+
+            margin: auto;
+
+            padding: 38px 0 80px;
+        }
+
+
+        /* =====================================================
+           CINEMATIC HERO
+        ===================================================== */
+
+        .weather-hero {
+            position: relative;
+
+            min-height: 410px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            border-radius: 30px;
+
+            border:
+                1px solid rgba(255,255,255,.09);
+
+            box-shadow:
+                0 35px 100px
+                rgba(0,0,0,.38);
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(2,12,6,.96) 0%,
+                    rgba(3,22,11,.79) 37%,
+                    rgba(3,15,8,.28) 74%,
+                    rgba(3,12,6,.12) 100%
+                ),
+
+                url("{{ url_for(
+                    'static',
+                    filename='images/live-weather.png'
+                ) }}")
+                center / cover no-repeat;
+        }
+
+        .weather-hero::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent 30%,
+                    rgba(1,7,4,.92) 100%
+                );
+
+            pointer-events: none;
+        }
+
+        .weather-glow {
+            position: absolute;
+
+            width: 410px;
+            height: 410px;
+
+            right: -120px;
+            top: -150px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(92,200,241,.13);
+
+            filter: blur(60px);
+
+            pointer-events: none;
+        }
+
+        .weather-hero-content {
+            position: relative;
+
+            z-index: 5;
+
+            width: 100%;
+
+            padding: 42px;
+        }
+
+        .weather-kicker {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #a2dcb2;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 1.8px;
+
+            margin-bottom: 9px;
+        }
+
+        .weather-kicker-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #69df91;
+
+            box-shadow:
+                0 0 12px
+                #69df91;
+        }
+
+        .weather-title {
+            margin: 0;
+
+            color: white;
+
+            font-size:
+                clamp(
+                    38px,
+                    6vw,
+                    63px
+                );
+
+            line-height: .98;
+
+            letter-spacing: -2px;
+        }
+
+        .weather-title span {
+            color: #73d3ef;
+        }
+
+        .weather-subtitle {
+            max-width: 700px;
+
+            margin: 13px 0 0;
+
+            color: #bdd1c5;
+
+            font-size: 13px;
+
+            line-height: 1.75;
+        }
+
+
+        /* =====================================================
+           SIMPLE LOCATION PILLS
+        ===================================================== */
+
+        .weather-location-pills {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 23px;
+        }
+
+        .weather-location-pill {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 9px 12px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.055);
+
+            border:
+                1px solid rgba(255,255,255,.09);
+
+            backdrop-filter:
+                blur(10px);
+
+            color: #dcece1;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .weather-error {
+            margin-top: 22px;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(126,32,32,.18);
+
+            border:
+                1px solid
+                rgba(239,142,142,.16);
+
+            color: #f0aaaa;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           WEATHER SECTION
+        ===================================================== */
+
+        .weather-section {
+            padding-top: 48px;
+        }
+
+        .section-kicker {
+            color: #59cf82;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            margin: 0 0 7px;
+
+            color: #f1faf4;
+
+            font-size: 31px;
+
+            letter-spacing: -1px;
+        }
+
+        .section-description {
+            max-width: 740px;
+
+            margin: 0 0 22px;
+
+            color: #788d7f;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           CURRENT WEATHER CARD
+        ===================================================== */
+
+        .current-weather-card {
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 285px;
+
+            padding: 28px;
+
+            border-radius: 24px;
+
+            border:
+                1px solid
+                rgba(113,204,234,.12);
+
+            background:
+
+                radial-gradient(
+                    circle at 85% 18%,
+                    rgba(87,207,239,.18),
+                    transparent 28%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    rgba(8,43,23,.97),
+                    rgba(9,63,35,.78)
+                );
+
+            box-shadow:
+                0 24px 65px
+                rgba(0,0,0,.25);
+        }
+
+        .current-weather-card::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent 30%,
+                    rgba(2,10,5,.26) 100%
+                );
+
+            pointer-events: none;
+        }
+
+        .current-layout {
+            position: relative;
+
+            z-index: 3;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                200px;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        /* =====================================================
+           TEMPERATURE
+        ===================================================== */
+
+        .current-label {
+            color: #93cda3;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 1.6px;
+
+            margin-bottom: 8px;
+        }
+
+        .temperature-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .temperature {
+            margin: 0;
+
+            color: white;
+
+            font-size:
+                clamp(
+                    68px,
+                    10vw,
+                    105px
+                );
+
+            line-height: .88;
+
+            letter-spacing: -6px;
+
+            font-weight: 780;
+        }
+
+        .temperature-unit {
+            align-self: flex-start;
+
+            margin-top: 9px;
+
+            color: #83d5ea;
+
+            font-size: 25px;
+
+            font-weight: 500;
+        }
+
+        .weather-condition {
+            margin-top: 16px;
+
+            color: #d3e6da;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+        .weather-updated {
+            margin-top: 8px;
+
+            color: #759083;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           WEATHER ICON
+        ===================================================== */
+
+        .weather-icon-stage {
+            min-height: 180px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 22px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+        .weather-icon {
+            font-size: 92px;
+
+            filter:
+                drop-shadow(
+                    0 10px 30px
+                    rgba(79,197,235,.20)
+                );
+
+            animation:
+                weatherFloat 4s ease-in-out infinite;
+        }
+
+
+        /* =====================================================
+           WEATHER METRICS
+        ===================================================== */
+
+        .metrics-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-top: 15px;
+        }
+
+        .metric-card {
+            padding: 18px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.018)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            box-shadow:
+                0 14px 42px
+                rgba(0,0,0,.16);
+
+            transition:
+                transform .3s ease,
+                border-color .3s ease;
+        }
+
+        .metric-card:hover {
+            transform:
+                translateY(-5px);
+
+            border-color:
+                rgba(106,218,143,.18);
+        }
+
+        .metric-icon {
+            width: 39px;
+            height: 39px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 11px;
+
+            background:
+                rgba(82,211,125,.09);
+
+            border:
+                1px solid
+                rgba(102,220,144,.12);
+
+            font-size: 18px;
+
+            margin-bottom: 13px;
+        }
+
+        .metric-label {
+            color: #748a7b;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 5px;
+
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            color: #eff8f1;
+
+            font-size: 17px;
+
+            font-weight: 760;
+        }
+
+
+        /* =====================================================
+           LOCATION CARD
+        ===================================================== */
+
+        .weather-location-card {
+            position: relative;
+
+            overflow: hidden;
+
+            margin-top: 15px;
+
+            padding: 23px;
+
+            border-radius: 21px;
+
+            background:
+
+                linear-gradient(
+                    105deg,
+                    rgba(5,34,17,.96),
+                    rgba(9,62,31,.70)
+                ),
+
+                url("{{ url_for(
+                    'static',
+                    filename='images/farm-details.png'
+                ) }}")
+                center / cover no-repeat;
+
+            border:
+                1px solid
+                rgba(99,218,137,.11);
+
+            box-shadow:
+                0 20px 58px
+                rgba(0,0,0,.20);
+        }
+
+        .weather-location-card::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(2,12,6,.87),
+                    rgba(2,12,6,.30)
+                );
+
+            pointer-events: none;
+        }
+
+        .weather-location-content {
+            position: relative;
+
+            z-index: 3;
+        }
+
+        .location-card-title {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 12px;
+        }
+
+        .location-card-icon {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(101,221,143,.10);
+
+            border:
+                1px solid
+                rgba(110,225,149,.14);
+
+            font-size: 19px;
+        }
+
+        .location-card-title strong {
+            display: block;
+
+            color: #edf8ef;
+
+            font-size: 14px;
+        }
+
+        .location-card-title small {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #86a792;
+
+            font-size: 9px;
+        }
+
+        .location-line {
+            color: #f1f8f3;
+
+            font-size:
+                clamp(
+                    18px,
+                    3vw,
+                    25px
+                );
+
+            font-weight: 760;
+
+            letter-spacing: -.5px;
+        }
+
+        .location-source {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 12px;
+
+            padding: 8px 10px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(255,255,255,.055);
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            color: #aad6b6;
+
+            font-size: 9px;
+        }
+
+        .location-source-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #6add91;
+
+            box-shadow:
+                0 0 10px
+                #6add91;
+        }
+
+
+        /* =====================================================
+           FARM LOCATION DATA
+        ===================================================== */
+
+        .farm-location-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 11px;
+
+            margin-top: 15px;
+
+            position: relative;
+
+            z-index: 3;
+        }
+
+        .farm-location-item {
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.045);
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .farm-location-item small {
+            display: block;
+
+            color: #6f8776;
+
+            font-size: 8px;
+
+            margin-bottom: 4px;
+        }
+
+        .farm-location-item strong {
+            color: #ebf7ee;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .weather-actions {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 17px;
+        }
+
+        .refresh-button,
+        .farm-button {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            min-height: 44px;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            transition: .25s ease;
+        }
+
+        .refresh-button {
+            color: #c5dbcc;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+        }
+
+        .refresh-button:hover {
+            color: white;
+
+            background:
+                rgba(255,255,255,.07);
+
+            border-color:
+                rgba(100,220,142,.20);
+        }
+
+        .farm-button {
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #28b45f,
+                    #0e7a3b
+                );
+
+            border: 0;
+
+            box-shadow:
+                0 12px 28px
+                rgba(27,171,77,.15);
+        }
+
+        .farm-button:hover {
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .empty-weather {
+            padding: 45px 25px;
+
+            border-radius: 22px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.05),
+                    rgba(255,255,255,.018)
+                );
+
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 52px;
+
+            margin-bottom: 13px;
+        }
+
+        .empty-weather h2 {
+            margin: 0 0 7px;
+
+            color: #edf8f1;
+
+            font-size: 23px;
+        }
+
+        .empty-weather p {
+            max-width: 560px;
+
+            margin: auto;
+
+            color: #7c9082;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+        .empty-button {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-top: 18px;
+
+            min-height: 44px;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #28b45f,
+                    #0e7a3b
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .weather-footer {
+            padding:
+                5px 0 30px;
+
+            color: #52655a;
+
+            text-align: center;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           ANIMATIONS
+        ===================================================== */
+
+        @keyframes weatherEnter {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+
+        }
+
+        @keyframes weatherFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-7px);
+            }
+
+        }
+
+        .weather-hero {
+            animation:
+                weatherEnter .75s ease both;
+        }
+
+        .weather-section {
+            animation:
+                weatherEnter .85s .08s ease both;
+        }
+
+        .current-weather-card {
+            animation:
+                weatherEnter .75s .15s ease both;
+        }
+
+        .metric-card:nth-child(1) {
+            animation:
+                weatherEnter .6s .20s ease both;
+        }
+
+        .metric-card:nth-child(2) {
+            animation:
+                weatherEnter .6s .25s ease both;
+        }
+
+        .metric-card:nth-child(3) {
+            animation:
+                weatherEnter .6s .30s ease both;
+        }
+
+        .metric-card:nth-child(4) {
+            animation:
+                weatherEnter .6s .35s ease both;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .weather-nav,
+            .weather-main {
+                width: min(
+                    calc(100% - 28px),
+                    1100px
+                );
+            }
+
+            .current-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .weather-icon-stage {
+                min-height: 145px;
+            }
+
+            .metrics-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .farm-location-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .weather-hero {
+                min-height: 500px;
+
+                background:
+
+                    linear-gradient(
+                        180deg,
+                        rgba(2,12,6,.18),
+                        rgba(2,12,6,.96)
+                    ),
+
+                    url("{{ url_for(
+                        'static',
+                        filename='images/live-weather.png'
+                    ) }}")
+                    center / cover no-repeat;
+            }
+
+            .weather-hero-content {
+                padding: 28px;
+            }
+
+            .weather-title {
+                font-size: 42px;
+            }
+
+            .temperature {
+                font-size: 77px;
+
+                letter-spacing: -4px;
+            }
+
+            .metrics-grid,
+            .farm-location-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .temperature-row {
+                align-items: flex-start;
+            }
+
+            .weather-actions {
+                flex-direction: column;
+            }
+
+            .refresh-button,
+            .farm-button {
+                width: 100%;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .weather-brand-name {
+                font-size: 16px;
+            }
+
+            .weather-brand-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .weather-back {
+                padding: 8px 10px;
+            }
+
+            .weather-back span {
+                display: none;
+            }
+
+            .weather-location-pills {
+                flex-direction: column;
+            }
+
+            .weather-location-pill {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="weather-page">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="weather-navbar">
+
+        <div class="weather-nav">
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="weather-brand"
+            >
+
+                <div class="weather-brand-icon">
+                    🌦️
+                </div>
+
+                <div class="weather-brand-name">
+                    Smart Kisan <span>AI</span>
+                </div>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="weather-back"
+            >
+
+                ←
+
+                <span>
+                    Back to Dashboard
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="weather-main">
+
+
+        <!-- =================================================
+             CINEMATIC WEATHER HERO
+        ================================================== -->
+
+        <section class="weather-hero">
+
+
+            <div class="weather-glow"></div>
+
+
+            <div class="weather-hero-content">
+
+
+                <div class="weather-kicker">
+
+                    <span
+                        class="weather-kicker-dot"
+                    ></span>
+
+                    WEATHER INTELLIGENCE
+
+                </div>
+
+
+                <h1 class="weather-title">
+
+                    Live
+                    <br>
+
+                    <span>Farm Weather.</span>
+
+                </h1>
+
+
+                <p class="weather-subtitle">
+
+                    Get current weather conditions for your
+                    selected farm location.
+
+                </p>
+
+
+                <div class="weather-location-pills">
+
+
+                    <div class="weather-location-pill">
+
+                        📍
+
+                        {{ weather_data.location_name }}
+
+                    </div>
+
+
+                    <div class="weather-location-pill">
+
+                        🌾
+
+                        Farm Weather
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             WEATHER CONTENT
+        ================================================== -->
+
+        <section class="weather-section">
+
+
+            {% if weather_data.error %}
+
+
+                <div class="weather-error">
+
+                    {{ weather_data.error }}
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="section-kicker">
+                    LIVE CONDITIONS
+                </div>
+
+
+                <h2 class="section-title">
+                    Current Farm Weather
+                </h2>
+
+
+                <p class="section-description">
+
+                    Weather information is based on the
+                    location saved for your farm.
+
+                </p>
+
+
+                <!-- =================================================
+                     CURRENT WEATHER
+                ================================================== -->
+
+                <div class="current-weather-card">
+
+
+                    <div class="current-layout">
+
+
+                        <div>
+
+
+                            <div class="current-label">
+                                CURRENT TEMPERATURE
+                            </div>
+
+
+                            <div class="temperature-row">
+
+
+                                <h3 class="temperature">
+                                    {{ weather_data.temperature }}
+                                </h3>
+
+
+                                <div class="temperature-unit">
+                                    °C
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="weather-condition">
+                                {{ weather_data.condition }}
+                            </div>
+
+
+                            <div class="weather-updated">
+
+                                Updated:
+                                {{ weather_data.time }}
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="weather-icon-stage">
+
+                            <div class="weather-icon">
+
+                                {{ weather_data.icon }}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     WEATHER METRICS
+                ================================================== -->
+
+                <div class="metrics-grid">
+
+
+                    <div class="metric-card">
+
+                        <div class="metric-icon">
+                            💧
+                        </div>
+
+                        <div class="metric-label">
+                            Humidity
+                        </div>
+
+                        <div class="metric-value">
+                            {{ weather_data.humidity }}%
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-card">
+
+                        <div class="metric-icon">
+                            💨
+                        </div>
+
+                        <div class="metric-label">
+                            Wind Speed
+                        </div>
+
+                        <div class="metric-value">
+                            {{ weather_data.wind }} km/h
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-card">
+
+                        <div class="metric-icon">
+                            🌧️
+                        </div>
+
+                        <div class="metric-label">
+                            Precipitation
+                        </div>
+
+                        <div class="metric-value">
+                            {{ weather_data.precipitation }} mm
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-card">
+
+                        <div class="metric-icon">
+                            ☁️
+                        </div>
+
+                        <div class="metric-label">
+                            Cloud Cover
+                        </div>
+
+                        <div class="metric-value">
+                            {{ weather_data.cloud_cover }}%
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     FARM WEATHER LOCATION
+                ================================================== -->
+
+                <div class="weather-location-card">
+
+
+                    <div class="weather-location-content">
+
+
+                        <div class="location-card-title">
+
+
+                            <div class="location-card-icon">
+                                📍
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Farm Weather Location
+                                </strong>
+
+                                <small>
+                                    Your selected farm area
+                                </small>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="location-line">
+
+                            {{ weather_data.location_name }}
+
+                        </div>
+
+
+                        <div class="location-source">
+
+                            <span
+                                class="location-source-dot"
+                            ></span>
+
+
+                            {% if weather_data.location_level == "village" %}
+
+                                📍 Weather for
+                                {{ weather_data.village }}
+
+                            {% else %}
+
+                                📍 Weather for
+                                {{ weather_data.taluka }}
+                                Taluka
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="farm-location-grid">
+
+
+                            <div class="farm-location-item">
+
+                                <small>
+                                    State
+                                </small>
+
+                                <strong>
+                                    {{ weather_data.state }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="farm-location-item">
+
+                                <small>
+                                    District
+                                </small>
+
+                                <strong>
+                                    {{ weather_data.district }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="farm-location-item">
+
+                                <small>
+                                    Taluka
+                                </small>
+
+                                <strong>
+                                    {{ weather_data.taluka }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="farm-location-item">
+
+                                <small>
+                                    Village
+                                </small>
+
+                                <strong>
+                                    {{ weather_data.village }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="weather-actions">
+
+
+                    <a
+                        href="{{ url_for('farm_details') }}"
+                        class="farm-button"
+                    >
+
+                        📍
+
+                        Farm Location
+
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('weather') }}"
+                        class="refresh-button"
+                    >
+
+                        ↻
+
+                        Refresh Weather
+
+                    </a>
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="weather-footer">
+
+        © 2026 Smart Kisan AI ·
+        Smart technology for smarter farming.
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>

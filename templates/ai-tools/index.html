@@ -1,0 +1,2851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Smart Kisan AI Center - AI tools for smarter farming"
+    >
+
+    <title>AI Tools | Smart Kisan AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: #030b06;
+            color: white;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .ai-page {
+            min-height: 100vh;
+
+            background:
+
+                radial-gradient(
+                    circle at 8% 8%,
+                    rgba(53,198,101,.12),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 90% 30%,
+                    rgba(65,154,214,.08),
+                    transparent 27%
+                ),
+
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(44,174,88,.08),
+                    transparent 32%
+                ),
+
+                #030b06;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .ai-navbar {
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(2,10,5,.84);
+
+            border-bottom:
+                1px solid rgba(255,255,255,.08);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
+
+        .ai-nav {
+
+            width:
+                min(
+                    calc(100% - 42px),
+                    1280px
+                );
+
+            min-height: 76px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 18px;
+        }
+
+        .ai-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            text-decoration: none;
+        }
+
+        .ai-brand-icon {
+
+            width: 45px;
+            height: 45px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(82,210,124,.18),
+                    rgba(20,120,57,.10)
+                );
+
+            border:
+                1px solid
+                rgba(121,226,153,.16);
+
+            box-shadow:
+                0 0 30px
+                rgba(46,190,92,.10);
+
+            font-size: 23px;
+        }
+
+        .ai-brand-name {
+
+            color: white;
+
+            font-size: 19px;
+
+            font-weight: 850;
+        }
+
+        .ai-brand-name span {
+            color: #63d88a;
+        }
+
+        .ai-back {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 10px 14px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            border-radius: 10px;
+
+            color: #b9d6c2;
+
+            background:
+                rgba(255,255,255,.035);
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .ai-back:hover {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.07);
+
+            border-color:
+                rgba(99,216,138,.25);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .ai-main {
+
+            width:
+                min(
+                    calc(100% - 42px),
+                    1280px
+                );
+
+            margin: auto;
+
+            padding: 38px 0 85px;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .ai-hero {
+
+            position: relative;
+
+            min-height: 400px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            border-radius: 30px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            box-shadow:
+                0 35px 100px
+                rgba(0,0,0,.42);
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(2,11,5,.98) 0%,
+                    rgba(3,20,10,.86) 38%,
+                    rgba(2,14,7,.48) 72%,
+                    rgba(2,10,5,.15) 100%
+                ),
+
+                url("{{ url_for(
+                    'static',
+                    filename='images/ai-tools.png'
+                ) }}")
+                center / cover no-repeat;
+        }
+
+        .ai-hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+
+                linear-gradient(
+                    180deg,
+                    transparent 26%,
+                    rgba(0,5,2,.95) 100%
+                );
+
+            pointer-events: none;
+        }
+
+        .ai-hero-glow {
+
+            position: absolute;
+
+            width: 430px;
+            height: 430px;
+
+            right: -130px;
+            top: -150px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(75,205,234,.12);
+
+            filter: blur(65px);
+
+            pointer-events: none;
+        }
+
+        .ai-hero-content {
+
+            position: relative;
+
+            z-index: 5;
+
+            width: 100%;
+
+            padding: 43px;
+        }
+
+        .ai-kicker {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #9bdfb1;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 1.9px;
+
+            margin-bottom: 9px;
+        }
+
+        .ai-kicker-dot {
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #69df91;
+
+            box-shadow:
+                0 0 12px
+                #69df91;
+        }
+
+        .ai-title {
+
+            margin: 0;
+
+            color: white;
+
+            font-size:
+                clamp(
+                    40px,
+                    6vw,
+                    64px
+                );
+
+            line-height: .97;
+
+            letter-spacing: -2.7px;
+        }
+
+        .ai-title span {
+            color: #70dce0;
+        }
+
+        .ai-description {
+
+            max-width: 730px;
+
+            margin: 14px 0 0;
+
+            color: #bdd1c4;
+
+            font-size: 13px;
+
+            line-height: 1.76;
+        }
+
+        .ai-hero-tags {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 23px;
+        }
+
+        .ai-hero-tag {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 9px 12px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.055);
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            backdrop-filter: blur(10px);
+
+            color: #dcebe1;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           ACTIVE FARM
+        ===================================================== */
+
+        .active-farm-panel {
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-top: 18px;
+
+            padding: 20px 21px;
+
+            border-radius: 19px;
+
+            border:
+                1px solid
+                rgba(91,215,130,.15);
+
+            background:
+
+                linear-gradient(
+                    105deg,
+                    rgba(6,40,20,.96),
+                    rgba(9,67,32,.70)
+                );
+
+            box-shadow:
+                0 20px 55px
+                rgba(0,0,0,.22);
+        }
+
+        .active-farm-panel::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            right: -100px;
+            top: -120px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(80,213,121,.10);
+
+            filter: blur(40px);
+        }
+
+        .active-farm-inner {
+
+            position: relative;
+
+            z-index: 3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .active-farm-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .active-farm-icon {
+
+            width: 49px;
+            height: 49px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 14px;
+
+            background:
+                rgba(87,214,127,.10);
+
+            border:
+                1px solid
+                rgba(100,222,141,.15);
+
+            font-size: 21px;
+        }
+
+        .active-farm-label {
+
+            color: #74a181;
+
+            font-size: 8px;
+
+            font-weight: 850;
+
+            letter-spacing: 1.3px;
+
+            margin-bottom: 4px;
+        }
+
+        .active-farm-name {
+
+            color: #edf9f0;
+
+            font-size: 16px;
+
+            font-weight: 820;
+        }
+
+        .active-farm-location {
+
+            margin-top: 3px;
+
+            color: #8eab98;
+
+            font-size: 10px;
+        }
+
+        .active-farm-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            flex-wrap: wrap;
+
+            justify-content: flex-end;
+        }
+
+        .farm-context-pill {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 8px 10px;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,.045);
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            color: #c7dcd0;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+        .switch-farm-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            min-height: 40px;
+
+            padding: 9px 12px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid
+                rgba(103,220,140,.18);
+
+            background:
+                rgba(64,196,106,.08);
+
+            color: #7be09b;
+
+            text-decoration: none;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            transition: .25s ease;
+        }
+
+        .switch-farm-button:hover {
+
+            background:
+                rgba(64,196,106,.15);
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .ai-section {
+            padding-top: 52px;
+        }
+
+        .section-kicker {
+
+            color: #5bd284;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+
+            margin: 0;
+
+            color: #f0faf3;
+
+            font-size: 32px;
+
+            line-height: 1.05;
+
+            letter-spacing: -1.1px;
+        }
+
+        .section-description {
+
+            max-width: 760px;
+
+            margin: 9px 0 25px;
+
+            color: #788d7f;
+
+            font-size: 12px;
+
+            line-height: 1.72;
+        }
+
+
+        /* =====================================================
+           TOOL GRID
+        ===================================================== */
+
+        .tools-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+
+        /* =====================================================
+           TOOL CARD
+        ===================================================== */
+
+        .tool-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 330px;
+
+            border-radius: 23px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.014)
+                );
+
+            box-shadow:
+                0 18px 55px
+                rgba(0,0,0,.20);
+
+            transition:
+                transform .32s ease,
+                border-color .32s ease,
+                box-shadow .32s ease;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            isolation: isolate;
+        }
+
+        .tool-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at 92% 6%,
+                    rgba(68,212,114,.10),
+                    transparent 30%
+                );
+
+            opacity: .9;
+
+            pointer-events: none;
+        }
+
+        .tool-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            right: -90px;
+            bottom: -100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(58,204,106,.08);
+
+            filter: blur(30px);
+
+            pointer-events: none;
+        }
+
+        .tool-card:hover {
+
+            transform:
+                translateY(-7px);
+
+            border-color:
+                rgba(104,223,145,.22);
+
+            box-shadow:
+                0 28px 72px
+                rgba(0,0,0,.28),
+                0 0 30px
+                rgba(67,205,109,.05);
+        }
+
+
+        /* =====================================================
+           TOOL IMAGE
+        ===================================================== */
+
+        .tool-image {
+
+            position: relative;
+
+            height: 210px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 12px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #08140d,
+                    #0c2114
+                );
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.06);
+        }
+
+        .tool-image img {
+
+            width: 100%;
+
+            height: 100%;
+
+            display: block;
+
+            object-fit: contain;
+
+            object-position: center;
+
+            border-radius: 13px;
+
+            transition:
+                transform .55s ease;
+        }
+
+        .tool-card:hover
+        .tool-image img {
+
+            transform:
+                scale(1.035);
+        }
+
+        .tool-image-overlay {
+
+            position: absolute;
+
+            inset: 12px;
+
+            border-radius: 13px;
+
+            background:
+
+                linear-gradient(
+                    180deg,
+                    rgba(2,10,5,.02) 0%,
+                    rgba(2,10,5,.12) 55%,
+                    rgba(2,10,5,.55) 100%
+                );
+
+            pointer-events: none;
+
+            z-index: 2;
+        }
+
+        .tool-number {
+
+            position: absolute;
+
+            left: 24px;
+
+            top: 24px;
+
+            z-index: 5;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 39px;
+
+            height: 28px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(2,10,5,.72);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            backdrop-filter:
+                blur(8px);
+
+            color: #d7ebde;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 1px;
+        }
+
+        .tool-status {
+
+            position: absolute;
+
+            right: 24px;
+
+            top: 24px;
+
+            z-index: 5;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 8px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(2,10,5,.72);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            backdrop-filter:
+                blur(8px);
+
+            color: #9dd8ad;
+
+            font-size: 8px;
+
+            font-weight: 800;
+        }
+
+        .tool-status-dot {
+
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: #69df91;
+
+            box-shadow:
+                0 0 9px
+                #69df91;
+        }
+
+
+        /* =====================================================
+           TOOL CONTENT
+        ===================================================== */
+
+        .tool-content {
+
+            position: relative;
+
+            z-index: 4;
+
+            padding: 20px;
+        }
+
+        .tool-heading {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 11px;
+        }
+
+        .tool-icon {
+
+            width: 43px;
+            height: 43px;
+
+            flex: 0 0 auto;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(83,212,125,.10);
+
+            border:
+                1px solid
+                rgba(105,224,145,.14);
+
+            font-size: 19px;
+        }
+
+        .tool-title {
+
+            margin: 0;
+
+            color: #eef8f1;
+
+            font-size: 16px;
+
+            line-height: 1.2;
+
+            font-weight: 820;
+        }
+
+        .tool-description {
+
+            margin: 12px 0 0;
+
+            color: #819488;
+
+            font-size: 10px;
+
+            line-height: 1.7;
+        }
+
+        .tool-bottom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-top: 17px;
+
+            padding-top: 13px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .tool-data {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: #718579;
+
+            font-size: 8px;
+
+            font-weight: 750;
+        }
+
+        .tool-open {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #73dc96;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            transition:
+                gap .25s ease;
+        }
+
+        .tool-card:hover
+        .tool-open {
+
+            gap: 11px;
+        }
+
+
+        /* =====================================================
+           NOTE
+        ===================================================== */
+
+        .ai-note {
+
+            margin-top: 18px;
+
+            padding: 17px 18px;
+
+            border-radius: 15px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            background:
+                rgba(255,255,255,.025);
+
+            color: #718578;
+
+            font-size: 10px;
+
+            line-height: 1.7;
+        }
+
+        .ai-note strong {
+            color: #a0d9ae;
+        }
+
+
+        /* =====================================================
+           SMART REMINDER
+        ===================================================== */
+
+        .reminder-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-top: 52px;
+
+            min-height: 245px;
+
+            padding: 29px;
+
+            border-radius: 24px;
+
+            border:
+                1px solid
+                rgba(235,192,91,.12);
+
+            background:
+
+                linear-gradient(
+                    110deg,
+                    rgba(48,37,8,.72),
+                    rgba(25,24,8,.46)
+                ),
+
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(240,200,87,.13),
+                    transparent 30%
+                );
+
+            box-shadow:
+                0 25px 65px
+                rgba(0,0,0,.23);
+        }
+
+        .reminder-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 320px;
+            height: 320px;
+
+            right: -125px;
+            top: -165px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(236,195,82,.08);
+
+            filter:
+                blur(45px);
+        }
+
+        .reminder-inner {
+
+            position: relative;
+
+            z-index: 3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .reminder-left {
+            max-width: 750px;
+        }
+
+        .reminder-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 9px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(237,198,86,.08);
+
+            border:
+                1px solid
+                rgba(237,198,86,.14);
+
+            color: #dfca79;
+
+            font-size: 8px;
+
+            font-weight: 850;
+
+            letter-spacing: .7px;
+        }
+
+        .reminder-title {
+
+            margin: 12px 0 7px;
+
+            color: #f4f1db;
+
+            font-size: 27px;
+
+            line-height: 1.1;
+
+            letter-spacing: -.8px;
+        }
+
+        .reminder-text {
+
+            margin: 0;
+
+            color: #b6af89;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+        .reminder-features {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 17px;
+        }
+
+        .reminder-feature {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 8px 10px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            color: #c9c4a1;
+
+            font-size: 8px;
+
+            font-weight: 720;
+        }
+
+        .reminder-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            min-height: 46px;
+
+            padding: 11px 17px;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #a98c35,
+                    #675317
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 850;
+
+            box-shadow:
+                0 14px 30px
+                rgba(177,145,47,.18);
+
+            white-space: nowrap;
+
+            transition: .25s ease;
+        }
+
+        .reminder-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 19px 38px
+                rgba(177,145,47,.25);
+        }
+
+
+        /* =====================================================
+           NO FARM
+        ===================================================== */
+
+        .no-farm {
+
+            margin-top: 18px;
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            border:
+                1px solid
+                rgba(239,178,83,.14);
+
+            background:
+                rgba(109,77,20,.10);
+
+            text-align: center;
+        }
+
+        .no-farm-icon {
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+        }
+
+        .no-farm h3 {
+
+            margin: 0 0 7px;
+
+            color: #f1f4df;
+
+            font-size: 21px;
+        }
+
+        .no-farm p {
+
+            max-width: 580px;
+
+            margin: 0 auto;
+
+            color: #a9a684;
+
+            font-size: 10px;
+
+            line-height: 1.7;
+        }
+
+        .no-farm-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-top: 17px;
+
+            min-height: 43px;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            background:
+                #8d7730;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .ai-footer {
+
+            padding:
+                5px 0 30px;
+
+            color: #52655a;
+
+            text-align: center;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        @keyframes aiEnter {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(24px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+        .ai-hero {
+            animation:
+                aiEnter .75s ease both;
+        }
+
+        .active-farm-panel {
+            animation:
+                aiEnter .72s .08s ease both;
+        }
+
+        .ai-section {
+            animation:
+                aiEnter .8s .15s ease both;
+        }
+
+        .tool-card {
+            animation:
+                aiEnter .65s ease both;
+        }
+
+        .tool-card:nth-child(2) {
+            animation-delay: .05s;
+        }
+
+        .tool-card:nth-child(3) {
+            animation-delay: .10s;
+        }
+
+        .tool-card:nth-child(4) {
+            animation-delay: .15s;
+        }
+
+        .tool-card:nth-child(5) {
+            animation-delay: .20s;
+        }
+
+        .tool-card:nth-child(6) {
+            animation-delay: .25s;
+        }
+
+        .tool-card:nth-child(7) {
+            animation-delay: .30s;
+        }
+
+        .tool-card:nth-child(8) {
+            animation-delay: .35s;
+        }
+
+        .tool-card:nth-child(9) {
+            animation-delay: .40s;
+        }
+
+        .tool-card:nth-child(10) {
+            animation-delay: .45s;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .tools-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0,1fr));
+            }
+
+            .active-farm-inner {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .active-farm-right {
+                justify-content: flex-start;
+            }
+
+            .reminder-inner {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+        }
+
+
+        @media (max-width: 760px) {
+
+            .ai-nav,
+            .ai-main {
+
+                width:
+                    min(
+                        calc(100% - 28px),
+                        1280px
+                    );
+            }
+
+            .ai-hero {
+
+                min-height: 510px;
+
+                background:
+
+                    linear-gradient(
+                        180deg,
+                        rgba(2,11,5,.20),
+                        rgba(2,11,5,.96)
+                    ),
+
+                    url("{{ url_for(
+                        'static',
+                        filename='images/ai-tools.png'
+                    ) }}")
+                    center / cover no-repeat;
+            }
+
+            .ai-hero-content {
+                padding: 29px;
+            }
+
+            .ai-title {
+                font-size: 43px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .ai-brand-name {
+                font-size: 16px;
+            }
+
+            .ai-brand-icon {
+
+                width: 40px;
+                height: 40px;
+            }
+
+            .ai-back {
+                padding: 8px 10px;
+            }
+
+            .ai-back span {
+                display: none;
+            }
+
+            .ai-hero-tags {
+                flex-direction: column;
+            }
+
+            .ai-hero-tag {
+                width: 100%;
+            }
+
+            .active-farm-right {
+                width: 100%;
+            }
+
+            .farm-context-pill,
+            .switch-farm-button {
+                width: 100%;
+            }
+
+            .tool-card {
+                min-height: 315px;
+            }
+
+            /* MOBILE IMAGE BOX */
+            .tool-image {
+                height: 190px;
+                padding: 10px;
+            }
+
+            .tool-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center;
+                border-radius: 11px;
+            }
+
+            .tool-image-overlay {
+                inset: 10px;
+                border-radius: 11px;
+            }
+
+            .tool-number {
+                left: 20px;
+                top: 20px;
+            }
+
+            .tool-status {
+                right: 20px;
+                top: 20px;
+            }
+
+            .reminder-card {
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="ai-page">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="ai-navbar">
+
+        <div class="ai-nav">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="ai-brand"
+            >
+
+                <div class="ai-brand-icon">
+                    🤖
+                </div>
+
+                <div class="ai-brand-name">
+                    Smart Kisan <span>AI</span>
+                </div>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="ai-back"
+            >
+
+                ←
+
+                <span>
+                    Back to Dashboard
+                </span>
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="ai-main">
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="ai-hero">
+
+            <div class="ai-hero-glow"></div>
+
+            <div class="ai-hero-content">
+
+                <div class="ai-kicker">
+
+                    <span class="ai-kicker-dot"></span>
+
+                    SMART KISAN ARTIFICIAL INTELLIGENCE
+
+                </div>
+
+
+                <h1 class="ai-title">
+
+                    Intelligence
+                    <br>
+
+                    <span>for Every Farm.</span>
+
+                </h1>
+
+
+                <p class="ai-description">
+
+                    Smart Kisan AI brings intelligent agriculture
+                    tools together in one place. Every AI tool works
+                    with the farm currently selected by you, keeping
+                    soil, water, crop, season and location information
+                    separate for every farm.
+
+                </p>
+
+
+                <div class="ai-hero-tags">
+
+                    <div class="ai-hero-tag">
+                        🌾 Farm Specific AI
+                    </div>
+
+                    <div class="ai-hero-tag">
+                        🧠 Smart Analysis
+                    </div>
+
+                    <div class="ai-hero-tag">
+                        📍 Location Based
+                    </div>
+
+                    <div class="ai-hero-tag">
+                        🚜 N Farms Supported
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIVE FARM
+        ================================================== -->
+
+        {% if active_farm %}
+
+            <section class="active-farm-panel">
+
+                <div class="active-farm-inner">
+
+                    <div class="active-farm-left">
+
+                        <div class="active-farm-icon">
+                            🚜
+                        </div>
+
+
+                        <div>
+
+                            <div class="active-farm-label">
+                                ACTIVE FARM
+                            </div>
+
+                            <div class="active-farm-name">
+                                {{ active_farm["farm_name"] }}
+                            </div>
+
+                            <div class="active-farm-location">
+
+                                📍
+
+                                {% if active_farm["village"] %}
+                                    {{ active_farm["village"] }},
+                                {% endif %}
+
+                                {{ active_farm["taluka"] }},
+
+                                {{ active_farm["district"] }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="active-farm-right">
+
+                        {% if active_farm["season"] %}
+
+                            <div class="farm-context-pill">
+                                🌾 {{ active_farm["season"] }}
+                            </div>
+
+                        {% endif %}
+
+
+                        {% if active_farm["soil_type"] %}
+
+                            <div class="farm-context-pill">
+                                🌱 {{ active_farm["soil_type"] }}
+                            </div>
+
+                        {% endif %}
+
+
+                        {% if active_farm["water_source"] %}
+
+                            <div class="farm-context-pill">
+                                💧 {{ active_farm["water_source"] }}
+                            </div>
+
+                        {% endif %}
+
+
+                        <a
+                            href="{{ url_for('farm_details') }}"
+                            class="switch-farm-button"
+                        >
+                            🔄 Switch Farm
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        {% else %}
+
+            <section class="no-farm">
+
+                <div class="no-farm-icon">
+                    🚜
+                </div>
+
+                <h3>
+                    Add a Farm Before Using AI
+                </h3>
+
+                <p>
+                    Smart Kisan AI needs farm information such as
+                    location, soil, water source and season before
+                    it can provide farm-specific intelligence.
+                </p>
+
+                <a
+                    href="{{ url_for(
+                        'farm_details',
+                        new='1'
+                    ) }}"
+                    class="no-farm-button"
+                >
+                    + Add Your First Farm
+                </a>
+
+            </section>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             AI TOOLS
+        ================================================== -->
+
+        <section class="ai-section">
+
+            <div class="section-kicker">
+                AI CENTER
+            </div>
+
+
+            <h2 class="section-title">
+                10 Intelligent Farming Tools
+            </h2>
+
+
+            <p class="section-description">
+
+                Choose an AI tool to work with the currently
+                selected farm. The architecture is designed for
+                any number of farms, while keeping every farm's
+                information independent.
+
+            </p>
+
+
+            <div class="tools-grid">
+
+
+                <!-- =================================================
+                     01 SOIL REPORT
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('soil_report_analyzer') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-soil-report-analyzer.png'
+                            ) }}"
+                            alt="AI Soil Report Analyzer"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            01
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🧾
+                            </div>
+
+                            <h3 class="tool-title">
+                                Soil Report Analyzer
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Upload a soil report and understand
+                            pH, N, P, K, organic carbon and other
+                            available soil parameters in simple
+                            farmer-friendly language.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                🧪 Soil Data
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     02 CROP RECOMMENDATION
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('crop_recommendation') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-crop-recommendation.png'
+                            ) }}"
+                            alt="AI Crop Recommendation"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            02
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🌾
+                            </div>
+
+                            <h3 class="tool-title">
+                                AI Crop Recommendation
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Recommend suitable crops using the
+                            selected farm's soil, location, season,
+                            water availability and farming conditions.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                🌱 Crop + Soil
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     03 DISEASE DETECTION
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('disease_detection') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-disease-detection.png'
+                            ) }}"
+                            alt="AI Disease Detection"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            03
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🦠
+                            </div>
+
+                            <h3 class="tool-title">
+                                AI Disease Detection
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Upload a crop or leaf image and receive
+                            an AI-assisted assessment of possible
+                            disease symptoms and recommended next steps.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                📷 Crop Image
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     04 CROP HEALTH
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('crop_health') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-crop-health.png'
+                            ) }}"
+                            alt="AI Crop Health Analysis"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            04
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🌱
+                            </div>
+
+                            <h3 class="tool-title">
+                                Crop Health Analysis
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Understand crop health, possible stress,
+                            growth concerns and important observations
+                            for the selected farm.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                🌿 Crop Health
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     05 FERTILIZER
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('fertilizer_advisor') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-fertilizer-advisor.png'
+                            ) }}"
+                            alt="AI Fertilizer Advisor"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            05
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🧪
+                            </div>
+
+                            <h3 class="tool-title">
+                                AI Fertilizer Advisor
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Provide fertilizer guidance using soil
+                            information, crop requirements, season
+                            and farm conditions.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                🧪 NPK + Crop
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     06 IRRIGATION
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('irrigation_planner') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-irrigation-planner.png'
+                            ) }}"
+                            alt="Smart Irrigation Planner"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            06
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                💧
+                            </div>
+
+                            <h3 class="tool-title">
+                                Smart Irrigation Planner
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Plan irrigation according to crop,
+                            soil, water source, farm conditions
+                            and current weather information.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                💧 Water + Weather
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     07 CROP CALENDAR
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('crop_calendar') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-crop-calendar.png'
+                            ) }}"
+                            alt="AI Crop Calendar"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            07
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                📅
+                            </div>
+
+                            <h3 class="tool-title">
+                                AI Crop Calendar
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Organize crop-stage activities, important
+                            farming operations and seasonal tasks
+                            for the selected farm.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                📅 Crop Stage
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     08 WEATHER INTELLIGENCE
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('weather_intelligence') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-weather-intelligence.png'
+                            ) }}"
+                            alt="Weather Intelligence AI"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            08
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🌦️
+                            </div>
+
+                            <h3 class="tool-title">
+                                Weather Intelligence AI
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Turn weather information into practical
+                            farming guidance, precautions and
+                            field-operation decisions.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                🌦️ Live Weather
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     09 FARM RISK
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('farm_risk') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/farm-risk-and-yield-analysis.png'
+                            ) }}"
+                            alt="Farm Risk and Yield Analysis"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            09
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                📊
+                            </div>
+
+                            <h3 class="tool-title">
+                                Farm Risk &amp; Yield Analysis
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Analyze selected-farm conditions,
+                            production risks and important factors
+                            that may affect farm performance.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                📊 Farm Analytics
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- =================================================
+                     10 FARMING ASSISTANT
+                ================================================== -->
+
+                <a
+                    href="{{ url_for('farming_assistant') }}"
+                    class="tool-card"
+                >
+
+                    <div class="tool-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/ai-farming-assistant.png'
+                            ) }}"
+                            alt="AI Farming Assistant"
+                        >
+
+                        <div class="tool-image-overlay"></div>
+
+                        <div class="tool-number">
+                            10
+                        </div>
+
+                        <div class="tool-status">
+
+                            <span class="tool-status-dot"></span>
+
+                            AI TOOL
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tool-content">
+
+                        <div class="tool-heading">
+
+                            <div class="tool-icon">
+                                🤖
+                            </div>
+
+                            <h3 class="tool-title">
+                                AI Farming Assistant
+                            </h3>
+
+                        </div>
+
+
+                        <p class="tool-description">
+
+                            Ask farming questions and get answers
+                            based on the currently selected farm
+                            and its available information.
+
+                        </p>
+
+
+                        <div class="tool-bottom">
+
+                            <div class="tool-data">
+                                🤖 AI Assistant
+                            </div>
+
+                            <div class="tool-open">
+                                Open Tool →
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 INFORMATION NOTE
+            ================================================== -->
+
+            <div class="ai-note">
+
+                <strong>Farm-specific intelligence:</strong>
+
+                Smart Kisan keeps each farm separate. When you
+                switch the active farm, these AI tools will use
+                the selected farm's own location, soil, water,
+                season and crop information.
+
+            </div>
+
+
+            <!-- =================================================
+                 SMART REMINDER
+            ================================================== -->
+
+            <section class="reminder-card">
+
+                <div class="reminder-inner">
+
+                    <div class="reminder-left">
+
+                        <div class="reminder-badge">
+
+                            🔔
+
+                            SMART KISAN SERVICE
+
+                        </div>
+
+
+                        <h2 class="reminder-title">
+                            Smart Farming Reminder
+                        </h2>
+
+
+                        <p class="reminder-text">
+
+                            A separate intelligent farm service
+                            that can help the farmer understand
+                            what should be done today and what
+                            important farming activities are coming
+                            next.
+
+                        </p>
+
+
+                        <div class="reminder-features">
+
+                            <div class="reminder-feature">
+                                💧 Irrigation
+                            </div>
+
+                            <div class="reminder-feature">
+                                🧪 Fertilizer
+                            </div>
+
+                            <div class="reminder-feature">
+                                🦠 Crop Check
+                            </div>
+
+                            <div class="reminder-feature">
+                                🌦️ Weather Alerts
+                            </div>
+
+                            <div class="reminder-feature">
+                                📅 Crop Activities
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('smart_reminder') }}"
+                        class="reminder-button"
+                    >
+                        Open Smart Reminder →
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="ai-footer">
+
+        © 2026 Smart Kisan AI ·
+        Smart technology for smarter farming.
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>

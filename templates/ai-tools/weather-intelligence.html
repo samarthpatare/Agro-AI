@@ -1,0 +1,807 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Weather Intelligence | Smart Kisan AI
+</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background: #f3f8f4;
+    color: #1f2c24;
+}
+
+.page {
+    width: min(calc(100% - 30px), 1150px);
+    margin: auto;
+    padding: 25px 0 50px;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #19743d;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.hero {
+    background: white;
+    border-radius: 22px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 35px rgba(20, 80, 40, .08);
+}
+
+.eyebrow {
+    color: #159447;
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 7px;
+}
+
+h1 {
+    margin: 0;
+    color: #126b38;
+    font-size: 31px;
+}
+
+.subtitle {
+    margin: 10px 0 20px;
+    color: #6d7a72;
+    line-height: 1.6;
+}
+
+.farm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.farm-box {
+    background: #f6faf7;
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.farm-box small {
+    display: block;
+    color: #7b8880;
+    margin-bottom: 5px;
+}
+
+.farm-box strong {
+    color: #285b3d;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 35px rgba(20, 80, 40, .07);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #195e35;
+}
+
+.field {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #d7e2da;
+    border-radius: 11px;
+    background: #fbfdfb;
+    font-size: 14px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #159447;
+    box-shadow: 0 0 0 3px rgba(21, 148, 71, .08);
+}
+
+.hint {
+    margin-top: 6px;
+    color: #7b8780;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.btn {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 14px;
+    background: #159447;
+    color: white;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #10773a;
+}
+
+.empty {
+    min-height: 430px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: #7b8780;
+}
+
+.empty-icon {
+    font-size: 46px;
+}
+
+.overall {
+    border-radius: 17px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.overall.low {
+    background: #edf9ef;
+}
+
+.overall.medium {
+    background: #fff9e8;
+}
+
+.overall.high {
+    background: #fff0f0;
+}
+
+.overall-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 7px;
+}
+
+.overall.low .overall-title {
+    color: #28733c;
+}
+
+.overall.medium .overall-title {
+    color: #8a6814;
+}
+
+.overall.high .overall-title {
+    color: #9b3737;
+}
+
+.weather-summary {
+    color: #66736b;
+    line-height: 1.6;
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.weather-box {
+    background: #f7faf8;
+    border-radius: 12px;
+    padding: 13px;
+}
+
+.weather-box small {
+    display: block;
+    color: #7b8780;
+    margin-bottom: 5px;
+}
+
+.weather-box strong {
+    color: #1c6037;
+    font-size: 17px;
+}
+
+.section {
+    margin-top: 21px;
+}
+
+.section h3 {
+    margin: 0 0 10px;
+    color: #245c3a;
+    font-size: 16px;
+}
+
+.risk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.risk-card {
+    border-radius: 13px;
+    padding: 15px;
+    border: 1px solid #e1e9e3;
+    background: #fcfefd;
+}
+
+.risk-card.low {
+    border-left: 5px solid #36a05a;
+}
+
+.risk-card.medium {
+    border-left: 5px solid #d4aa32;
+}
+
+.risk-card.high {
+    border-left: 5px solid #d95b5b;
+}
+
+.risk-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.risk-name {
+    font-weight: 900;
+    color: #315f42;
+}
+
+.badge {
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.badge.low {
+    background: #edf9ef;
+    color: #28733c;
+}
+
+.badge.medium {
+    background: #fff8df;
+    color: #866415;
+}
+
+.badge.high {
+    background: #fff0f0;
+    color: #9b3737;
+}
+
+.risk-reason {
+    color: #65726a;
+    line-height: 1.5;
+    font-size: 13px;
+}
+
+.list {
+    display: grid;
+    gap: 9px;
+}
+
+.list-item {
+    padding: 12px 14px;
+    border-radius: 11px;
+    background: #f7faf8;
+    color: #4f5d55;
+    line-height: 1.5;
+}
+
+.warning {
+    margin-top: 20px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #fff8e8;
+    color: #745918;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.error {
+    margin-top: 15px;
+    padding: 13px;
+    border-radius: 12px;
+    background: #fff0f0;
+    color: #973535;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #76827a;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .farm-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 620px) {
+    .farm-grid,
+    .weather-grid,
+    .risk-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <a
+        class="back"
+        href="{{ url_for('ai_tools') }}"
+    >
+        ← Back to AI Tools
+    </a>
+
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            🌦️ Smart Kisan AI
+        </div>
+
+        <h1>
+            Weather Intelligence
+        </h1>
+
+        <p class="subtitle">
+            Understand what current and upcoming weather
+            may mean for your crop and what to watch on the farm.
+        </p>
+
+        {% if active_farm %}
+
+        <div class="farm-grid">
+
+            <div class="farm-box">
+                <small>Farm</small>
+                <strong>{{ active_farm["farm_name"] }}</strong>
+            </div>
+
+            <div class="farm-box">
+                <small>Location</small>
+                <strong>
+                    {{ active_farm["village"] }},
+                    {{ active_farm["district"] }}
+                </strong>
+            </div>
+
+            <div class="farm-box">
+                <small>Soil</small>
+                <strong>{{ active_farm["soil_type"] }}</strong>
+            </div>
+
+            <div class="farm-box">
+                <small>Irrigation</small>
+                <strong>{{ active_farm["irrigation"] }}</strong>
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <div class="main-grid">
+
+        <!-- INPUT -->
+
+        <section class="card">
+
+            <h2>
+                Crop Context
+            </h2>
+
+            <form method="POST">
+
+                <div class="field">
+
+                    <label for="crop_name">
+                        Crop Name
+                    </label>
+
+                    <input
+                        id="crop_name"
+                        name="crop_name"
+                        value="{{ form_data.crop_name }}"
+                        placeholder="Example: Onion"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="growth_stage">
+                        Growth Stage
+                    </label>
+
+                    <select
+                        id="growth_stage"
+                        name="growth_stage"
+                        required
+                    >
+
+                        <option value="">
+                            Select growth stage
+                        </option>
+
+                        <option
+                            value="Seedling"
+                            {% if form_data.growth_stage == "Seedling" %}selected{% endif %}
+                        >
+                            Seedling
+                        </option>
+
+                        <option
+                            value="Vegetative"
+                            {% if form_data.growth_stage == "Vegetative" %}selected{% endif %}
+                        >
+                            Vegetative
+                        </option>
+
+                        <option
+                            value="Flowering"
+                            {% if form_data.growth_stage == "Flowering" %}selected{% endif %}
+                        >
+                            Flowering
+                        </option>
+
+                        <option
+                            value="Fruit/Bulb/Pod Development"
+                            {% if form_data.growth_stage == "Fruit/Bulb/Pod Development" %}selected{% endif %}
+                        >
+                            Fruit / Bulb / Pod Development
+                        </option>
+
+                        <option
+                            value="Maturity"
+                            {% if form_data.growth_stage == "Maturity" %}selected{% endif %}
+                        >
+                            Maturity
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="btn"
+                    type="submit"
+                >
+                    🌦️ Analyze Weather Impact
+                </button>
+
+                <div class="hint">
+                    Weather is evaluated for the saved farm location,
+                    not the computer or phone location.
+                </div>
+
+            </form>
+
+            {% if result and not result.success %}
+
+            <div class="error">
+                {{ result.error }}
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- RESULT -->
+
+        <section class="card">
+
+            {% if result and result.success %}
+
+            <div class="overall {{ result.overall_class }}">
+
+                <div class="overall-title">
+                    {{ result.overall_icon }}
+                    {{ result.overall }} Weather Impact
+                </div>
+
+                <div class="weather-summary">
+                    {{ result.weather_summary }}
+                </div>
+
+            </div>
+
+
+            <div class="weather-grid">
+
+                <div class="weather-box">
+                    <small>Temperature</small>
+                    <strong>
+                        {% if result.weather.current.temperature is not none %}
+                            {{ result.weather.current.temperature }}°C
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="weather-box">
+                    <small>Humidity</small>
+                    <strong>
+                        {% if result.weather.current.humidity is not none %}
+                            {{ result.weather.current.humidity }}%
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="weather-box">
+                    <small>Rain Next 24h</small>
+                    <strong>
+                        {{ result.weather.forecast.rain_24h }} mm
+                    </strong>
+                </div>
+
+                <div class="weather-box">
+                    <small>Rain Probability</small>
+                    <strong>
+                        {{ result.weather.forecast.rain_probability }}%
+                    </strong>
+                </div>
+
+                <div class="weather-box">
+                    <small>Forecast Max Temp</small>
+                    <strong>
+                        {% if result.weather.forecast.max_temperature is not none %}
+                            {{ result.weather.forecast.max_temperature }}°C
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="weather-box">
+                    <small>Forecast Max Wind</small>
+                    <strong>
+                        {% if result.weather.forecast.max_wind is not none %}
+                            {{ result.weather.forecast.max_wind }} km/h
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h3>
+                    ⚠️ Weather Risks
+                </h3>
+
+                <div class="risk-grid">
+
+                    <div class="risk-card {{ result.rain.class }}">
+                        <div class="risk-top">
+                            <div class="risk-name">🌧️ Rain</div>
+                            <span class="badge {{ result.rain.class }}">
+                                {{ result.rain.risk }}
+                            </span>
+                        </div>
+                        <div class="risk-reason">
+                            {{ result.rain.reason }}
+                        </div>
+                    </div>
+
+
+                    <div class="risk-card {{ result.heat.class }}">
+                        <div class="risk-top">
+                            <div class="risk-name">🌡️ Heat</div>
+                            <span class="badge {{ result.heat.class }}">
+                                {{ result.heat.risk }}
+                            </span>
+                        </div>
+                        <div class="risk-reason">
+                            {{ result.heat.reason }}
+                        </div>
+                    </div>
+
+
+                    <div class="risk-card {{ result.wind.class }}">
+                        <div class="risk-top">
+                            <div class="risk-name">💨 Wind</div>
+                            <span class="badge {{ result.wind.class }}">
+                                {{ result.wind.risk }}
+                            </span>
+                        </div>
+                        <div class="risk-reason">
+                            {{ result.wind.reason }}
+                        </div>
+                    </div>
+
+
+                    <div class="risk-card {{ result.humidity.class }}">
+                        <div class="risk-top">
+                            <div class="risk-name">💧 Humidity</div>
+                            <span class="badge {{ result.humidity.class }}">
+                                {{ result.humidity.risk }}
+                            </span>
+                        </div>
+                        <div class="risk-reason">
+                            {{ result.humidity.reason }}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h3>
+                    🌾 Crop Impact
+                </h3>
+
+                <div class="list">
+
+                    {% for item in result.crop_impact %}
+
+                    <div class="list-item">
+                        {{ item }}
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h3>
+                    👨‍🌾 Recommended Action
+                </h3>
+
+                <div class="list">
+
+                    {% for item in result.actions %}
+
+                    <div class="list-item">
+                        {{ item }}
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h3>
+                    🔄 Reassess
+                </h3>
+
+                <div class="list-item">
+                    {{ result.reassess }}
+                </div>
+
+            </div>
+
+
+            <div class="warning">
+                ⚠️ {{ result.warning }}
+            </div>
+
+
+            {% else %}
+
+            <div class="empty">
+
+                <div>
+
+                    <div class="empty-icon">
+                        🌦️
+                    </div>
+
+                    <h2>
+                        Weather Intelligence will appear here
+                    </h2>
+
+                    <p>
+                        Enter the crop and its growth stage,
+                        then analyze the expected weather impact.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+
+    <div class="footer">
+        Smart Kisan AI • Weather Intelligence is
+        decision-support guidance, not a guarantee.
+    </div>
+
+</div>
+
+</body>
+
+</html>
+```

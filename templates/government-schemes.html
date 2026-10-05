@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Schemes | Smart Kisan AI</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: #f4f7f2;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 1180px;
+            margin: auto;
+            padding: 26px 18px 55px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #14532d, #2f7d32);
+            color: white;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 18px;
+            box-shadow: 0 14px 34px rgba(20,83,45,.14);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 31px;
+        }
+
+        .hero p {
+            margin: 0;
+            line-height: 1.65;
+            opacity: .94;
+        }
+
+        .farm-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.14);
+            border: 1px solid rgba(255,255,255,.2);
+            font-size: 13px;
+        }
+
+        .section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 7px 22px rgba(15,23,42,.05);
+        }
+
+        h2 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .muted {
+            color: #6b7280;
+            line-height: 1.55;
+        }
+
+        .profile-grid,
+        .form-grid,
+        .scheme-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .profile-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .form-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .scheme-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .mini-card {
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .label {
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .value {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        label.field-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 13px;
+            border-radius: 11px;
+            border: 1px solid #d7ddd8;
+            background: white;
+            font: inherit;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2f7d32;
+            box-shadow: 0 0 0 3px rgba(47,125,50,.10);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .button {
+            border: 0;
+            border-radius: 12px;
+            padding: 12px 18px;
+            background: #176b35;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button.secondary {
+            background: #eef4ef;
+            color: #176b35;
+        }
+
+        .scheme-card {
+            border: 1px solid #e2e8e3;
+            border-radius: 18px;
+            padding: 18px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .scheme-head {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .scheme-title {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: #eff8f0;
+            font-size: 21px;
+            flex: 0 0 auto;
+        }
+
+        .scheme-name {
+            font-size: 17px;
+            font-weight: 850;
+            line-height: 1.25;
+        }
+
+        .scheme-type {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .status {
+            padding: 6px 9px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 850;
+            white-space: nowrap;
+        }
+
+        .status.possible {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.verify {
+            background: #fff7d6;
+            color: #854d0e;
+        }
+
+        .block-title {
+            font-size: 12px;
+            font-weight: 850;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: #647067;
+            margin-top: 3px;
+        }
+
+        .text-block {
+            color: #374151;
+            line-height: 1.55;
+            font-size: 13px;
+        }
+
+        ul {
+            margin: 7px 0 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 6px 0;
+            line-height: 1.48;
+            font-size: 13px;
+        }
+
+        .reason-box {
+            background: #f8faf8;
+            border: 1px solid #e4ece5;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .source-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+            padding-top: 11px;
+            border-top: 1px solid #edf1ed;
+        }
+
+        .source-link {
+            color: #176b35;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .verify-note {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #854d0e;
+            border-radius: 14px;
+            padding: 14px;
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px 18px;
+            background: #fafcf9;
+            border: 1px dashed #ccd7cf;
+            border-radius: 16px;
+        }
+
+        .small {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 900px) {
+            .profile-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .scheme-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .profile-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .section {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <h1>🏛️ Government Schemes</h1>
+
+        <p>
+            Smart Kisan checks your saved farm profile and a few optional details
+            to show schemes that may be relevant. This is a matching assistant,
+            not an official eligibility approval.
+        </p>
+
+        <div class="farm-strip">
+
+            <span class="pill">
+                Farmer: {{ farmer.name or "Farmer" }}
+            </span>
+
+            <span class="pill">
+                Farm: {{ active_farm.farm_name }}
+            </span>
+
+            <span class="pill">
+                {{ active_farm.village }}, {{ active_farm.district }}
+            </span>
+
+            <span class="pill">
+                Area: {{ active_farm.area }} {{ active_farm.area_unit }}
+            </span>
+
+            <span class="pill">
+                Checked: {{ generated_on }}
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- SAVED FARM -->
+    <section class="section">
+
+        <h2>🚜 Saved Farm Details</h2>
+
+        <p class="muted">
+            These details come automatically from your Smart Kisan farm profile.
+        </p>
+
+        <div class="profile-grid">
+
+            <div class="mini-card">
+                <div class="label">Soil</div>
+
+                <div class="value">
+                    {{ active_farm.soil_type or "Not recorded" }}
+                </div>
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="label">Irrigation</div>
+
+                <div class="value">
+                    {{ active_farm.irrigation or "Not recorded" }}
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="label">Water Source</div>
+
+                <div class="value">
+                    {{ active_farm.water_source or "Not recorded" }}
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="label">Season</div>
+
+                <div class="value">
+                    {{ active_farm.season or "Not recorded" }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MATCHING FORM -->
+    <section class="section">
+
+        <h2>🎯 Improve the Matching</h2>
+
+        <p class="muted">
+            Only fill details you know. Smart Kisan does not ask for Aadhaar
+            numbers, passwords or bank credentials.
+        </p>
+
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+                <!-- CURRENT CROP -->
+                <div>
+
+                    <label
+                        class="field-label"
+                        for="crop_name"
+                    >
+                        Current crop
+                    </label>
+
+                    <input
+                        id="crop_name"
+                        name="crop_name"
+                        value="{{ form_data.crop_name }}"
+                        placeholder="Example: Cotton"
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+                <div>
+
+                    <label
+                        class="field-label"
+                        for="category"
+                    >
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                    >
+
+                        <option value="">
+                            Prefer not to say / Unknown
+                        </option>
+
+                        <option
+                            value="SC"
+                            {% if form_data.category == 'SC' %}
+                            selected
+                            {% endif %}
+                        >
+                            SC
+                        </option>
+
+                        <option
+                            value="ST"
+                            {% if form_data.category == 'ST' %}
+                            selected
+                            {% endif %}
+                        >
+                            ST
+                        </option>
+
+                        <option
+                            value="OBC"
+                            {% if form_data.category == 'OBC' %}
+                            selected
+                            {% endif %}
+                        >
+                            OBC
+                        </option>
+
+                        <option
+                            value="General"
+                            {% if form_data.category == 'General' %}
+                            selected
+                            {% endif %}
+                        >
+                            General
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- INCOME -->
+                <div>
+
+                    <label
+                        class="field-label"
+                        for="annual_income"
+                    >
+                        Annual family income (₹)
+                    </label>
+
+                    <input
+                        id="annual_income"
+                        name="annual_income"
+                        type="number"
+                        min="0"
+                        step="1"
+                        value="{{ form_data.annual_income }}"
+                        placeholder="Example: 120000"
+                    >
+
+                </div>
+
+
+                <!-- SUPPORT -->
+                <div>
+
+                    <label
+                        class="field-label"
+                        for="support_need"
+                    >
+                        What support are you looking for?
+                    </label>
+
+                    <select
+                        id="support_need"
+                        name="support_need"
+                    >
+
+                        <option value="">
+                            General farming support
+                        </option>
+
+                        <option
+                            value="income support"
+                            {% if form_data.support_need == 'income support' %}
+                            selected
+                            {% endif %}
+                        >
+                            Income support
+                        </option>
+
+                        <option
+                            value="crop insurance"
+                            {% if form_data.support_need == 'crop insurance' %}
+                            selected
+                            {% endif %}
+                        >
+                            Crop insurance
+                        </option>
+
+                        <option
+                            value="irrigation"
+                            {% if form_data.support_need == 'irrigation' %}
+                            selected
+                            {% endif %}
+                        >
+                            Irrigation / water saving
+                        </option>
+
+                        <option
+                            value="machinery"
+                            {% if form_data.support_need == 'machinery' %}
+                            selected
+                            {% endif %}
+                        >
+                            Farm machinery / equipment
+                        </option>
+
+                        <option
+                            value="irrigation and machinery"
+                            {% if form_data.support_need == 'irrigation and machinery' %}
+                            selected
+                            {% endif %}
+                        >
+                            Irrigation + machinery
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ELECTRICITY -->
+                <div class="full">
+
+                    <label
+                        class="field-label"
+                        for="electricity_connection"
+                    >
+                        Permanent electricity connection for farm pump?
+                    </label>
+
+                    <select
+                        id="electricity_connection"
+                        name="electricity_connection"
+                    >
+
+                        <option value="">
+                            Unknown / Not applicable
+                        </option>
+
+                        <option
+                            value="yes"
+                            {% if form_data.electricity_connection == 'yes' %}
+                            selected
+                            {% endif %}
+                        >
+                            Yes
+                        </option>
+
+                        <option
+                            value="no"
+                            {% if form_data.electricity_connection == 'no' %}
+                            selected
+                            {% endif %}
+                        >
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    class="button"
+                    type="submit"
+                >
+                    🔎 Find Relevant Schemes
+                </button>
+
+                <a
+                    class="button secondary"
+                    href="{{ url_for('dashboard') }}"
+                >
+                    Back to Dashboard
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- RESULTS -->
+    {% if results %}
+
+    <section class="section">
+
+        <h2>✅ Scheme Matches</h2>
+
+        <p class="muted">
+            Results are ordered by the information available in your profile
+            and this form. “Possibly Eligible” still requires official verification.
+        </p>
+
+
+        <div class="verify-note">
+
+            <strong>Important:</strong>
+
+            Smart Kisan never treats this result as an approval or guarantee
+            of benefits.
+
+            Scheme rules, notifications, application windows and document
+            requirements can change.
+
+            Always verify the latest details on the official government portal
+            before applying.
+
+        </div>
+
+
+        <div class="scheme-grid">
+
+            {% for scheme in results %}
+
+            <article class="scheme-card">
+
+                <!-- HEADER -->
+                <div class="scheme-head">
+
+                    <div class="scheme-title">
+
+                        <div class="icon">
+                            {{ scheme.icon }}
+                        </div>
+
+                        <div>
+
+                            <div class="scheme-name">
+                                {{ scheme.name }}
+                            </div>
+
+                            <div class="scheme-type">
+                                {{ scheme.type }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span
+                        class="status
+                        {% if scheme.status == 'Possibly Eligible' %}
+                            possible
+                        {% else %}
+                            verify
+                        {% endif %}"
+                    >
+                        {{ scheme.status }}
+                    </span>
+
+                </div>
+
+
+                <!-- PURPOSE -->
+                <div>
+
+                    <div class="block-title">
+                        Purpose
+                    </div>
+
+                    <div class="text-block">
+                        {{ scheme.purpose }}
+                    </div>
+
+                </div>
+
+
+                <!-- ELIGIBILITY -->
+                <div>
+
+                    <div class="block-title">
+                        Eligibility
+                    </div>
+
+                    <div class="text-block">
+                        {{ scheme.eligibility }}
+                    </div>
+
+                </div>
+
+
+                <!-- MATCH REASONS -->
+                <div class="reason-box">
+
+                    <div class="block-title">
+                        Why Smart Kisan matched it
+                    </div>
+
+                    <ul>
+
+                        {% for item in scheme.reasons %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- BENEFITS -->
+                <div>
+
+                    <div class="block-title">
+                        Benefits / support
+                    </div>
+
+                    <ul>
+
+                        {% for item in scheme.benefits %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- DOCUMENTS -->
+                <div>
+
+                    <div class="block-title">
+                        Documents
+                    </div>
+
+                    <ul>
+
+                        {% for item in scheme.documents %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- PROCESS -->
+                <div>
+
+                    <div class="block-title">
+                        How to apply
+                    </div>
+
+                    <div class="text-block">
+                        {{ scheme.process }}
+                    </div>
+
+                </div>
+
+
+                <!-- VERIFICATION -->
+                {% if scheme.verification %}
+
+                <div class="verify-note">
+
+                    <strong>Still verify:</strong>
+
+                    <ul>
+
+                        {% for item in scheme.verification %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- SOURCE -->
+                <div class="source-row">
+
+                    <span class="small">
+                        Source: {{ scheme.source }}
+                        · Verified {{ scheme.verified_on }}
+                    </span>
+
+                    <a
+                        class="source-link"
+                        href="{{ scheme.official_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Official portal ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <section class="section">
+
+        <div class="empty">
+
+            <div style="font-size:40px;">
+                🌾
+            </div>
+
+            <h2 style="margin-top:10px;">
+                Ready to check schemes
+            </h2>
+
+            <p class="muted">
+
+                Your saved farm details are already connected.
+
+                Add a current crop, category, income, or support need above
+                to make the matching more specific.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- PRIVACY -->
+    <section class="section">
+
+        <h2>🔐 Privacy & Verification</h2>
+
+        <p class="muted">
+
+            Smart Kisan uses the farm/profile information already stored
+            in your account plus the optional details above.
+
+            Never enter your Aadhaar number, OTP, password or bank PIN
+            into this demo page.
+
+        </p>
+
+        <p class="small">
+
+            Scheme information in this prototype was checked against
+            official government portals on 04 Oct 2026.
+
+        </p>
+
+    </section>
+
+</div>
+
+</body>
+</html>

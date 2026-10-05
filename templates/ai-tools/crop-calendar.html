@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    AI Crop Calendar | Smart Kisan AI
+</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: #f3f8f4;
+
+    color: #1e2b23;
+}
+
+.page {
+
+    width:
+        min(
+            calc(100% - 30px),
+            1150px
+        );
+
+    margin: auto;
+
+    padding: 24px 0 50px;
+}
+
+.back {
+
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    color: #19743d;
+
+    text-decoration: none;
+
+    font-weight: 800;
+
+    font-size: 14px;
+}
+
+.hero {
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(20, 80, 40, .08);
+
+    margin-bottom: 20px;
+}
+
+.eyebrow {
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    color: #159447;
+
+    margin-bottom: 7px;
+}
+
+h1 {
+
+    margin: 0;
+
+    color: #126b38;
+
+    font-size: 31px;
+}
+
+.subtitle {
+
+    color: #6d7a72;
+
+    line-height: 1.6;
+
+    margin: 10px 0 20px;
+}
+
+.farm-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+.farm-box {
+
+    background: #f6faf7;
+
+    border-radius: 14px;
+
+    padding: 14px;
+}
+
+.farm-box small {
+
+    display: block;
+
+    color: #7c8982;
+
+    margin-bottom: 5px;
+}
+
+.farm-box strong {
+
+    color: #275a3c;
+}
+
+.main-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        .9fr
+        1.1fr;
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+.card {
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(20, 80, 40, .07);
+}
+
+.card h2 {
+
+    margin-top: 0;
+
+    color: #195e35;
+}
+
+.field {
+
+    margin-bottom: 17px;
+}
+
+label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: 800;
+
+    font-size: 14px;
+}
+
+input,
+select {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d7e2da;
+
+    border-radius: 11px;
+
+    background: #fbfdfb;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+
+    border-color: #159447;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(21, 148, 71, .08);
+}
+
+.hint {
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    color: #7b8780;
+
+    margin-top: 5px;
+}
+
+.btn {
+
+    width: 100%;
+
+    border: 0;
+
+    border-radius: 12px;
+
+    background: #159447;
+
+    color: white;
+
+    padding: 14px;
+
+    font-weight: 800;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.btn:hover {
+
+    background: #10773a;
+}
+
+.error {
+
+    margin-top: 15px;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background: #fff0f0;
+
+    color: #973535;
+}
+
+.empty {
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #7b8781;
+}
+
+.empty-icon {
+
+    font-size: 46px;
+}
+
+.overview {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.metric {
+
+    background: #f6faf7;
+
+    border-radius: 13px;
+
+    padding: 14px;
+}
+
+.metric small {
+
+    display: block;
+
+    color: #7a8780;
+
+    margin-bottom: 5px;
+}
+
+.metric strong {
+
+    color: #195d36;
+
+    font-size: 16px;
+}
+
+.timeline {
+
+    display: grid;
+
+    gap: 14px;
+}
+
+.stage {
+
+    border:
+        1px solid #e0e9e2;
+
+    border-radius: 16px;
+
+    padding: 17px;
+
+    background: #fcfefd;
+}
+
+.stage-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    align-items: flex-start;
+}
+
+.stage-name {
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    color: #21623b;
+}
+
+.stage-date {
+
+    font-size: 12px;
+
+    color: #748178;
+
+    background: #f1f6f2;
+
+    padding: 7px 10px;
+
+    border-radius: 999px;
+
+    white-space: nowrap;
+}
+
+.stage-bar {
+
+    height: 9px;
+
+    background: #e9efea;
+
+    border-radius: 99px;
+
+    overflow: hidden;
+
+    margin:
+        12px 0 15px;
+}
+
+.stage-bar span {
+
+    display: block;
+
+    height: 100%;
+
+    background: #159447;
+
+    border-radius: 99px;
+}
+
+.stage-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+}
+
+.task {
+
+    background: #f6faf7;
+
+    padding: 12px;
+
+    border-radius: 12px;
+}
+
+.task small {
+
+    display: block;
+
+    color: #78857d;
+
+    margin-bottom: 5px;
+
+    font-weight: 800;
+}
+
+.task p {
+
+    margin: 0;
+
+    color: #4e5d54;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.warning {
+
+    margin-top: 18px;
+
+    background: #fff8e8;
+
+    color: #745918;
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.footer {
+
+    text-align: center;
+
+    color: #76837b;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+
+    .main-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .farm-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .farm-grid,
+    .overview,
+    .stage-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+
+        font-size: 25px;
+    }
+
+    .stage-top {
+
+        flex-direction: column;
+    }
+
+    .stage-date {
+
+        white-space: normal;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <a
+        class="back"
+        href="{{ url_for('ai_tools') }}"
+    >
+        ← Back to AI Tools
+    </a>
+
+
+    <!-- ====================================================
+         HERO
+    ===================================================== -->
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            📅 Smart Kisan AI
+        </div>
+
+        <h1>
+            AI Crop Calendar
+        </h1>
+
+        <p class="subtitle">
+
+            Create a simple crop timeline from
+            sowing or transplanting to harvest,
+            with stage-wise farming tasks.
+
+        </p>
+
+
+        {% if active_farm %}
+
+        <div class="farm-grid">
+
+
+            <div class="farm-box">
+
+                <small>
+                    Farm
+                </small>
+
+                <strong>
+                    {{ active_farm["farm_name"] }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-box">
+
+                <small>
+                    Location
+                </small>
+
+                <strong>
+                    {{ active_farm["village"] }},
+                    {{ active_farm["district"] }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-box">
+
+                <small>
+                    Soil
+                </small>
+
+                <strong>
+                    {{ active_farm["soil_type"] }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-box">
+
+                <small>
+                    Season
+                </small>
+
+                <strong>
+                    {{ active_farm["season"] }}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <div class="main-grid">
+
+
+        <!-- =================================================
+             INPUT CARD
+        ================================================== -->
+
+        <section class="card">
+
+            <h2>
+                Enter Crop Details
+            </h2>
+
+
+            <form method="POST">
+
+
+                <div class="field">
+
+                    <label for="crop_name">
+
+                        Crop Name
+
+                    </label>
+
+                    <input
+                        id="crop_name"
+                        name="crop_name"
+                        value="{{ form_data.crop_name }}"
+                        placeholder="Example: Onion"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="variety">
+
+                        Variety (Optional)
+
+                    </label>
+
+                    <input
+                        id="variety"
+                        name="variety"
+                        value="{{ form_data.variety }}"
+                        placeholder="Example: Bhima Super"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="season">
+
+                        Season
+
+                    </label>
+
+                    <select
+                        id="season"
+                        name="season"
+                        required
+                    >
+
+                        <option value="">
+                            Select season
+                        </option>
+
+
+                        <option
+                            value="Kharif"
+                            {% if form_data.season == "Kharif" %}
+                                selected
+                            {% endif %}
+                        >
+                            Kharif
+                        </option>
+
+
+                        <option
+                            value="Rabi"
+                            {% if form_data.season == "Rabi" %}
+                                selected
+                            {% endif %}
+                        >
+                            Rabi
+                        </option>
+
+
+                        <option
+                            value="Summer"
+                            {% if form_data.season == "Summer" %}
+                                selected
+                            {% endif %}
+                        >
+                            Summer
+                        </option>
+
+
+                        <option
+                            value="Other"
+                            {% if form_data.season == "Other" %}
+                                selected
+                            {% endif %}
+                        >
+                            Other
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="sowing_date">
+
+                        Sowing / Transplanting Date
+
+                    </label>
+
+                    <input
+                        id="sowing_date"
+                        name="sowing_date"
+                        type="date"
+                        value="{{ form_data.sowing_date }}"
+                        required
+                    >
+
+                    <div class="hint">
+
+                        For transplanted crops,
+                        use the transplanting date.
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="expected_duration">
+
+                        Expected Crop Duration (days)
+
+                    </label>
+
+                    <input
+                        id="expected_duration"
+                        name="expected_duration"
+                        type="number"
+                        min="30"
+                        max="500"
+                        value="{{ form_data.expected_duration }}"
+                        placeholder="Only needed for an unconfigured crop"
+                    >
+
+                    <div class="hint">
+
+                        For common configured crops,
+                        the system uses a starter reference
+                        automatically. For other crops,
+                        enter a locally known expected duration.
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn"
+                    type="submit"
+                >
+
+                    📅 Generate Crop Calendar
+
+                </button>
+
+
+            </form>
+
+
+            {% if result and not result.success %}
+
+            <div class="error">
+
+                {{ result.error }}
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =================================================
+             RESULT CARD
+        ================================================== -->
+
+        <section class="card">
+
+
+            {% if result and result.success %}
+
+
+            <div class="overview">
+
+
+                <div class="metric">
+
+                    <small>
+                        Crop
+                    </small>
+
+                    <strong>
+                        {{ result.crop }}
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <small>
+                        Start
+                    </small>
+
+                    <strong>
+                        {{ result.sowing_date }}
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <small>
+                        Expected Harvest
+                    </small>
+
+                    <strong>
+                        {{ result.harvest_date }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                class="metric"
+                style="margin-bottom:18px"
+            >
+
+                <small>
+                    Planning Duration
+                </small>
+
+                <strong>
+                    {{ result.duration_days }}
+                    days
+                </strong>
+
+                <div class="hint">
+
+                    {{ result.duration_source }}
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 TIMELINE
+            ============================================== -->
+
+            <div class="timeline">
+
+
+                {% for stage in result.timeline %}
+
+
+                <div class="stage">
+
+
+                    <div class="stage-top">
+
+
+                        <div class="stage-name">
+
+                            {{ stage.name }}
+
+                        </div>
+
+
+                        <div class="stage-date">
+
+                            {{ stage.expected_period }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="stage-bar">
+
+                        <span
+                            style="width:
+                                {{ stage.end_day if stage.end_day else 2 }}%"
+                        ></span>
+
+                    </div>
+
+
+                    <!-- MAIN ACTIVITY -->
+
+                    <div class="task">
+
+                        <small>
+                            📌 Main Activity
+                        </small>
+
+                        <p>
+                            {{ stage.activity }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- STAGE TASKS -->
+
+                    <div
+                        class="stage-grid"
+                        style="margin-top:10px"
+                    >
+
+
+                        <div class="task">
+
+                            <small>
+                                💧 Irrigation
+                            </small>
+
+                            <p>
+                                {{ stage.irrigation }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="task">
+
+                            <small>
+                                🌱 Nutrient Task
+                            </small>
+
+                            <p>
+                                {{ stage.nutrient }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="task">
+
+                            <small>
+                                🔍 Disease Watch
+                            </small>
+
+                            <p>
+                                {{ stage.disease }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="task">
+
+                            <small>
+                                👨‍🌾 Farmer Action
+                            </small>
+
+                            <p>
+                                {{ stage.action }}
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+            <!-- WARNING -->
+
+            <div class="warning">
+
+                ⚠️ {{ result.warning }}
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <h2>
+                    Your crop timeline will appear here
+                </h2>
+
+                <p>
+
+                    Select the crop, season and
+                    sowing/transplanting date,
+                    then generate the calendar.
+
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        Smart Kisan AI • Crop Calendar is a planning aid.
+        Actual crop development depends on variety
+        and local farm conditions.
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

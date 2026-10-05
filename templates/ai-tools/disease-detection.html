@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        AI Disease Detection | Smart Kisan AI
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f1faf4,
+                    #ffffff
+                );
+
+            color: #183b25;
+        }
+
+        .container {
+
+            width: min(
+                1100px,
+                calc(100% - 30px)
+            );
+
+            margin: 0 auto;
+
+            padding: 30px 0 60px;
+        }
+
+        .back {
+
+            display: inline-block;
+
+            margin-bottom: 20px;
+
+            color: #159447;
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .icon {
+
+            font-size: 55px;
+
+            margin-bottom: 10px;
+        }
+
+        h1 {
+
+            margin: 0;
+
+            font-size: 34px;
+
+            color: #11783a;
+        }
+
+        .subtitle {
+
+            margin-top: 10px;
+
+            color: #68786e;
+
+            line-height: 1.6;
+        }
+
+        .card {
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 15px 45px
+                rgba(21, 148, 71, 0.10);
+
+            border:
+                1px solid #e2eee6;
+        }
+
+        .farm-info {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap: 12px;
+
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: #f3faf5;
+        }
+
+        .info-label {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #718078;
+
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+
+            font-weight: 700;
+
+            color: #19472a;
+        }
+
+        label {
+
+            display: block;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #d5e4da;
+
+            border-radius: 11px;
+
+            background: #fbfefc;
+
+            font-size: 14px;
+        }
+
+        input:focus {
+
+            outline: none;
+
+            border-color: #159447;
+        }
+
+        .upload-box {
+
+            margin-top: 20px;
+
+            padding: 28px;
+
+            border:
+                2px dashed #8bc7a2;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            background: #f7fcf8;
+        }
+
+        .upload-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 10px;
+        }
+
+        .upload-help {
+
+            color: #718078;
+
+            font-size: 13px;
+
+            margin: 8px 0 18px;
+        }
+
+        .preview {
+
+            display: none;
+
+            margin-top: 20px;
+        }
+
+        .preview img {
+
+            width: 100%;
+
+            max-height: 350px;
+
+            object-fit: contain;
+
+            border-radius: 15px;
+
+            border:
+                1px solid #dce9df;
+        }
+
+        .button {
+
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #159447;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .button:hover {
+
+            background: #0d7435;
+        }
+
+        .error {
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background: #fff3f1;
+
+            color: #a83226;
+
+            margin-bottom: 20px;
+
+            font-weight: 600;
+        }
+
+        /* =================================================
+           RESULT HEADER
+           ================================================= */
+
+        .result-title {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .disease-name {
+
+            font-size: 29px;
+
+            font-weight: 800;
+
+            color: #11783a;
+
+            line-height: 1.25;
+        }
+
+        .crop-label {
+
+            margin-top: 7px;
+
+            color: #607068;
+
+            font-size: 14px;
+        }
+
+        /* =================================================
+           RESULT BADGES
+           ================================================= */
+
+        .result-badges {
+
+            display: flex;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            justify-content: flex-end;
+        }
+
+        .badge {
+
+            padding: 9px 14px;
+
+            border-radius: 30px;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .confidence {
+
+            background: #e9f8ee;
+
+            color: #11783a;
+        }
+
+        .quality-good {
+
+            background: #e9f8ee;
+
+            color: #11783a;
+        }
+
+        .quality-fair {
+
+            background: #fff8df;
+
+            color: #806516;
+        }
+
+        .quality-poor {
+
+            background: #fff0ed;
+
+            color: #a83226;
+        }
+
+        .quality-unknown {
+
+            background: #f1f5f2;
+
+            color: #607068;
+        }
+
+        /* =================================================
+           SEVERITY
+           ================================================= */
+
+        .severity {
+
+            display: inline-block;
+
+            margin-top: 14px;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: #f1f5f2;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        /* =================================================
+           ASSESSMENT NOTE
+           ================================================= */
+
+        .assessment-note {
+
+            margin-top: 20px;
+
+            padding: 16px 18px;
+
+            border-radius: 14px;
+
+            background: #eef8f1;
+
+            border-left:
+                4px solid #159447;
+
+            color: #365441;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        /* =================================================
+           RESULT GRID
+           ================================================= */
+
+        .result-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    1fr
+                );
+
+            gap: 18px;
+
+            margin-top: 25px;
+        }
+
+        .result-section {
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background: #f7fbf8;
+        }
+
+        .result-section h3 {
+
+            margin-top: 0;
+
+            color: #176b37;
+
+            font-size: 17px;
+        }
+
+        .result-section ul {
+
+            margin-bottom: 0;
+
+            padding-left: 20px;
+        }
+
+        .result-section li {
+
+            margin-bottom: 8px;
+
+            line-height: 1.5;
+
+            color: #53635a;
+        }
+
+        .empty-text {
+
+            color: #718078;
+
+            line-height: 1.5;
+        }
+
+        /* =================================================
+           WARNING
+           ================================================= */
+
+        .warning {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background: #fff9e8;
+
+            color: #735d17;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            border:
+                1px solid #f1df9f;
+        }
+
+        /* =================================================
+           NON-PLANT RESULT
+           ================================================= */
+
+        .not-plant {
+
+            background: #fff5f2;
+
+            border:
+                1px solid #f1cfc6;
+
+            color: #8f392d;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            margin-top: 22px;
+
+            line-height: 1.6;
+        }
+
+        /* =================================================
+           FOOTNOTE
+           ================================================= */
+
+        .footer-note {
+
+            margin-top: 22px;
+
+            text-align: center;
+
+            color: #7b8981;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        /* =================================================
+           MOBILE
+           ================================================= */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .farm-info,
+            .result-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+
+                padding: 20px;
+            }
+
+            h1 {
+
+                font-size: 27px;
+            }
+
+            .disease-name {
+
+                font-size: 24px;
+            }
+
+            .result-badges {
+
+                justify-content: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- =================================================
+         BACK
+         ================================================= -->
+
+    <a
+        href="{{ url_for('ai_tools') }}"
+        class="back"
+    >
+        ← Back to AI Center
+    </a>
+
+
+    <!-- =================================================
+         HEADER
+         ================================================= -->
+
+    <div class="header">
+
+        <div class="icon">
+            🦠🌿
+        </div>
+
+        <h1>
+            AI Disease Detection
+        </h1>
+
+        <p class="subtitle">
+            Upload a clear photo of your crop leaf
+            and Smart Kisan AI will analyze visible
+            symptoms and provide preliminary guidance.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         ERROR
+         ================================================= -->
+
+    {% if result and not result.success %}
+
+        <div class="error">
+
+            {{ result.error }}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         INPUT CARD
+         ================================================= -->
+
+    <div class="card">
+
+        <!-- FARM INFORMATION -->
+
+        <div class="farm-info">
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Farm
+                </span>
+
+                <span class="info-value">
+                    {{ active_farm.farm_name }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Village
+                </span>
+
+                <span class="info-value">
+                    {{ active_farm.village }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    District
+                </span>
+
+                <span class="info-value">
+                    {{ active_farm.district }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <label for="crop_name">
+                Crop Name
+            </label>
+
+            <input
+                type="text"
+                id="crop_name"
+                name="crop_name"
+                placeholder="Example: Tomato, Cotton, Rice"
+                value="{{ request.form.get('crop_name', '') }}"
+            >
+
+
+            <!-- UPLOAD -->
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    📷
+                </div>
+
+                <strong>
+                    Upload Crop / Leaf Image
+                </strong>
+
+                <p class="upload-help">
+                    Use a clear, well-lit photo of the
+                    affected leaf or plant.
+                </p>
+
+                <input
+                    type="file"
+                    id="plant_image"
+                    name="plant_image"
+                    accept="image/jpeg,image/png,image/webp"
+                    capture="environment"
+                    required
+                >
+
+
+                <!-- PREVIEW -->
+
+                <div
+                    class="preview"
+                    id="preview"
+                >
+
+                    <img
+                        id="previewImage"
+                        alt="Selected plant image"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="button"
+            >
+                🔍 Analyze Plant Disease
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         RESULT
+         ================================================= -->
+
+    {% if result and result.success %}
+
+        {% set data = result.result %}
+
+        <div class="card">
+
+
+            <!-- RESULT HEADER -->
+
+            <div class="result-title">
+
+                <div>
+
+                    <div class="disease-name">
+
+                        {% if data.disease %}
+
+                            {{ data.disease }}
+
+                        {% else %}
+
+                            Analysis Result
+
+                        {% endif %}
+
+                    </div>
+
+
+                    {% if data.crop %}
+
+                        <div class="crop-label">
+
+                            Crop:
+                            <strong>
+                                {{ data.crop }}
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BADGES -->
+
+                <div class="result-badges">
+
+                    <div class="badge confidence">
+
+                        🤖 AI Visual Confidence:
+                        {{ data.confidence }}%
+
+                    </div>
+
+
+                    {% set quality =
+                        data.image_quality
+                        |default("Unknown")
+                        |lower
+                    %}
+
+
+                    {% if quality == "good" %}
+
+                        <div class="badge quality-good">
+
+                            📷 Image Quality:
+                            Good
+
+                        </div>
+
+                    {% elif quality == "fair" %}
+
+                        <div class="badge quality-fair">
+
+                            📷 Image Quality:
+                            Fair
+
+                        </div>
+
+                    {% elif quality == "poor" %}
+
+                        <div class="badge quality-poor">
+
+                            📷 Image Quality:
+                            Poor
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="badge quality-unknown">
+
+                            📷 Image Quality:
+                            Unknown
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- SEVERITY -->
+
+            {% if data.severity %}
+
+                <div class="severity">
+
+                    Severity:
+                    {{ data.severity }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- NON-PLANT MESSAGE -->
+
+            {% if not data.is_plant %}
+
+                <div class="not-plant">
+
+                    🌿
+                    <strong>
+                        This image does not appear to contain
+                        a plant or crop leaf.
+                    </strong>
+
+                    <br>
+
+                    Please upload a clear image of the
+                    affected plant or leaf for analysis.
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- NORMAL PLANT ASSESSMENT -->
+
+            {% if data.is_plant %}
+
+                <div class="assessment-note">
+
+                    🤖
+                    <strong>
+                        Preliminary AI Visual Assessment
+                    </strong>
+
+                    <br>
+
+                    This result is based on visible image
+                    patterns and should not be treated as
+                    a laboratory-confirmed diagnosis.
+
+                </div>
+
+
+                <!-- RESULT GRID -->
+
+                <div class="result-grid">
+
+
+                    <!-- SYMPTOMS -->
+
+                    <div class="result-section">
+
+                        <h3>
+                            🔎 Visible Symptoms
+                        </h3>
+
+                        {% if data.symptoms %}
+
+                            <ul>
+
+                                {% for item in data.symptoms %}
+
+                                    <li>
+                                        {{ item }}
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% else %}
+
+                            <p class="empty-text">
+                                No specific visible symptoms
+                                were identified.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- CAUSES -->
+
+                    <div class="result-section">
+
+                        <h3>
+                            🧩 Possible Causes
+                        </h3>
+
+                        {% if data.possible_causes %}
+
+                            <ul>
+
+                                {% for item in data.possible_causes %}
+
+                                    <li>
+                                        {{ item }}
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% else %}
+
+                            <p class="empty-text">
+                                No specific possible causes
+                                were identified.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- RECOMMENDATIONS -->
+
+                    <div class="result-section">
+
+                        <h3>
+                            🌱 Recommended Action
+                        </h3>
+
+                        {% if data.recommendations %}
+
+                            <ul>
+
+                                {% for item in data.recommendations %}
+
+                                    <li>
+                                        {{ item }}
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% else %}
+
+                            <p class="empty-text">
+                                No recommendations were returned.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- PREVENTION -->
+
+                    <div class="result-section">
+
+                        <h3>
+                            🛡️ Prevention
+                        </h3>
+
+                        {% if data.prevention %}
+
+                            <ul>
+
+                                {% for item in data.prevention %}
+
+                                    <li>
+                                        {{ item }}
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% else %}
+
+                            <p class="empty-text">
+                                No prevention advice was returned.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- WARNING -->
+
+            {% if data.warning %}
+
+                <div class="warning">
+
+                    ⚠️
+                    {{ data.warning }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- FOOTNOTE -->
+
+            <div class="footer-note">
+
+                Smart Kisan AI provides a preliminary
+                visual assessment. Consider crop condition,
+                weather, soil factors and expert confirmation
+                before taking treatment decisions.
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =====================================================
+     IMAGE PREVIEW JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+const imageInput =
+    document.getElementById(
+        "plant_image"
+    );
+
+const preview =
+    document.getElementById(
+        "preview"
+    );
+
+const previewImage =
+    document.getElementById(
+        "previewImage"
+    );
+
+
+if (
+    imageInput &&
+    preview &&
+    previewImage
+) {
+
+    imageInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+            if (!file) {
+
+                preview.style.display =
+                    "none";
+
+                previewImage.src =
+                    "";
+
+                return;
+
+            }
+
+
+            /*
+             * Client-side image size check.
+             *
+             * Backend still performs the
+             * real validation.
+             */
+
+            const maxSize =
+                20 * 1024 * 1024;
+
+
+            if (
+                file.size > maxSize
+            ) {
+
+                alert(
+                    "Image is too large. " +
+                    "Please select an image smaller than 20 MB."
+                );
+
+                this.value =
+                    "";
+
+                preview.style.display =
+                    "none";
+
+                previewImage.src =
+                    "";
+
+                return;
+
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    previewImage.src =
+                        event.target.result;
+
+                    preview.style.display =
+                        "block";
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

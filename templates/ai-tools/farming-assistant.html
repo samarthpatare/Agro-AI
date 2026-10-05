@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Farming Assistant | Smart Kisan AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f4f7f2;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 28px 18px 50px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #14532d, #2f7d32);
+            color: #fff;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 14px 34px rgba(20, 83, 45, .14);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .hero p {
+            margin: 0;
+            line-height: 1.6;
+            opacity: .92;
+        }
+
+        .farm-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.14);
+            border: 1px solid rgba(255,255,255,.20);
+            font-size: 13px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 7px 22px rgba(15, 23, 42, .05);
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+        }
+
+        .muted {
+            color: #6b7280;
+            line-height: 1.55;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            padding: 12px 13px;
+            font: inherit;
+            background: #fff;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 13px 18px;
+            background: #166534;
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 14px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            opacity: .93;
+        }
+
+        .error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+
+        .answer-card {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .answer-head {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .answer-icon {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #dcfce7;
+            font-size: 23px;
+        }
+
+        .answer-head h2 {
+            margin: 0;
+        }
+
+        .answer-text {
+            background: #fff;
+            border-radius: 14px;
+            padding: 17px;
+            line-height: 1.65;
+            border: 1px solid #dcfce7;
+            white-space: pre-wrap;
+        }
+
+        .section-title {
+            margin: 18px 0 8px;
+            font-weight: 800;
+        }
+
+        ul {
+            margin: 8px 0 0;
+            padding-left: 21px;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .warning {
+            margin-top: 16px;
+            background: #fffbeb;
+            color: #854d0e;
+            border: 1px solid #fde68a;
+            border-radius: 14px;
+            padding: 14px 15px;
+            line-height: 1.55;
+        }
+
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .suggestion {
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 14px;
+            background: #fafafa;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+
+        @media (max-width: 720px) {
+            .form-grid,
+            .suggestions {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <h1>🤖 AI Farming Assistant</h1>
+
+        <p>
+            Ask a farming question and Smart Kisan uses your saved farm context
+            and the latest available AI analysis results to guide you.
+        </p>
+
+        <div class="farm-info">
+
+            <span class="pill">
+                Farm: {{ active_farm.farm_name }}
+            </span>
+
+            <span class="pill">
+                {{ active_farm.village }}, {{ active_farm.district }}
+            </span>
+
+            <span class="pill">
+                Soil: {{ active_farm.soil_type }}
+            </span>
+
+            <span class="pill">
+                Area: {{ active_farm.area }} {{ active_farm.area_unit }}
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUESTION FORM -->
+    <section class="card">
+
+        <h2>Ask Your Farming Question</h2>
+
+        <div class="muted">
+            Crop and growth stage are optional. Enter them when your question
+            is crop-specific or when you have not already run a Crop Health
+            or Disease analysis.
+        </div>
+
+
+        {% if result and not result.success %}
+
+            <div class="error" style="margin-top:16px;">
+                {{ result.error }}
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+                <!-- CROP -->
+                <div>
+
+                    <label for="crop_name">
+                        Current Crop (optional)
+                    </label>
+
+                    <input
+                        id="crop_name"
+                        name="crop_name"
+                        value="{{ form_data.crop_name }}"
+                        placeholder="Example: Soybean"
+                    >
+
+                </div>
+
+
+                <!-- GROWTH STAGE -->
+                <div>
+
+                    <label for="growth_stage">
+                        Growth Stage (optional)
+                    </label>
+
+                    <select
+                        id="growth_stage"
+                        name="growth_stage"
+                    >
+
+                        <option value="">
+                            Select stage
+                        </option>
+
+                        {% for stage in [
+                            "Sowing",
+                            "Germination",
+                            "Vegetative",
+                            "Flowering",
+                            "Fruit / Pod Development",
+                            "Maturity",
+                            "Harvest"
+                        ] %}
+
+                            <option
+                                value="{{ stage }}"
+                                {% if form_data.growth_stage == stage %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ stage }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- QUESTION -->
+                <div class="full">
+
+                    <label for="question">
+                        Your Question
+                    </label>
+
+                    <textarea
+                        id="question"
+                        name="question"
+                        placeholder="Example: Should I irrigate my soybean crop today?"
+                        required
+                    >{{ form_data.question }}</textarea>
+
+                </div>
+
+            </div>
+
+
+            <button type="submit">
+                Ask Smart Kisan 🤖
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ANSWER -->
+    {% if result and result.success %}
+
+        <section class="card answer-card">
+
+            <div class="answer-head">
+
+                <div class="answer-icon">
+                    🌾
+                </div>
+
+                <div>
+
+                    <h2>
+                        Smart Kisan Answer
+                    </h2>
+
+                    <div class="muted">
+                        Based on available farm information
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="answer-text">
+                {{ result.answer }}
+            </div>
+
+
+            <!-- WHAT WAS CONSIDERED -->
+            {% if result.checks %}
+
+                <div class="section-title">
+                    🔎 What I considered
+                </div>
+
+                <ul>
+
+                    {% for item in result.checks %}
+
+                        {% if item %}
+
+                            <li>
+                                {{ item }}
+                            </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </ul>
+
+            {% endif %}
+
+
+            <!-- ACTIONS -->
+            {% if result.actions %}
+
+                <div class="section-title">
+                    ✅ Recommended Action
+                </div>
+
+                <ul>
+
+                    {% for item in result.actions %}
+
+                        {% if item %}
+
+                            <li>
+                                {{ item }}
+                            </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </ul>
+
+            {% endif %}
+
+
+            <!-- WARNING -->
+            {% if result.warning %}
+
+                <div class="warning">
+                    ⚠️ {{ result.warning }}
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    {% endif %}
+
+
+    <!-- EXAMPLE QUESTIONS -->
+    <section class="card">
+
+        <h2>
+            💬 Example Questions
+        </h2>
+
+        <div class="muted">
+            Try questions like these:
+        </div>
+
+
+        <div class="suggestions">
+
+            <div class="suggestion">
+                💧 Should I irrigate my crop today?
+            </div>
+
+            <div class="suggestion">
+                🌧️ Will the current weather affect my crop?
+            </div>
+
+            <div class="suggestion">
+                🌱 Why is my crop showing stress?
+            </div>
+
+            <div class="suggestion">
+                🧪 What does my soil report indicate?
+            </div>
+
+            <div class="suggestion">
+                🦠 What did my latest disease analysis find?
+            </div>
+
+            <div class="suggestion">
+                📊 What is my current farm risk?
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

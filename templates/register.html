@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Register | Smart Kisan AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+            background: #071b0e;
+        }
+
+        .auth-page {
+            min-height: 100vh;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(3, 20, 9, .96),
+                    rgba(7, 67, 31, .91)
+                ),
+                url("{{ url_for('static', filename='images/farm-details.png') }}")
+                center / cover no-repeat;
+        }
+
+        .auth-wrapper {
+            width: min(100%, 1120px);
+            min-height: 720px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: .82fr 1.18fr;
+            overflow: hidden;
+            border-radius: 30px;
+            background: rgba(255,255,255,.97);
+            box-shadow:
+                0 35px 100px rgba(0,0,0,.36);
+        }
+
+        /* LEFT */
+
+        .auth-visual {
+            position: relative;
+            min-height: 720px;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(2,25,10,.05),
+                    rgba(2,22,9,.88)
+                ),
+                url("{{ url_for('static', filename='images/farm-details.png') }}")
+                center / cover no-repeat;
+            color: white;
+        }
+
+        .auth-visual-content {
+            position: absolute;
+            left: 40px;
+            right: 40px;
+            bottom: 42px;
+        }
+
+        .visual-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            border-radius: 22px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.16);
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .visual-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #70db91;
+            box-shadow: 0 0 10px #70db91;
+        }
+
+        .auth-visual h1 {
+            margin: 0 0 14px;
+            font-size: clamp(37px, 4vw, 56px);
+            line-height: 1.03;
+            letter-spacing: -2px;
+        }
+
+        .auth-visual h1 span {
+            color: #72da96;
+        }
+
+        .auth-visual p {
+            margin: 0;
+            max-width: 430px;
+            color: #d1e2d7;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .visual-points {
+            margin-top: 21px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .visual-point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #dce9e0;
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .visual-point span {
+            width: 20px;
+            height: 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(113,218,149,.14);
+            color: #78de9b;
+        }
+
+        /* FORM */
+
+        .auth-form-panel {
+            padding: 38px;
+            overflow-y: auto;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #eaf8ee;
+            font-size: 22px;
+        }
+
+        .logo-name {
+            color: #102419;
+            font-size: 19px;
+            font-weight: 850;
+        }
+
+        .logo-name span {
+            color: #159447;
+        }
+
+        .auth-form-panel h2 {
+            margin: 0 0 6px;
+            color: #122419;
+            font-size: 27px;
+        }
+
+        .subtitle {
+            margin: 0 0 20px;
+            color: #718078;
+            font-size: 12px;
+        }
+
+        .section-title {
+            margin: 20px 0 13px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5eee8;
+            color: #159447;
+            font-size: 11px;
+            font-weight: 850;
+            letter-spacing: 1.2px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #26362d;
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 45px;
+            padding: 10px 12px;
+            border: 1px solid #dce6df;
+            border-radius: 10px;
+            background: #fbfdfb;
+            color: #1f3026;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .form-control:focus {
+            border-color: #159447;
+            background: white;
+            box-shadow:
+                0 0 0 3px rgba(21,148,71,.09);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-control {
+            padding-right: 45px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 7px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 35px;
+            border: 0;
+            border-radius: 7px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .location-note {
+            padding: 9px 11px;
+            margin-top: 10px;
+            border-radius: 9px;
+            background: #edf8f0;
+            color: #567060;
+            font-size: 10px;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin: 18px 0;
+        }
+
+        .terms input {
+            margin-top: 2px;
+            accent-color: #159447;
+        }
+
+        .terms label {
+            color: #6c786f;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 50px;
+            border: 0;
+            border-radius: 11px;
+            color: white;
+            background: #159447;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow:
+                0 12px 24px rgba(21,148,71,.18);
+        }
+
+        .submit-button:hover {
+            background: #0b6c32;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 18px;
+            color: #718078;
+            font-size: 12px;
+        }
+
+        .auth-switch a {
+            color: #159447;
+            font-weight: 800;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 11px;
+            font-size: 11px;
+        }
+
+        .back-home a {
+            color: #159447;
+            font-weight: 700;
+        }
+
+        .alert {
+            padding: 10px 12px;
+            border-radius: 9px;
+            margin-bottom: 13px;
+            font-size: 11px;
+        }
+
+        .alert-error {
+            background: #fff1f1;
+            color: #a52828;
+            border: 1px solid #f0cccc;
+        }
+
+        .alert-success {
+            background: #edf9f0;
+            color: #1f733c;
+            border: 1px solid #cce8d3;
+        }
+
+        @media (max-width: 850px) {
+
+            .auth-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+
+            .auth-visual {
+                min-height: 290px;
+            }
+
+            .auth-visual-content {
+                left: 28px;
+                right: 28px;
+                bottom: 27px;
+            }
+
+            .visual-points {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .auth-page {
+                padding: 10px;
+            }
+
+            .auth-wrapper {
+                border-radius: 20px;
+            }
+
+            .auth-form-panel {
+                padding: 25px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-wrapper">
+
+        <div class="auth-visual">
+
+            <div class="auth-visual-content">
+
+                <div class="visual-badge">
+                    <span></span>
+                    SMART KISAN AI
+                </div>
+
+                <h1>
+                    Start Your
+                    <br>
+                    <span>Smart Farming</span>
+                </h1>
+
+                <p>
+                    Create your farmer profile once.
+                    Your information will be securely saved and
+                    used throughout your Smart Kisan journey.
+                </p>
+
+                <div class="visual-points">
+
+                    <div class="visual-point">
+                        <span>✓</span>
+                        Farmer profile
+                    </div>
+
+                    <div class="visual-point">
+                        <span>✓</span>
+                        Maharashtra location
+                    </div>
+
+                    <div class="visual-point">
+                        <span>✓</span>
+                        Smart agriculture tools
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="auth-form-panel">
+
+            <div class="auth-logo">
+
+                <div class="logo-icon">
+                    🌾
+                </div>
+
+                <div class="logo-name">
+                    Smart Kisan <span>AI</span>
+                </div>
+
+            </div>
+
+            <h2>
+                Create Farmer Account
+            </h2>
+
+            <p class="subtitle">
+                Enter your information once. It will be saved
+                directly to your farmer profile.
+            </p>
+
+
+            {% with messages =
+                get_flashed_messages(
+                    with_categories=true
+                )
+            %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="
+                            alert
+                            {% if category == 'success' %}
+                                alert-success
+                            {% else %}
+                                alert-error
+                            {% endif %}
+                        ">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form
+                method="POST"
+                action="{{ url_for('register') }}"
+                id="registerForm"
+            >
+
+                <div class="section-title">
+                    FARMER INFORMATION
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label for="name">
+                            Farmer Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-control"
+                            placeholder="Enter full name"
+                            minlength="2"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="mobile">
+                            Mobile Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            class="form-control"
+                            placeholder="10-digit mobile"
+                            inputmode="numeric"
+                            maxlength="10"
+                            pattern="[6-9][0-9]{9}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="language">
+                            Language
+                        </label>
+
+                        <select
+                            id="language"
+                            name="language"
+                            class="form-control"
+                            required
+                        >
+                            <option value="en">
+                                English
+                            </option>
+
+                            <option value="hi">
+                                हिन्दी
+                            </option>
+
+                            <option value="mr">
+                                मराठी
+                            </option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section-title">
+                    LOCATION
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label for="state">
+                            State
+                        </label>
+
+                        <select
+                            id="state"
+                            name="state"
+                            class="form-control"
+                            required
+                        >
+                            <option value="Maharashtra">
+                                Maharashtra
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="district">
+                            District
+                        </label>
+
+                        <select
+                            id="district"
+                            name="district"
+                            class="form-control"
+                            required
+                        >
+                            <option value="">
+                                Select District
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="taluka">
+                            Taluka
+                        </label>
+
+                        <select
+                            id="taluka"
+                            name="taluka"
+                            class="form-control"
+                            required
+                            disabled
+                        >
+                            <option value="">
+                                Select District First
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="village">
+                            Village
+                        </label>
+
+                        <input
+                            type="text"
+                            id="village"
+                            name="village"
+                            class="form-control"
+                            placeholder="Enter village"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="location-note">
+                    State is fixed to Maharashtra.
+                    Select your district first, then select
+                    a taluka belonging to that district.
+                </div>
+
+
+                <div class="section-title">
+                    ACCOUNT SECURITY
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Create password"
+                                minlength="6"
+                                maxlength="128"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                data-target="password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="confirm_password">
+                            Confirm Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="confirm_password"
+                                name="confirm_password"
+                                class="form-control"
+                                placeholder="Confirm password"
+                                minlength="6"
+                                maxlength="128"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                data-target="confirm_password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <label for="terms">
+                        I confirm that the information provided is
+                        correct and belongs to me.
+                    </label>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Create Farmer Account
+                </button>
+
+            </form>
+
+
+            <div class="auth-switch">
+
+                Already registered?
+
+                <a href="{{ url_for('login') }}">
+                    Login
+                </a>
+
+            </div>
+
+
+            <div class="back-home">
+
+                <a href="{{ url_for('home') }}">
+                    ← Back to Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /* ===============================================
+           DISTRICT → TALUKA
+        =============================================== */
+
+        const districtTalukas = {
+
+            "Ahilyanagar": [
+                "Akole",
+                "Ahmednagar",
+                "Jamkhed",
+                "Karjat",
+                "Kopargaon",
+                "Nevasa",
+                "Parner",
+                "Pathardi",
+                "Rahata",
+                "Rahuri",
+                "Sangamner",
+                "Shevgaon",
+                "Shrigonda",
+                "Shrirampur"
+            ],
+
+            "Akola": [
+                "Akola",
+                "Akot",
+                "Balapur",
+                "Barshitakli",
+                "Murtizapur",
+                "Patur",
+                "Telhara"
+            ],
+
+            "Amravati": [
+                "Achalpur",
+                "Amravati",
+                "Anjangaon Surji",
+                "Bhatkuli",
+                "Chandur Railway",
+                "Chandur Bazar",
+                "Chikhaldara",
+                "Daryapur",
+                "Dhamangaon Railway",
+                "Dharni",
+                "Morshi",
+                "Nandgaon Khandeshwar",
+                "Teosa",
+                "Warud"
+            ],
+
+            "Chhatrapati Sambhajinagar": [
+                "Aurangabad",
+                "Gangapur",
+                "Kannad",
+                "Khultabad",
+                "Paithan",
+                "Phulambri",
+                "Sillod",
+                "Soegaon",
+                "Vaijapur"
+            ],
+
+            "Beed": [
+                "Ambejogai",
+                "Ashti",
+                "Beed",
+                "Dharur",
+                "Georai",
+                "Kaij",
+                "Majalgaon",
+                "Parli",
+                "Patoda",
+                "Shirur Kasar",
+                "Wadwani"
+            ],
+
+            "Bhandara": [
+                "Bhandara",
+                "Mohadi",
+                "Pauni",
+                "Tumsar"
+            ],
+
+            "Buldhana": [
+                "Buldhana",
+                "Chikhli",
+                "Deulgaon Raja",
+                "Jalgaon Jamod",
+                "Khamgaon",
+                "Lonar",
+                "Malkapur",
+                "Mehkar",
+                "Motala",
+                "Nandura",
+                "Sangrampur",
+                "Shegaon",
+                "Sindkhed Raja"
+            ],
+
+            "Chandrapur": [
+                "Ballarpur",
+                "Bhadravati",
+                "Brahmapuri",
+                "Chandrapur",
+                "Chimur",
+                "Gondpipri",
+                "Jiwati",
+                "Korpana",
+                "Mul",
+                "Nagbhir",
+                "Pombhurna",
+                "Rajura",
+                "Saoli",
+                "Sindewahi",
+                "Warora"
+            ],
+
+            "Dhule": [
+                "Dhule",
+                "Sakri",
+                "Shirpur",
+                "Shindkheda"
+            ],
+
+            "Gadchiroli": [
+                "Aheri",
+                "Armori",
+                "Bhamragad",
+                "Chamorshi",
+                "Desaiganj",
+                "Dhanora",
+                "Etapalli",
+                "Gadchiroli",
+                "Korchi",
+                "Kurkheda",
+                "Mulchera",
+                "Sironcha"
+            ],
+
+            "Gondia": [
+                "Amgaon",
+                "Arjuni Morgaon",
+                "Deori",
+                "Gondia",
+                "Goregaon",
+                "Sadak Arjuni",
+                "Salekasa",
+                "Tirora"
+            ],
+
+            "Hingoli": [
+                "Aundha Nagnath",
+                "Basmat",
+                "Hingoli",
+                "Kalamnuri",
+                "Sengaon"
+            ],
+
+            "Jalgaon": [
+                "Amalner",
+                "Bhadgaon",
+                "Bhusawal",
+                "Bodwad",
+                "Chalisgaon",
+                "Chopda",
+                "Dharangaon",
+                "Erandol",
+                "Jalgaon",
+                "Jamner",
+                "Muktainagar",
+                "Pachora",
+                "Parola",
+                "Raver",
+                "Yawal"
+            ],
+
+            "Jalna": [
+                "Ambad",
+                "Badnapur",
+                "Bhokardan",
+                "Ghansawangi",
+                "Jafrabad",
+                "Jalna",
+                "Mantha",
+                "Partur"
+            ],
+
+            "Kolhapur": [
+                "Ajara",
+                "Gaganbawada",
+                "Bhudargad",
+                "Chandgad",
+                "Gadhinglaj",
+                "Hatkanangale",
+                "Kagal",
+                "Karvir",
+                "Panhala",
+                "Radhanagari",
+                "Shahuwadi",
+                "Shirol"
+            ],
+
+            "Latur": [
+                "Ahmedpur",
+                "Ausa",
+                "Chakur",
+                "Deoni",
+                "Jalkot",
+                "Latur",
+                "Nilanga",
+                "Renapur",
+                "Shirur Anantpal",
+                "Udgir"
+            ],
+
+            "Mumbai City": [
+                "Mumbai City"
+            ],
+
+            "Mumbai Suburban": [
+                "Andheri",
+                "Borivali",
+                "Kurla"
+            ],
+
+            "Nagpur": [
+                "Bhiwapur",
+                "Hingna",
+                "Kalmeshwar",
+                "Kamptee",
+                "Katol",
+                "Kuhi",
+                "Mauda",
+                "Nagpur Rural",
+                "Nagpur Urban",
+                "Narkhed",
+                "Parseoni",
+                "Ramtek",
+                "Saoner",
+                "Umred"
+            ],
+
+            "Nanded": [
+                "Ardhapur",
+                "Bhokar",
+                "Biloli",
+                "Deglur",
+                "Dharmabad",
+                "Hadgaon",
+                "Himayatnagar",
+                "Kandhar",
+                "Kinwat",
+                "Loha",
+                "Mahur",
+                "Mudkhed",
+                "Mukhed",
+                "Naigaon",
+                "Nanded",
+                "Umri"
+            ],
+
+            "Nandurbar": [
+                "Akkalkuwa",
+                "Akrani",
+                "Nandurbar",
+                "Navapur",
+                "Shahada",
+                "Taloda"
+            ],
+
+            "Nashik": [
+                "Baglan",
+                "Chandwad",
+                "Deola",
+                "Dindori",
+                "Igatpuri",
+                "Kalwan",
+                "Malegaon",
+                "Nandgaon",
+                "Nashik",
+                "Niphad",
+                "Peint",
+                "Sinnar",
+                "Surgana",
+                "Trimbakeshwar",
+                "Yeola"
+            ],
+
+            "Dharashiv": [
+                "Bhum",
+                "Kalamb",
+                "Lohara",
+                "Dharashiv",
+                "Paranda",
+                "Tuljapur",
+                "Umarga",
+                "Washi"
+            ],
+
+            "Palghar": [
+                "Dahanu",
+                "Jawhar",
+                "Mokhada",
+                "Palghar",
+                "Talasari",
+                "Vasai",
+                "Vikramgad",
+                "Wada"
+            ],
+
+            "Parbhani": [
+                "Gangakhed",
+                "Jintur",
+                "Manwath",
+                "Palam",
+                "Parbhani",
+                "Pathri",
+                "Purna",
+                "Sailu",
+                "Sonpeth"
+            ],
+
+            "Pune": [
+                "Ambegaon",
+                "Baramati",
+                "Bhor",
+                "Daund",
+                "Haveli",
+                "Indapur",
+                "Junnar",
+                "Khed",
+                "Maval",
+                "Mulshi",
+                "Pune City",
+                "Purandar",
+                "Shirur",
+                "Velhe"
+            ],
+
+            "Raigad": [
+                "Alibag",
+                "Karjat",
+                "Khalapur",
+                "Mahad",
+                "Mangaon",
+                "Mhasla",
+                "Murud",
+                "Panvel",
+                "Pen",
+                "Poladpur",
+                "Roha",
+                "Shrivardhan",
+                "Sudhagad",
+                "Tala",
+                "Uran"
+            ],
+
+            "Ratnagiri": [
+                "Chiplun",
+                "Dapoli",
+                "Guhagar",
+                "Khed",
+                "Lanja",
+                "Mandangad",
+                "Rajapur",
+                "Ratnagiri",
+                "Sangameshwar"
+            ],
+
+            "Sangli": [
+                "Atpadi",
+                "Jat",
+                "Kadegaon",
+                "Kavathe Mahankal",
+                "Khanapur",
+                "Miraj",
+                "Palus",
+                "Shirala",
+                "Tasgaon",
+                "Walwa"
+            ],
+
+            "Satara": [
+                "Jaoli",
+                "Karad",
+                "Khandala",
+                "Khatav",
+                "Koregaon",
+                "Mahabaleshwar",
+                "Man",
+                "Patan",
+                "Phaltan",
+                "Satara",
+                "Wai"
+            ],
+
+            "Sindhudurg": [
+                "Devgad",
+                "Dodamarg",
+                "Kankavli",
+                "Kudal",
+                "Malvan",
+                "Sawantwadi",
+                "Vaibhavwadi",
+                "Vengurla"
+            ],
+
+            "Solapur": [
+                "Akkalkot",
+                "Barshi",
+                "Karmala",
+                "Madha",
+                "Malshiras",
+                "Mangalwedha",
+                "Mohol",
+                "Pandharpur",
+                "Sangola",
+                "South Solapur",
+                "North Solapur"
+            ],
+
+            "Thane": [
+                "Ambernath",
+                "Bhiwandi",
+                "Kalyan",
+                "Murbad",
+                "Shahapur",
+                "Thane",
+                "Ulhasnagar"
+            ],
+
+            "Wardha": [
+                "Arvi",
+                "Ashti",
+                "Deoli",
+                "Hinganghat",
+                "Karanja",
+                "Samudrapur",
+                "Seloo",
+                "Wardha"
+            ],
+
+            "Washim": [
+                "Karanja",
+                "Malegaon",
+                "Mangrulpir",
+                "Manora",
+                "Risod",
+                "Washim"
+            ],
+
+            "Yavatmal": [
+                "Arni",
+                "Babhulgaon",
+                "Darwha",
+                "Digras",
+                "Ghatanji",
+                "Kalamb",
+                "Kelapur",
+                "Mahagaon",
+                "Maregaon",
+                "Ner",
+                "Pusad",
+                "Ralegaon",
+                "Umarkhed",
+                "Wani",
+                "Yavatmal",
+                "Zari-Jamani"
+            ]
+
+        };
+
+
+        const districtSelect =
+            document.getElementById("district");
+
+        const talukaSelect =
+            document.getElementById("taluka");
+
+
+        Object.keys(districtTalukas)
+            .sort()
+            .forEach(function (district) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = district;
+                option.textContent = district;
+
+                districtSelect.appendChild(option);
+
+            });
+
+
+        districtSelect.addEventListener(
+            "change",
+            function () {
+
+                const district =
+                    this.value;
+
+                talukaSelect.innerHTML = "";
+
+                const first =
+                    document.createElement("option");
+
+                if (!district) {
+
+                    first.value = "";
+                    first.textContent =
+                        "Select District First";
+
+                    talukaSelect.appendChild(first);
+                    talukaSelect.disabled = true;
+
+                    return;
+                }
+
+                first.value = "";
+                first.textContent = "Select Taluka";
+
+                talukaSelect.appendChild(first);
+
+
+                districtTalukas[district]
+                    .slice()
+                    .sort()
+                    .forEach(function (taluka) {
+
+                        const option =
+                            document.createElement("option");
+
+                        option.value = taluka;
+                        option.textContent = taluka;
+
+                        talukaSelect.appendChild(option);
+
+                    });
+
+
+                talukaSelect.disabled = false;
+
+            });
+
+
+        /* ===============================================
+           PASSWORD VISIBILITY
+        =============================================== */
+
+        document
+            .querySelectorAll(".show-password")
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const input =
+                            document.getElementById(
+                                button.dataset.target
+                            );
+
+                        if (input.type === "password") {
+
+                            input.type = "text";
+                            button.textContent = "🙈";
+
+                        } else {
+
+                            input.type = "password";
+                            button.textContent = "👁";
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        /* ===============================================
+           PASSWORD MATCH
+        =============================================== */
+
+        document
+            .getElementById("registerForm")
+            .addEventListener(
+                "submit",
+                function (event) {
+
+                    const password =
+                        document.getElementById(
+                            "password"
+                        ).value;
+
+                    const confirmPassword =
+                        document.getElementById(
+                            "confirm_password"
+                        ).value;
+
+                    if (
+                        password !==
+                        confirmPassword
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Passwords do not match."
+                        );
+
+                    }
+
+                }
+            );
+
+    }
+
+);
+
+</script>
+
+</body>
+</html>

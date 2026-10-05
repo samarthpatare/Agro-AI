@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI History | Smart Kisan AI</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: #f4f7f2;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 26px 18px 55px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #14532d, #2f7d32);
+            color: white;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 18px;
+            box-shadow: 0 14px 34px rgba(20,83,45,.14);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 31px;
+        }
+
+        .hero p {
+            margin: 0;
+            line-height: 1.6;
+            opacity: .94;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .button {
+            border: 0;
+            border-radius: 12px;
+            padding: 11px 16px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .button.primary {
+            background: white;
+            color: #176b35;
+        }
+
+        .button.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 7px 22px rgba(15,23,42,.05);
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .summary-card {
+            padding: 15px;
+            border-radius: 15px;
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+        }
+
+        .summary-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .summary-value {
+            font-size: 22px;
+            font-weight: 850;
+            margin-top: 5px;
+        }
+
+        .history-item {
+            border: 1px solid #e2e8e3;
+            border-radius: 17px;
+            padding: 17px;
+            margin-bottom: 12px;
+            background: #fff;
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 850;
+        }
+
+        .badge {
+            padding: 6px 9px;
+            border-radius: 999px;
+            background: #eef7ef;
+            color: #176b35;
+            font-size: 11px;
+            font-weight: 850;
+        }
+
+        .date {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .question {
+            margin-top: 13px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #f8faf8;
+            border: 1px solid #e6ece7;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .answer {
+            margin-top: 12px;
+            padding: 13px;
+            border-radius: 12px;
+            background: #fbfcfb;
+            border: 1px solid #edf1ee;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            line-height: 1.55;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 42px 20px;
+        }
+
+        .empty-icon {
+            font-size: 46px;
+            margin-bottom: 10px;
+        }
+
+        .muted {
+            color: #6b7280;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 700px) {
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <h1>🧠 AI History</h1>
+
+        <p>
+            View your previous Smart Kisan AI analyses in one place.
+            History belongs to your logged-in farmer account.
+        </p>
+
+        <div class="topbar">
+
+            <a
+                class="button primary"
+                href="{{ url_for('dashboard') }}"
+            >
+                ← Back to Dashboard
+            </a>
+
+            {% if history %}
+
+            <button
+                class="button danger"
+                type="button"
+                onclick="clearHistory()"
+            >
+                🗑️ Clear History
+            </button>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+    <section class="section">
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Total analyses
+                </div>
+
+                <div class="summary-value">
+                    {{ history|length }}
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Latest feature
+                </div>
+
+                <div
+                    class="summary-value"
+                    style="font-size:16px;"
+                >
+
+                    {% if history %}
+
+                        {{ history[0].feature
+                            |replace('_', ' ')
+                            |title }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Purpose
+                </div>
+
+                <div
+                    class="summary-value"
+                    style="font-size:16px;"
+                >
+                    Track farm decisions
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HISTORY -->
+    <section class="section">
+
+        {% if history %}
+
+            {% for item in history %}
+
+            <article class="history-item">
+
+                <!-- HEADER -->
+                <div class="history-head">
+
+                    <div class="feature">
+
+                        <span>
+                            🌾
+                        </span>
+
+                        <span>
+                            {{ item.feature
+                                |replace('_', ' ')
+                                |title }}
+                        </span>
+
+                        <span class="badge">
+                            Analysis
+                        </span>
+
+                    </div>
+
+
+                    <div class="date">
+
+                        {{ item.created_at or
+                           "Date unavailable" }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION -->
+                <div class="question">
+
+                    <strong>
+                        Input / Question:
+                    </strong>
+
+                    <br>
+
+                    {{ item.question or
+                       "No question recorded." }}
+
+                </div>
+
+
+                <!-- ANSWER -->
+                <div class="answer">
+
+                    <strong>
+                        Result:
+                    </strong>
+
+                    <br><br>
+
+                    {{ item.answer or
+                       "No result recorded." }}
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <!-- EMPTY STATE -->
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📭
+                </div>
+
+                <h2>
+                    No AI history yet
+                </h2>
+
+                <p class="muted">
+
+                    Run Soil Analysis, Crop Recommendation,
+                    Disease Detection, Crop Health,
+                    Fertilizer Advisor, Crop Calendar,
+                    Farm Risk, Farming Assistant or
+                    Government Schemes to start building
+                    your Smart Kisan history.
+
+                </p>
+
+
+                <a
+                    class="button"
+                    href="{{ url_for('dashboard') }}"
+                    style="
+                        background:#176b35;
+                        color:white;
+                        margin-top:8px;
+                    "
+                >
+                    Go to Dashboard
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- NOTE -->
+    <section class="section">
+
+        <p
+            class="muted"
+            style="margin:0;"
+        >
+
+            Smart Kisan stores the analysis question and
+            result for your account.
+
+            AI History does not replace the latest field
+            observation, soil test, weather information or
+            advice from qualified agricultural professionals.
+
+        </p>
+
+    </section>
+
+</div>
+
+
+<script>
+
+async function clearHistory() {
+
+    const confirmed = confirm(
+        "Clear all Smart Kisan AI history for this account?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "{{ url_for('api_clear_ai_history') }}",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+
+            alert(
+                data.error ||
+                "Unable to clear AI history."
+            );
+
+            return;
+        }
+
+        window.location.reload();
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Unable to clear AI history. Please try again."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

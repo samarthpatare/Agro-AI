@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Soil Report Analyzer | Smart Kisan AI
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4fff7,
+                    #eefaf2
+                );
+
+            color: #173b27;
+        }
+
+        .container {
+
+            width:
+                min(
+                    calc(100% - 32px),
+                    1100px
+                );
+
+            margin: 0 auto;
+
+            padding: 30px 0 60px;
+        }
+
+        .top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .back {
+
+            text-decoration: none;
+
+            color: #138a45;
+
+            font-weight: 700;
+        }
+
+        .hero {
+
+            padding: 32px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d8f46,
+                    #1baa5a
+                );
+
+            color: white;
+
+            box-shadow:
+                0 20px 60px
+                rgba(18, 120, 62, .18);
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+
+            margin: 0 0 10px;
+
+            font-size:
+                clamp(
+                    28px,
+                    5vw,
+                    44px
+                );
+        }
+
+        .hero p {
+
+            margin: 0;
+
+            max-width: 720px;
+
+            line-height: 1.7;
+
+            opacity: .94;
+        }
+
+        .farm-card {
+
+            margin-top: 20px;
+
+            padding: 16px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,.14);
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(150px, 1fr)
+                );
+
+            gap: 12px;
+        }
+
+        .farm-item {
+
+            font-size: 13px;
+        }
+
+        .farm-item strong {
+
+            display: block;
+
+            font-size: 15px;
+
+            margin-top: 3px;
+        }
+
+        .card {
+
+            background: white;
+
+            border-radius: 24px;
+
+            padding: 25px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 12px 40px
+                rgba(18, 80, 45, .07);
+
+            border:
+                1px solid #e2f0e7;
+        }
+
+        .card h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 18px;
+
+            color: #126c37;
+        }
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+        label {
+
+            display: block;
+
+            font-weight: 700;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border:
+                1px solid #cfe4d7;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: #fbfffc;
+        }
+
+        input:focus,
+        select:focus {
+
+            border-color: #159447;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(21,148,71,.1);
+        }
+
+        .unit {
+
+            font-size: 11px;
+
+            color: #728278;
+
+            margin-top: 5px;
+        }
+
+        .actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 22px;
+        }
+
+        button {
+
+            border: none;
+
+            cursor: pointer;
+
+            padding: 14px 20px;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+
+            font-size: 14px;
+        }
+
+        button:disabled {
+
+            opacity: .65;
+
+            cursor: not-allowed;
+        }
+
+        .primary {
+
+            background: #159447;
+
+            color: white;
+
+            min-width: 220px;
+        }
+
+        .primary:hover {
+
+            background: #0b7035;
+        }
+
+        .secondary {
+
+            background: #e9f7ee;
+
+            color: #126c37;
+        }
+
+        .status {
+
+            display: none;
+
+            padding: 14px 16px;
+
+            margin-top: 18px;
+
+            border-radius: 12px;
+
+            background: #eef9f2;
+
+            color: #166638;
+
+            font-weight: 700;
+        }
+
+        .status.error {
+
+            background: #fff1f1;
+
+            color: #b42318;
+        }
+
+        /* =================================================
+           SCORE
+        ================================================= */
+
+        .score {
+
+            display: grid;
+
+            grid-template-columns:
+                180px 1fr;
+
+            gap: 25px;
+
+            align-items: center;
+        }
+
+        .score-number {
+
+            width: 160px;
+
+            height: 160px;
+
+            border-radius: 50%;
+
+            display: grid;
+
+            place-items: center;
+
+            background:
+                #e9f8ee;
+
+            color: #128343;
+
+            font-size: 42px;
+
+            font-weight: 900;
+
+            border:
+                10px solid #ccebd7;
+
+            text-align: center;
+
+            line-height: 1;
+        }
+
+        .score-number small {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        .status-badge {
+
+            display: inline-block;
+
+            padding: 8px 13px;
+
+            border-radius: 30px;
+
+            background: #e8f7ed;
+
+            color: #12743c;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+        }
+
+        .summary {
+
+            margin: 0;
+
+            line-height: 1.7;
+
+            color: #486054;
+        }
+
+        /* =================================================
+           PARAMETER CARDS
+        ================================================= */
+
+        .parameter-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(190px, 1fr)
+                );
+
+            gap: 14px;
+        }
+
+        .parameter {
+
+            padding: 18px;
+
+            border-radius: 16px;
+
+            background: #f7fbf8;
+
+            border:
+                1px solid #e3eee6;
+
+            transition:
+                transform .15s ease,
+                box-shadow .15s ease;
+        }
+
+        .parameter:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 22px
+                rgba(18,80,45,.08);
+        }
+
+        .parameter h3 {
+
+            margin: 0 0 10px;
+
+            font-size: 15px;
+
+            color: #315343;
+        }
+
+        .value {
+
+            font-size: 27px;
+
+            font-weight: 900;
+
+            color: #116c38;
+
+            line-height: 1.2;
+        }
+
+        .value-unit {
+
+            font-size: 11px;
+
+            color: #75857b;
+
+            margin-top: 3px;
+        }
+
+        .level {
+
+            margin-top: 10px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            color: #68766d;
+
+        }
+
+        .message {
+
+            margin-top: 8px;
+
+            font-size: 12px;
+
+            line-height: 1.55;
+
+            color: #52665a;
+        }
+
+        /* =================================================
+           PRIORITY CARDS
+        ================================================= */
+
+        .priority-list {
+
+            display: grid;
+
+            gap: 12px;
+
+            margin: 0;
+
+            padding: 0;
+
+            list-style: none;
+        }
+
+        .priority-item {
+
+            padding: 16px;
+
+            border-radius: 14px;
+
+            background: #fff8ed;
+
+            border:
+                1px solid #f3dfb9;
+        }
+
+        .priority-title {
+
+            font-weight: 900;
+
+            color: #805b17;
+
+            margin-bottom: 5px;
+        }
+
+        .priority-status {
+
+            display: inline-block;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            padding: 4px 8px;
+
+            border-radius: 20px;
+
+            background: #fff0cf;
+
+            color: #805b17;
+
+            margin-bottom: 8px;
+        }
+
+        .priority-text {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            color: #5d553f;
+        }
+
+        /* =================================================
+           RECOMMENDATIONS
+        ================================================= */
+
+        .recommendation-list {
+
+            margin: 0;
+
+            padding-left: 20px;
+
+            line-height: 1.8;
+        }
+
+        .recommendation-list li {
+
+            margin-bottom: 8px;
+        }
+
+        /* =================================================
+           FERTILIZER
+        ================================================= */
+
+        .fertilizer-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 12px;
+        }
+
+        .fertilizer-card {
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: #f7fbf8;
+
+            border:
+                1px solid #e3eee6;
+        }
+
+        .fertilizer-card strong {
+
+            display: block;
+
+            color: #126c37;
+
+            margin-bottom: 5px;
+        }
+
+        .fertilizer-action {
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+        }
+
+        .fertilizer-reason,
+        .fertilizer-note {
+
+            font-size: 12px;
+
+            line-height: 1.55;
+
+            color: #5e7065;
+
+            margin-top: 5px;
+        }
+
+        /* =================================================
+           DATA QUALITY
+        ================================================= */
+
+        .data-quality {
+
+            padding: 14px 16px;
+
+            border-radius: 14px;
+
+            background: #f2f8f4;
+
+            color: #426050;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+        }
+
+        .disclaimer {
+
+            padding: 16px;
+
+            border-radius: 14px;
+
+            background: #fff8e8;
+
+            color: #795b1c;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+        .empty {
+
+            text-align: center;
+
+            padding: 35px 15px;
+
+            color: #708078;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                width:
+                    min(
+                        calc(100% - 20px),
+                        1100px
+                    );
+            }
+
+            .hero,
+            .card {
+
+                padding: 20px;
+            }
+
+            .score {
+
+                grid-template-columns: 1fr;
+            }
+
+            .score-number {
+
+                margin: auto;
+            }
+
+            .top {
+
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+
+        <a
+            class="back"
+            href="{{ url_for('ai_tools') }}"
+        >
+            ← Back to AI Tools
+        </a>
+
+    </div>
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero">
+
+        <h1>
+            🧪 Soil Report Analyzer
+        </h1>
+
+        <p>
+            Enter your soil-test values and Smart Kisan
+            will analyze important soil parameters and
+            provide agricultural management guidance.
+        </p>
+
+
+        {% if active_farm %}
+
+        <div class="farm-card">
+
+            <div class="farm-item">
+                Farm
+                <strong>
+                    {{ active_farm["farm_name"] }}
+                </strong>
+            </div>
+
+            <div class="farm-item">
+                Location
+                <strong>
+                    {{ active_farm["village"] }},
+                    {{ active_farm["taluka"] }}
+                </strong>
+            </div>
+
+            <div class="farm-item">
+                District
+                <strong>
+                    {{ active_farm["district"] }}
+                </strong>
+            </div>
+
+            <div class="farm-item">
+                Soil
+                <strong>
+                    {{ active_farm["soil_type"] }}
+                </strong>
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =================================================
+         INPUT FORM
+    ================================================== -->
+
+    <section class="card">
+
+        <h2>
+            Enter Soil Test Values
+        </h2>
+
+        <form
+            id="soilForm"
+        >
+
+            <div class="grid">
+
+                <div>
+
+                    <label for="ph">
+                        Soil pH
+                    </label>
+
+                    <input
+                        id="ph"
+                        name="ph"
+                        type="number"
+                        step="0.01"
+                        placeholder="Example: 6.8"
+                    >
+
+                    <div class="unit">
+                        pH scale
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label for="nitrogen">
+                        Nitrogen (N)
+                    </label>
+
+                    <input
+                        id="nitrogen"
+                        name="nitrogen"
+                        type="number"
+                        step="0.01"
+                        placeholder="Example: 350"
+                    >
+
+                    <div class="unit">
+                        kg/ha
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label for="phosphorus">
+                        Phosphorus (P)
+                    </label>
+
+                    <input
+                        id="phosphorus"
+                        name="phosphorus"
+                        type="number"
+                        step="0.01"
+                        placeholder="Example: 18"
+                    >
+
+                    <div class="unit">
+                        kg/ha
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label for="potassium">
+                        Potassium (K)
+                    </label>
+
+                    <input
+                        id="potassium"
+                        name="potassium"
+                        type="number"
+                        step="0.01"
+                        placeholder="Example: 190"
+                    >
+
+                    <div class="unit">
+                        kg/ha
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label for="organic_carbon">
+                        Organic Carbon
+                    </label>
+
+                    <input
+                        id="organic_carbon"
+                        name="organic_carbon"
+                        type="number"
+                        step="0.01"
+                        placeholder="Example: 0.65"
+                    >
+
+                    <div class="unit">
+                        %
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label for="electrical_conductivity">
+                        Electrical Conductivity
+                    </label>
+
+                    <input
+                        id="electrical_conductivity"
+                        name="electrical_conductivity"
+                        type="number"
+                        step="0.01"
+                        placeholder="Example: 0.42"
+                    >
+
+                    <div class="unit">
+                        dS/m
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label for="soil_type">
+                        Soil Type
+                    </label>
+
+                    <select
+                        id="soil_type"
+                        name="soil_type"
+                    >
+
+                        <option value="">
+                            Select soil type
+                        </option>
+
+                        <option value="Black Soil">
+                            Black Soil
+                        </option>
+
+                        <option value="Red Soil">
+                            Red Soil
+                        </option>
+
+                        <option value="Alluvial Soil">
+                            Alluvial Soil
+                        </option>
+
+                        <option value="Laterite Soil">
+                            Laterite Soil
+                        </option>
+
+                        <option value="Sandy Soil">
+                            Sandy Soil
+                        </option>
+
+                        <option value="Loamy Soil">
+                            Loamy Soil
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="primary"
+                    id="analyzeButton"
+                >
+                    🧠 Analyze Soil with AI
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary"
+                    id="sampleButton"
+                >
+                    Use Sample Values
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary"
+                    id="clearButton"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div
+                id="status"
+                class="status"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =================================================
+         RESULT
+    ================================================== -->
+
+    <section
+        id="resultSection"
+        class="card"
+        style="display:none;"
+    >
+
+        <h2>
+            Soil Analysis Result
+        </h2>
+
+        <div class="score">
+
+            <div
+                class="score-number"
+                id="scoreNumber"
+            >
+                0
+                <small>/100</small>
+            </div>
+
+            <div>
+
+                <div
+                    class="status-badge"
+                    id="overallStatus"
+                >
+                    -
+                </div>
+
+                <p
+                    class="summary"
+                    id="summary"
+                >
+                    -
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PARAMETERS
+    ================================================== -->
+
+    <section
+        id="parametersSection"
+        class="card"
+        style="display:none;"
+    >
+
+        <h2>
+            Parameter Analysis
+        </h2>
+
+        <div
+            id="parameterGrid"
+            class="parameter-grid"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         PRIORITIES
+    ================================================== -->
+
+    <section
+        id="prioritySection"
+        class="card"
+        style="display:none;"
+    >
+
+        <h2>
+            ⚠️ Priority Actions
+        </h2>
+
+        <ul
+            id="priorityList"
+            class="priority-list"
+        ></ul>
+
+    </section>
+
+
+    <!-- =================================================
+         RECOMMENDATIONS
+    ================================================== -->
+
+    <section
+        id="recommendationSection"
+        class="card"
+        style="display:none;"
+    >
+
+        <h2>
+            🌱 Recommendations
+        </h2>
+
+        <ul
+            id="recommendationList"
+            class="recommendation-list"
+        ></ul>
+
+    </section>
+
+
+    <!-- =================================================
+         FERTILIZER GUIDANCE
+    ================================================== -->
+
+    <section
+        id="fertilizerSection"
+        class="card"
+        style="display:none;"
+    >
+
+        <h2>
+            🧪 Fertilizer Guidance
+        </h2>
+
+        <div
+            id="fertilizerGrid"
+            class="fertilizer-grid"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         DATA QUALITY
+    ================================================== -->
+
+    <section
+        id="dataQualitySection"
+        class="card"
+        style="display:none;"
+    >
+
+        <h2>
+            📋 Analysis Information
+        </h2>
+
+        <div
+            id="dataQuality"
+            class="data-quality"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         DISCLAIMER
+    ================================================== -->
+
+    <section
+        id="disclaimerSection"
+        class="card"
+        style="display:none;"
+    >
+
+        <div
+            id="disclaimer"
+            class="disclaimer"
+        ></div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const form =
+    document.getElementById("soilForm");
+
+const analyzeButton =
+    document.getElementById("analyzeButton");
+
+const statusBox =
+    document.getElementById("status");
+
+const resultSection =
+    document.getElementById("resultSection");
+
+const parametersSection =
+    document.getElementById("parametersSection");
+
+const prioritySection =
+    document.getElementById("prioritySection");
+
+const recommendationSection =
+    document.getElementById("recommendationSection");
+
+const fertilizerSection =
+    document.getElementById("fertilizerSection");
+
+const dataQualitySection =
+    document.getElementById("dataQualitySection");
+
+const disclaimerSection =
+    document.getElementById("disclaimerSection");
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function showStatus(
+    message,
+    isError = false
+) {
+
+    statusBox.textContent =
+        message;
+
+    statusBox.style.display =
+        "block";
+
+    statusBox.classList.toggle(
+        "error",
+        isError
+    );
+
+}
+
+
+/* =========================================================
+   HIDE RESULTS
+========================================================= */
+
+function hideResults() {
+
+    resultSection.style.display =
+        "none";
+
+    parametersSection.style.display =
+        "none";
+
+    prioritySection.style.display =
+        "none";
+
+    recommendationSection.style.display =
+        "none";
+
+    fertilizerSection.style.display =
+        "none";
+
+    dataQualitySection.style.display =
+        "none";
+
+    disclaimerSection.style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   SET INPUT VALUE
+========================================================= */
+
+function setValue(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+
+        element.value =
+            value;
+
+    }
+
+}
+
+
+/* =========================================================
+   SAMPLE VALUES
+========================================================= */
+
+document
+    .getElementById("sampleButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            setValue(
+                "ph",
+                "6.8"
+            );
+
+            setValue(
+                "nitrogen",
+                "350"
+            );
+
+            setValue(
+                "phosphorus",
+                "18"
+            );
+
+            setValue(
+                "potassium",
+                "190"
+            );
+
+            setValue(
+                "organic_carbon",
+                "0.65"
+            );
+
+            setValue(
+                "electrical_conductivity",
+                "0.42"
+            );
+
+            setValue(
+                "soil_type",
+                "Black Soil"
+            );
+
+            showStatus(
+                "Sample values loaded."
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+document
+    .getElementById("clearButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            form.reset();
+
+            hideResults();
+
+            statusBox.style.display =
+                "none";
+
+        }
+    );
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   PARAMETER DISPLAY CONFIGURATION
+========================================================= */
+
+const parameterConfig = {
+
+    ph: {
+        label: "Soil pH",
+        unit: "pH"
+    },
+
+    nitrogen: {
+        label: "Nitrogen (N)",
+        unit: "kg/ha"
+    },
+
+    phosphorus: {
+        label: "Phosphorus (P)",
+        unit: "kg/ha"
+    },
+
+    potassium: {
+        label: "Potassium (K)",
+        unit: "kg/ha"
+    },
+
+    organic_carbon: {
+        label: "Organic Carbon",
+        unit: "%"
+    },
+
+    electrical_conductivity: {
+        label: "Electrical Conductivity",
+        unit: "dS/m"
+    }
+
+};
+
+
+/* =========================================================
+   GET DISPLAY VALUE
+========================================================= */
+
+function formatNumber(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return "Not provided";
+
+    }
+
+    const number =
+        Number(value);
+
+    if (
+        Number.isFinite(number)
+    ) {
+
+        return number
+            .toLocaleString(
+                undefined,
+                {
+                    maximumFractionDigits: 2
+                }
+            );
+
+    }
+
+    return String(value);
+
+}
+
+
+/* =========================================================
+   RENDER RESULT
+========================================================= */
+
+function renderResult(
+    result
+) {
+
+    console.log(
+        "Soil analysis result:",
+        result
+    );
+
+
+    /* =====================================================
+       SCORE
+    ===================================================== */
+
+    document
+        .getElementById("scoreNumber")
+        .innerHTML =
+            `
+            ${escapeHtml(
+                result.score ?? 0
+            )}
+            <small>/100</small>
+            `;
+
+
+    document
+        .getElementById("overallStatus")
+        .textContent =
+            result.score_label
+            || "Analysis completed";
+
+
+    document
+        .getElementById("summary")
+        .textContent =
+            result.summary
+            || "Soil analysis completed.";
+
+
+    resultSection.style.display =
+        "block";
+
+
+    /* =====================================================
+       INPUTS + ANALYSIS
+       
+       IMPORTANT:
+       Backend returns:
+       
+       result.inputs
+       result.analysis
+       
+       NOT:
+       
+       result.parameters
+    ===================================================== */
+
+    const inputs =
+        result.inputs
+        || {};
+
+    const analysis =
+        result.analysis
+        || {};
+
+
+    const parameterGrid =
+        document.getElementById(
+            "parameterGrid"
+        );
+
+    parameterGrid.innerHTML =
+        "";
+
+
+    const parameterOrder = [
+
+        "ph",
+
+        "nitrogen",
+
+        "phosphorus",
+
+        "potassium",
+
+        "organic_carbon",
+
+        "electrical_conductivity"
+
+    ];
+
+
+    parameterOrder.forEach(
+        function(key) {
+
+            const config =
+                parameterConfig[key];
+
+            const analysisItem =
+                analysis[key]
+                || {};
+
+            const value =
+                inputs[key];
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "parameter";
+
+
+            const displayValue =
+                formatNumber(
+                    value
+                );
+
+
+            const status =
+                analysisItem.status
+                || (
+                    value !== null &&
+                    value !== undefined &&
+                    value !== ""
+                        ? "Available"
+                        : "Not provided"
+                );
+
+
+            const message =
+                analysisItem.message
+                || "";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${escapeHtml(
+                        config.label
+                    )}
+                </h3>
+
+                <div class="value">
+                    ${escapeHtml(
+                        displayValue
+                    )}
+                </div>
+
+                <div class="value-unit">
+                    ${escapeHtml(
+                        config.unit
+                    )}
+                </div>
+
+                <div class="level">
+                    ${escapeHtml(
+                        status
+                    )}
+                </div>
+
+                ${
+                    message
+                        ? `
+                            <div class="message">
+                                ${escapeHtml(
+                                    message
+                                )}
+                            </div>
+                          `
+                        : ""
+                }
+
+            `;
+
+
+            parameterGrid.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    parametersSection.style.display =
+        "block";
+
+
+    /* =====================================================
+       PRIORITY ACTIONS
+       
+       Backend returns objects:
+       
+       {
+           parameter,
+           status,
+           recommendation
+       }
+       
+       Therefore we MUST NOT do:
+       
+       li.textContent = item;
+       
+       That creates:
+       
+       [object Object]
+    ===================================================== */
+
+    const priorityList =
+        document.getElementById(
+            "priorityList"
+        );
+
+    priorityList.innerHTML =
+        "";
+
+
+    const priorities =
+        Array.isArray(
+            result.priorities
+        )
+            ? result.priorities
+            : [];
+
+
+    if (
+        priorities.length > 0
+    ) {
+
+        priorities.forEach(
+            function(item) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+                li.className =
+                    "priority-item";
+
+
+                const parameter =
+                    item &&
+                    typeof item === "object"
+                        ? (
+                            item.parameter
+                            || "Soil Parameter"
+                        )
+                        : "Soil Parameter";
+
+
+                const status =
+                    item &&
+                    typeof item === "object"
+                        ? (
+                            item.status
+                            || "Needs attention"
+                        )
+                        : String(item);
+
+
+                const recommendation =
+                    item &&
+                    typeof item === "object"
+                        ? (
+                            item.recommendation
+                            || ""
+                        )
+                        : "";
+
+
+                li.innerHTML = `
+
+                    <div class="priority-title">
+                        ${escapeHtml(
+                            parameter
+                        )}
+                    </div>
+
+                    <div class="priority-status">
+                        ${escapeHtml(
+                            status
+                        )}
+                    </div>
+
+                    ${
+                        recommendation
+                            ? `
+                                <p class="priority-text">
+                                    ${escapeHtml(
+                                        recommendation
+                                    )}
+                                </p>
+                              `
+                            : ""
+                    }
+
+                `;
+
+
+                priorityList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+
+        prioritySection.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       RECOMMENDATIONS
+    ===================================================== */
+
+    const recommendationList =
+        document.getElementById(
+            "recommendationList"
+        );
+
+    recommendationList.innerHTML =
+        "";
+
+
+    const recommendations =
+        Array.isArray(
+            result.recommendations
+        )
+            ? result.recommendations
+            : [];
+
+
+    if (
+        recommendations.length > 0
+    ) {
+
+        recommendations.forEach(
+            function(item) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                if (
+                    typeof item === "object"
+                ) {
+
+                    li.textContent =
+                        item.recommendation
+                        ||
+                        item.message
+                        ||
+                        JSON.stringify(item);
+
+                }
+                else {
+
+                    li.textContent =
+                        String(item);
+
+                }
+
+
+                recommendationList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+
+        recommendationSection.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       FERTILIZER GUIDANCE
+    ===================================================== */
+
+    const fertilizerGrid =
+        document.getElementById(
+            "fertilizerGrid"
+        );
+
+    fertilizerGrid.innerHTML =
+        "";
+
+
+    const fertilizerGuidance =
+        Array.isArray(
+            result.fertilizer_guidance
+        )
+            ? result.fertilizer_guidance
+            : [];
+
+
+    if (
+        fertilizerGuidance.length > 0
+    ) {
+
+        fertilizerGuidance.forEach(
+            function(item) {
+
+                if (
+                    !item ||
+                    typeof item !== "object"
+                ) {
+
+                    return;
+
+                }
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "fertilizer-card";
+
+
+                card.innerHTML = `
+
+                    <strong>
+                        ${escapeHtml(
+                            item.nutrient
+                            || "Nutrient"
+                        )}
+                    </strong>
+
+                    <div class="fertilizer-action">
+                        ${escapeHtml(
+                            item.action
+                            || "Review"
+                        )}
+                    </div>
+
+                    ${
+                        item.reason
+                            ? `
+                                <div class="fertilizer-reason">
+                                    ${escapeHtml(
+                                        item.reason
+                                    )}
+                                </div>
+                              `
+                            : ""
+                    }
+
+                    ${
+                        item.note
+                            ? `
+                                <div class="fertilizer-note">
+                                    ${escapeHtml(
+                                        item.note
+                                    )}
+                                </div>
+                              `
+                            : ""
+                    }
+
+                `;
+
+
+                fertilizerGrid.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+        fertilizerSection.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       DATA QUALITY
+    ===================================================== */
+
+    const dataQuality =
+        result.data_quality
+        || {};
+
+
+    if (
+        Object.keys(
+            dataQuality
+        ).length > 0
+    ) {
+
+        const provided =
+            dataQuality.parameters_provided;
+
+        const total =
+            dataQuality.total_parameters;
+
+
+        document
+            .getElementById(
+                "dataQuality"
+            )
+            .innerHTML = `
+
+                <strong>
+                    Parameters available:
+                </strong>
+
+                ${escapeHtml(
+                    provided ?? "—"
+                )}
+
+                ${
+                    total
+                        ? `
+                            / ${escapeHtml(
+                                total
+                            )}
+                          `
+                        : ""
+                }
+
+                <br>
+
+                ${escapeHtml(
+                    dataQuality.message
+                    || ""
+                )}
+
+            `;
+
+
+        dataQualitySection.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       DISCLAIMER
+    ===================================================== */
+
+    const disclaimer =
+        result.disclaimer
+        || (
+            "This analysis is based on the soil values provided. "
+            +
+            "Use laboratory and local agricultural recommendations "
+            +
+            "for final fertilizer and soil-management decisions."
+        );
+
+
+    document
+        .getElementById(
+            "disclaimer"
+        )
+        .textContent =
+            disclaimer;
+
+
+    disclaimerSection.style.display =
+        "block";
+
+
+    /* =====================================================
+       SCROLL
+    ===================================================== */
+
+    resultSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        hideResults();
+
+
+        analyzeButton.disabled =
+            true;
+
+
+        analyzeButton.textContent =
+            "⏳ Analyzing...";
+
+
+        showStatus(
+            "Analyzing your soil values..."
+        );
+
+
+        const data =
+            Object.fromEntries(
+                new FormData(form)
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "{{ url_for('api_soil_analyze') }}",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                data
+                            )
+                    }
+                );
+
+
+            let result;
+
+
+            try {
+
+                result =
+                    await response.json();
+
+            }
+            catch (
+                jsonError
+            ) {
+
+                throw new Error(
+                    "Server returned an invalid response."
+                );
+
+            }
+
+
+            if (
+                !response.ok
+                ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.error
+                    ||
+                    "Soil analysis failed."
+                );
+
+            }
+
+
+            renderResult(
+                result
+            );
+
+
+            showStatus(
+                "Soil analysis completed successfully."
+            );
+
+        }
+        catch (
+            error
+        ) {
+
+            console.error(
+                "Soil analysis error:",
+                error
+            );
+
+
+            showStatus(
+                error.message
+                ||
+                "Unable to analyze soil.",
+                true
+            );
+
+        }
+        finally {
+
+            analyzeButton.disabled =
+                false;
+
+
+            analyzeButton.textContent =
+                "🧠 Analyze Soil with AI";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

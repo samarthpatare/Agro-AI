@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Smart Irrigation Planner | Smart Kisan AI
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f3f8f4;
+
+            color: #1d2b22;
+        }
+
+        .page {
+
+            width: min(
+                calc(100% - 30px),
+                1100px
+            );
+
+            margin: 0 auto;
+
+            padding: 25px 0 50px;
+        }
+
+        .back {
+
+            display: inline-block;
+
+            margin-bottom: 18px;
+
+            color: #19733d;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+        .hero {
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(20, 80, 40, 0.08);
+        }
+
+        .eyebrow {
+
+            color: #159447;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+        }
+
+        h1 {
+
+            margin: 0;
+
+            font-size: 32px;
+
+            color: #126b38;
+        }
+
+        .subtitle {
+
+            margin: 10px 0 20px;
+
+            color: #6a786f;
+
+            line-height: 1.6;
+        }
+
+        .farm-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .farm-box {
+
+            background: #f6faf7;
+
+            border-radius: 14px;
+
+            padding: 14px;
+        }
+
+        .farm-box small {
+
+            display: block;
+
+            color: #77857d;
+
+            margin-bottom: 5px;
+        }
+
+        .farm-box strong {
+
+            color: #245a3a;
+        }
+
+        .main-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                0.95fr
+                1.05fr;
+
+            gap: 20px;
+
+            align-items: start;
+        }
+
+        .card {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(20, 80, 40, 0.07);
+        }
+
+        .card h2 {
+
+            margin-top: 0;
+
+            color: #195e35;
+        }
+
+        .field {
+
+            margin-bottom: 18px;
+        }
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            border: 1px solid #d8e3db;
+
+            background: #fbfdfb;
+
+            border-radius: 11px;
+
+            padding: 13px 14px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #159447;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(21, 148, 71, 0.08);
+        }
+
+        textarea {
+
+            min-height: 95px;
+
+            resize: vertical;
+        }
+
+        .hint {
+
+            color: #7c8982;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            margin-top: 5px;
+        }
+
+        .analyze-btn {
+
+            width: 100%;
+
+            border: 0;
+
+            background: #159447;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        .analyze-btn:hover {
+
+            background: #10783a;
+        }
+
+        .empty {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #78857e;
+        }
+
+        .status {
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            margin-bottom: 18px;
+
+            background: #f5faf6;
+        }
+
+        .status.needed {
+
+            background: #fff0f0;
+        }
+
+        .status.monitor {
+
+            background: #fff9e8;
+        }
+
+        .status.delay {
+
+            background: #edf9ef;
+        }
+
+        .status.field-check {
+
+            background: #f1f3f4;
+        }
+
+        .status-label {
+
+            font-size: 24px;
+
+            font-weight: 900;
+
+            margin-bottom: 8px;
+        }
+
+        .status-summary {
+
+            color: #637169;
+
+            line-height: 1.6;
+        }
+
+        .section {
+
+            margin-top: 20px;
+        }
+
+        .section h3 {
+
+            margin: 0 0 10px;
+
+            color: #245b39;
+
+            font-size: 16px;
+        }
+
+        .list {
+
+            display: grid;
+
+            gap: 9px;
+        }
+
+        .list-item {
+
+            background: #f7faf8;
+
+            border-radius: 11px;
+
+            padding: 12px 14px;
+
+            line-height: 1.5;
+
+            color: #46534c;
+        }
+
+        .factor-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .factor {
+
+            background: #f7faf8;
+
+            border-radius: 12px;
+
+            padding: 13px;
+        }
+
+        .factor small {
+
+            display: block;
+
+            color: #7a8780;
+
+            margin-bottom: 5px;
+        }
+
+        .factor p {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .weather-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .weather-box {
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            background: #f7faf8;
+        }
+
+        .weather-box small {
+
+            display: block;
+
+            color: #7b8780;
+
+            margin-bottom: 4px;
+        }
+
+        .weather-box strong {
+
+            font-size: 17px;
+
+            color: #195d36;
+        }
+
+        .warning {
+
+            margin-top: 20px;
+
+            background: #fff8e8;
+
+            color: #755919;
+
+            border-radius: 12px;
+
+            padding: 13px 14px;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        .error {
+
+            margin-top: 15px;
+
+            background: #fff0f0;
+
+            color: #9a3333;
+
+            border-radius: 12px;
+
+            padding: 13px;
+
+            line-height: 1.5;
+        }
+
+        .footer-note {
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #758178;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        @media (max-width: 850px) {
+
+            .main-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .farm-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+
+            .farm-grid,
+            .factor-grid,
+            .weather-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+
+                font-size: 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <a
+        class="back"
+        href="{{ url_for('ai_tools') }}"
+    >
+        ← Back to AI Tools
+    </a>
+
+
+    <!-- ====================================================
+         HEADER
+    ===================================================== -->
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            💧 Smart Kisan AI
+        </div>
+
+        <h1>
+            Water Irrigation Planner
+        </h1>
+
+        <p class="subtitle">
+
+            Check whether your crop may need irrigation
+            using your farm condition, crop stage,
+            rainfall and weather.
+
+        </p>
+
+
+        {% if active_farm %}
+
+        <div class="farm-grid">
+
+            <div class="farm-box">
+
+                <small>
+                    Farm
+                </small>
+
+                <strong>
+                    {{ active_farm["farm_name"] }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-box">
+
+                <small>
+                    Soil
+                </small>
+
+                <strong>
+                    {{ active_farm["soil_type"] }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-box">
+
+                <small>
+                    Irrigation
+                </small>
+
+                <strong>
+                    {{ active_farm["irrigation"] }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-box">
+
+                <small>
+                    Water Source
+                </small>
+
+                <strong>
+                    {{ active_farm["water_source"] }}
+                </strong>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- ====================================================
+         MAIN
+    ===================================================== -->
+
+    <div class="main-grid">
+
+
+        <!-- =================================================
+             INPUT CARD
+        ================================================== -->
+
+        <section class="card">
+
+            <h2>
+                Enter Crop Condition
+            </h2>
+
+
+            <form
+                method="POST"
+            >
+
+
+                <div class="field">
+
+                    <label for="crop_name">
+                        Crop Name
+                    </label>
+
+                    <input
+                        id="crop_name"
+                        name="crop_name"
+                        type="text"
+                        value="{{ form_data.crop_name }}"
+                        placeholder="Example: Onion"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="growth_stage">
+                        Crop Growth Stage
+                    </label>
+
+                    <select
+                        id="growth_stage"
+                        name="growth_stage"
+                        required
+                    >
+
+                        <option value="">
+                            Select growth stage
+                        </option>
+
+                        <option
+                            value="Seedling"
+                            {% if form_data.growth_stage == "Seedling" %}selected{% endif %}
+                        >
+                            Seedling
+                        </option>
+
+                        <option
+                            value="Vegetative"
+                            {% if form_data.growth_stage == "Vegetative" %}selected{% endif %}
+                        >
+                            Vegetative
+                        </option>
+
+                        <option
+                            value="Flowering"
+                            {% if form_data.growth_stage == "Flowering" %}selected{% endif %}
+                        >
+                            Flowering
+                        </option>
+
+                        <option
+                            value="Fruit/Bulb/Pod Development"
+                            {% if form_data.growth_stage == "Fruit/Bulb/Pod Development" %}selected{% endif %}
+                        >
+                            Fruit / Bulb / Pod Development
+                        </option>
+
+                        <option
+                            value="Maturity"
+                            {% if form_data.growth_stage == "Maturity" %}selected{% endif %}
+                        >
+                            Maturity
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="soil_moisture">
+                        Current Soil Moisture
+                    </label>
+
+                    <select
+                        id="soil_moisture"
+                        name="soil_moisture"
+                    >
+
+                        <option
+                            value="unknown"
+                            {% if form_data.soil_moisture == "unknown" %}selected{% endif %}
+                        >
+                            I don't know
+                        </option>
+
+                        <option
+                            value="dry"
+                            {% if form_data.soil_moisture == "dry" %}selected{% endif %}
+                        >
+                            Dry
+                        </option>
+
+                        <option
+                            value="slightly_dry"
+                            {% if form_data.soil_moisture == "slightly_dry" %}selected{% endif %}
+                        >
+                            Slightly Dry
+                        </option>
+
+                        <option
+                            value="moist"
+                            {% if form_data.soil_moisture == "moist" %}selected{% endif %}
+                        >
+                            Moist
+                        </option>
+
+                        <option
+                            value="wet"
+                            {% if form_data.soil_moisture == "wet" %}selected{% endif %}
+                        >
+                            Wet
+                        </option>
+
+                    </select>
+
+                    <div class="hint">
+
+                        You can select "I don't know".
+                        The system will then be more cautious.
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="field_observation">
+                        Optional Field Observation
+                    </label>
+
+                    <textarea
+                        id="field_observation"
+                        name="field_observation"
+                        placeholder="Example: Soil looks moist near the roots."
+                    >{{ form_data.field_observation }}</textarea>
+
+                </div>
+
+
+                <button
+                    class="analyze-btn"
+                    type="submit"
+                >
+                    💧 Analyze Irrigation Need
+                </button>
+
+
+                <div class="hint">
+
+                    Weather is checked using the saved
+                    farm location.
+
+                </div>
+
+            </form>
+
+
+            {% if result and not result.success %}
+
+            <div class="error">
+
+                {{ result.error }}
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =================================================
+             RESULT CARD
+        ================================================== -->
+
+        <section class="card">
+
+            {% if result and result.success %}
+
+
+                <div class="status {{ result.status_class }}">
+
+                    <div class="status-label">
+
+                        {{ result.status_label }}
+
+                    </div>
+
+                    <div class="status-summary">
+
+                        {{ result.summary }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     WHY
+                ========================================== -->
+
+                <div class="section">
+
+                    <h3>
+                        📌 Why?
+                    </h3>
+
+                    <div class="list">
+
+                        {% for item in result.reasons %}
+
+                        <div class="list-item">
+                            {{ item }}
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     FARMER ACTION
+                ========================================== -->
+
+                <div class="section">
+
+                    <h3>
+                        👨‍🌾 What should you do?
+                    </h3>
+
+                    <div class="list">
+
+                        {% for item in result.actions %}
+
+                        <div class="list-item">
+                            {{ item }}
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     WEATHER
+                ========================================== -->
+
+                {% if result.weather %}
+
+                <div class="section">
+
+                    <h3>
+                        🌦 Weather
+                    </h3>
+
+                    <div class="weather-grid">
+
+
+                        <div class="weather-box">
+
+                            <small>
+                                Temperature
+                            </small>
+
+                            <strong>
+
+                                {% if result.weather.current.temperature is not none %}
+
+                                    {{ result.weather.current.temperature }}°C
+
+                                {% else %}
+
+                                    —
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-box">
+
+                            <small>
+                                Humidity
+                            </small>
+
+                            <strong>
+
+                                {% if result.weather.current.humidity is not none %}
+
+                                    {{ result.weather.current.humidity }}%
+
+                                {% else %}
+
+                                    —
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-box">
+
+                            <small>
+                                Recent Rain
+                            </small>
+
+                            <strong>
+
+                                {{ result.weather.rainfall.recent_24h_mm }} mm
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-box">
+
+                            <small>
+                                Next 24h Rain
+                            </small>
+
+                            <strong>
+
+                                {{ result.weather.rainfall.next_24h_mm }} mm
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-box">
+
+                            <small>
+                                Rain Probability
+                            </small>
+
+                            <strong>
+
+                                {{ result.weather.rainfall.next_24h_probability }}%
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-box">
+
+                            <small>
+                                Max Wind
+                            </small>
+
+                            <strong>
+
+                                {% if result.weather.forecast.max_wind is not none %}
+
+                                    {{ result.weather.forecast.max_wind }} km/h
+
+                                {% else %}
+
+                                    —
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- =========================================
+                     FACTORS
+                ========================================== -->
+
+                <div class="section">
+
+                    <h3>
+                        🌱 Decision Factors
+                    </h3>
+
+                    <div class="factor-grid">
+
+
+                        <div class="factor">
+
+                            <small>
+                                Rainfall
+                            </small>
+
+                            <p>
+                                {{ result.effects.rainfall }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <small>
+                                Weather
+                            </small>
+
+                            <p>
+                                {{ result.effects.weather }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <small>
+                                Soil
+                            </small>
+
+                            <p>
+                                {{ result.effects.soil }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <small>
+                                Crop Stage
+                            </small>
+
+                            <p>
+                                {{ result.effects.crop_stage }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <small>
+                                Irrigation Method
+                            </small>
+
+                            <p>
+                                {{ result.effects.irrigation }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     FIELD CHECK
+                ========================================== -->
+
+                <div class="section">
+
+                    <h3>
+                        🔍 What to Check
+                    </h3>
+
+                    <div class="list-item">
+
+                        {{ result.field_check }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     REASSESS
+                ========================================== -->
+
+                <div class="section">
+
+                    <h3>
+                        🔄 Reassess
+                    </h3>
+
+                    <div class="list-item">
+
+                        {{ result.reassess }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     WARNING
+                ========================================== -->
+
+                <div class="warning">
+
+                    ⚠️ {{ result.warning }}
+
+                </div>
+
+
+            {% else %}
+
+                <div class="empty">
+
+                    <div style="font-size: 45px;">
+                        💧
+                    </div>
+
+                    <h2>
+                        Irrigation analysis will appear here
+                    </h2>
+
+                    <p>
+                        Enter your crop and field condition,
+                        then click Analyze Irrigation Need.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+
+    <div class="footer-note">
+
+        Smart Kisan AI • Irrigation recommendations
+        are decision-support guidance and should be
+        checked against actual field conditions.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

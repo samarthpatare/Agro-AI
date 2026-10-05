@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Fertilizer Advisor | Smart Kisan AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4fbf6,
+                    #eef8f1
+                );
+
+            color: #173b27;
+
+            min-height: 100vh;
+        }
+
+
+        .container {
+
+            width: min(
+                1100px,
+                calc(100% - 30px)
+            );
+
+            margin: 0 auto;
+
+            padding: 30px 0 50px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .brand-icon {
+
+            width: 55px;
+
+            height: 55px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 16px;
+
+            background: #159447;
+
+            color: white;
+
+            font-size: 28px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(21,148,71,.18);
+        }
+
+
+        .brand h1 {
+
+            margin: 0;
+
+            font-size: 25px;
+        }
+
+
+        .brand p {
+
+            margin: 4px 0 0;
+
+            color: #678071;
+
+            font-size: 13px;
+        }
+
+
+        .back-btn {
+
+            text-decoration: none;
+
+            color: #159447;
+
+            border:
+                1px solid #d7e8dc;
+
+            background: white;
+
+            padding: 10px 16px;
+
+            border-radius: 11px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .back-btn:hover {
+
+            background: #f1faf4;
+        }
+
+
+        /* =====================================================
+           FARM CARD
+        ===================================================== */
+
+        .farm-card {
+
+            background: white;
+
+            border:
+                1px solid #e0eee3;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(24,72,44,.05);
+        }
+
+
+        .farm-title {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .farm-title h2 {
+
+            margin: 0;
+
+            font-size: 18px;
+        }
+
+
+        .location {
+
+            color: #6c7d72;
+
+            font-size: 13px;
+        }
+
+
+        .farm-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+
+        .mini-card {
+
+            background: #f7fbf8;
+
+            border:
+                1px solid #e3eee6;
+
+            padding: 14px;
+
+            border-radius: 13px;
+        }
+
+
+        .mini-label {
+
+            font-size: 11px;
+
+            color: #789084;
+
+            text-transform: uppercase;
+
+            letter-spacing: .04em;
+
+            margin-bottom: 5px;
+        }
+
+
+        .mini-value {
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #244a33;
+        }
+
+
+        /* =====================================================
+           COMMON SECTION
+        ===================================================== */
+
+        .section {
+
+            background: white;
+
+            border:
+                1px solid #e0eee3;
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(24,72,44,.05);
+        }
+
+
+        .section-title {
+
+            margin: 0 0 5px;
+
+            font-size: 19px;
+        }
+
+
+        .section-subtitle {
+
+            margin: 0 0 18px;
+
+            color: #728277;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           ANALYSIS BASIS
+        ===================================================== */
+
+        .analysis-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+
+            margin-top: 16px;
+        }
+
+
+        .analysis-card {
+
+            position: relative;
+
+            border:
+                1px solid #e1ece4;
+
+            border-radius: 16px;
+
+            padding: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fbfdfb,
+                    #f5faf7
+                );
+        }
+
+
+        .analysis-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: #e9f7ed;
+
+            font-size: 21px;
+
+            margin-bottom: 11px;
+        }
+
+
+        .analysis-card h3 {
+
+            margin: 0 0 8px;
+
+            color: #205d36;
+
+            font-size: 15px;
+        }
+
+
+        .analysis-status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 5px 9px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+        }
+
+
+        .status-available {
+
+            background: #e8f7ed;
+
+            color: #16703b;
+        }
+
+
+        .status-missing {
+
+            background: #fff6df;
+
+            color: #916918;
+        }
+
+
+        .analysis-card p {
+
+            margin: 0;
+
+            color: #66776c;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        .analysis-detail {
+
+            margin-top: 10px;
+
+            padding-top: 10px;
+
+            border-top:
+                1px solid #e4ede7;
+
+            font-size: 12px;
+
+            color: #54665b;
+
+            line-height: 1.65;
+        }
+
+
+        .analysis-detail strong {
+
+            color: #315640;
+        }
+
+
+        /* =====================================================
+           SOIL REPORT
+        ===================================================== */
+
+        .soil-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .soil-item {
+
+            padding: 13px 10px;
+
+            background: #f6faf7;
+
+            border:
+                1px solid #e2eee5;
+
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+
+        .soil-label {
+
+            font-size: 11px;
+
+            color: #788b80;
+
+            margin-bottom: 5px;
+        }
+
+
+        .soil-value {
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            color: #175e34;
+
+            word-break: break-word;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .crop-form {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr auto;
+
+            gap: 12px;
+
+            align-items: end;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border:
+                1px solid #cedfd3;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: #fbfdfc;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #159447;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(21,148,71,.08);
+        }
+
+
+        .generate-btn {
+
+            border: none;
+
+            background: #159447;
+
+            color: white;
+
+            padding: 13px 22px;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            min-height: 46px;
+        }
+
+
+        .generate-btn:hover {
+
+            background: #0d7738;
+        }
+
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .error-box {
+
+            background: #fff4f3;
+
+            border:
+                1px solid #f3c8c4;
+
+            color: #9b342d;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            margin-top: 15px;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           RESULT
+        ===================================================== */
+
+        .result-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .result-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 11px;
+
+            background: #eaf8ee;
+
+            color: #15713a;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        .overall-message {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f2fbf4,
+                    #e8f7ec
+                );
+
+            border:
+                1px solid #d5ebda;
+
+            border-radius: 15px;
+
+            padding: 18px;
+
+            line-height: 1.65;
+
+            font-size: 14px;
+
+            color: #31533d;
+        }
+
+
+        /* =====================================================
+           COMBINED REASONING
+        ===================================================== */
+
+        .reasoning-box {
+
+            margin-top: 16px;
+
+            padding: 18px;
+
+            border:
+                1px solid #d9e8dd;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fcf9,
+                    #eef8f1
+                );
+
+            border-radius: 15px;
+        }
+
+
+        .reasoning-box h3 {
+
+            margin: 0 0 8px;
+
+            font-size: 15px;
+
+            color: #205d36;
+        }
+
+
+        .reasoning-box p {
+
+            margin: 0;
+
+            color: #617167;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+        }
+
+
+        /* =====================================================
+           NUTRIENTS
+        ===================================================== */
+
+        .nutrient-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 16px;
+        }
+
+
+        .nutrient-card {
+
+            border:
+                1px solid #e0ebe3;
+
+            border-radius: 13px;
+
+            padding: 15px;
+
+            background: #fbfdfb;
+        }
+
+
+        .nutrient-card h4 {
+
+            margin: 0 0 7px;
+
+            font-size: 14px;
+
+            color: #205d36;
+        }
+
+
+        .nutrient-card p {
+
+            margin: 0;
+
+            color: #66776c;
+
+            font-size: 12px;
+
+            line-height: 1.55;
+        }
+
+
+        /* =====================================================
+           FERTILIZER PLAN
+        ===================================================== */
+
+        .plan-list {
+
+            display: grid;
+
+            gap: 12px;
+
+            margin-top: 16px;
+        }
+
+
+        .plan-card {
+
+            border:
+                1px solid #dfece2;
+
+            border-radius: 15px;
+
+            padding: 17px;
+
+            background: #fbfdfb;
+        }
+
+
+        .plan-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            align-items: center;
+
+            margin-bottom: 8px;
+        }
+
+
+        .fertilizer-name {
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            color: #174d2d;
+        }
+
+
+        .stage {
+
+            background: #eff8f2;
+
+            color: #237044;
+
+            padding: 6px 9px;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .plan-card p {
+
+            margin: 7px 0;
+
+            color: #627269;
+
+            font-size: 13px;
+
+            line-height: 1.55;
+        }
+
+
+        .plan-card strong {
+
+            color: #355642;
+        }
+
+
+        /* =====================================================
+           TWO COLUMN INFORMATION
+        ===================================================== */
+
+        .two-column {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+
+            margin-top: 16px;
+        }
+
+
+        .info-card {
+
+            background: #f8fbf9;
+
+            border:
+                1px solid #e1ece4;
+
+            border-radius: 14px;
+
+            padding: 17px;
+        }
+
+
+        .info-card h3 {
+
+            margin: 0 0 9px;
+
+            font-size: 15px;
+
+            color: #205d36;
+        }
+
+
+        .info-card p {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #65746a;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           LISTS
+        ===================================================== */
+
+        .recommendation-list {
+
+            margin: 0;
+
+            padding-left: 20px;
+
+            color: #65746a;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .recommendation-list li {
+
+            margin-bottom: 6px;
+        }
+
+
+        /* =====================================================
+           WARNING
+        ===================================================== */
+
+        .warning-section {
+
+            margin-top: 18px;
+
+            background: #fffaf0;
+
+            border:
+                1px solid #f1ddb0;
+
+            border-radius: 14px;
+
+            padding: 16px;
+        }
+
+
+        .warning-section h3 {
+
+            margin: 0 0 9px;
+
+            color: #896117;
+
+            font-size: 15px;
+        }
+
+
+        .warning-section ul {
+
+            margin: 0;
+
+            padding-left: 20px;
+
+            color: #795f2c;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           EMPTY RESULT
+        ===================================================== */
+
+        .empty-result {
+
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: #708078;
+        }
+
+
+        .empty-icon {
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (
+            max-width: 850px
+        ) {
+
+            .farm-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .soil-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+
+            .nutrient-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .analysis-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (
+            max-width: 650px
+        ) {
+
+            .container {
+
+                padding-top: 20px;
+            }
+
+
+            .header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .farm-grid,
+            .soil-grid,
+            .nutrient-grid,
+            .two-column {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .crop-form {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .generate-btn {
+
+                width: 100%;
+            }
+
+
+            .plan-top {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .result-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .result-badge {
+
+                white-space: normal;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🧪
+            </div>
+
+            <div>
+
+                <h1>
+                    AI Fertilizer Advisor
+                </h1>
+
+                <p>
+                    Soil + Disease + Crop Health based fertilizer guidance
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('ai_tools') }}"
+            class="back-btn"
+        >
+            ← Back to AI Tools
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACTIVE FARM
+    ====================================================== -->
+
+    <div class="farm-card">
+
+        <div class="farm-title">
+
+            <div>
+
+                <h2>
+                    🌾 {{ active_farm.farm_name }}
+                </h2>
+
+                <div class="location">
+
+                    {{ active_farm.village }},
+                    {{ active_farm.taluka }},
+                    {{ active_farm.district }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="farm-grid">
+
+
+            <div class="mini-card">
+
+                <div class="mini-label">
+                    Soil Type
+                </div>
+
+                <div class="mini-value">
+
+                    {{ active_farm.soil_type }}
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-label">
+                    Season
+                </div>
+
+                <div class="mini-value">
+
+                    {{ active_farm.season }}
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-label">
+                    Irrigation
+                </div>
+
+                <div class="mini-value">
+
+                    {{ active_farm.irrigation }}
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-label">
+                    Water Source
+                </div>
+
+                <div class="mini-value">
+
+                    {{ active_farm.water_source }}
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-label">
+                    Farm Area
+                </div>
+
+                <div class="mini-value">
+
+                    {{ active_farm.area }}
+                    {{ active_farm.area_unit }}
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-label">
+                    Previous Crop
+                </div>
+
+                <div class="mini-value">
+
+                    {{ active_farm.previous_crop }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ANALYSIS BASIS
+    ====================================================== -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            🧠 AI Analysis Inputs
+        </h2>
+
+        <p class="section-subtitle">
+
+            The Fertilizer Advisor combines the soil report with
+            the latest Disease Detection and Crop Health Analysis
+            available for this active farm.
+
+        </p>
+
+
+        <div class="analysis-grid">
+
+
+            <!-- =================================================
+                 SOIL REPORT CARD
+            ================================================== -->
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    🧪
+                </div>
+
+                <h3>
+                    Soil Report
+                </h3>
+
+
+                {% if soil_report %}
+
+                <div class="analysis-status status-available">
+
+                    ✓ Available
+
+                </div>
+
+                <p>
+
+                    Primary source for nutrient and fertilizer
+                    recommendations.
+
+                </p>
+
+
+                <div class="analysis-detail">
+
+                    <strong>
+                        N / P / K / pH / OC / EC
+                    </strong>
+
+                    <br>
+
+                    Used for nutrient assessment.
+
+                </div>
+
+                {% else %}
+
+                <div class="analysis-status status-missing">
+
+                    ⚠ Not Available
+
+                </div>
+
+                <p>
+
+                    Analyze the soil report before using
+                    Fertilizer Advisor.
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =================================================
+                 DISEASE DETECTION CARD
+            ================================================== -->
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    🩺
+                </div>
+
+                <h3>
+                    Disease Detection
+                </h3>
+
+
+                {% if disease_analysis %}
+
+                <div class="analysis-status status-available">
+
+                    ✓ Available
+
+                </div>
+
+
+                <p>
+
+                    Used as supporting evidence for crop
+                    condition and fertilizer management.
+
+                </p>
+
+
+                <div class="analysis-detail">
+
+                    <strong>
+                        Disease:
+                    </strong>
+
+                    {{ disease_analysis.get(
+                        "disease",
+                        "Unknown"
+                    ) }}
+
+                    <br>
+
+                    <strong>
+                        Severity:
+                    </strong>
+
+                    {{ disease_analysis.get(
+                        "severity",
+                        "Unknown"
+                    ) }}
+
+                    <br>
+
+                    <strong>
+                        Confidence:
+                    </strong>
+
+                    {{ disease_analysis.get(
+                        "confidence",
+                        "Unknown"
+                    ) }}
+
+                </div>
+
+                {% else %}
+
+                <div class="analysis-status status-missing">
+
+                    ⚠ Not Analyzed
+
+                </div>
+
+                <p>
+
+                    Run Disease Detection to provide
+                    additional crop-condition context.
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =================================================
+                 CROP HEALTH CARD
+            ================================================== -->
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    🌱
+                </div>
+
+                <h3>
+                    Crop Health Analysis
+                </h3>
+
+
+                {% if crop_health_analysis %}
+
+                <div class="analysis-status status-available">
+
+                    ✓ Available
+
+                </div>
+
+
+                <p>
+
+                    Used as supporting evidence for plant
+                    stress and growth stage.
+
+                </p>
+
+
+                <div class="analysis-detail">
+
+                    <strong>
+                        Status:
+                    </strong>
+
+                    {{ crop_health_analysis.get(
+                        "health_status",
+                        "Unknown"
+                    ) }}
+
+                    <br>
+
+                    <strong>
+                        Health Score:
+                    </strong>
+
+                    {{ crop_health_analysis.get(
+                        "health_score",
+                        "Unknown"
+                    ) }}
+
+                    <br>
+
+                    <strong>
+                        Growth Stage:
+                    </strong>
+
+                    {{ crop_health_analysis.get(
+                        "growth_stage",
+                        "Unknown"
+                    ) }}
+
+                </div>
+
+                {% else %}
+
+                <div class="analysis-status status-missing">
+
+                    ⚠ Not Analyzed
+
+                </div>
+
+                <p>
+
+                    Run Crop Health Analysis to provide
+                    additional plant-health context.
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SOIL REPORT
+    ====================================================== -->
+
+    {% if soil_report %}
+
+    <div class="section">
+
+        <h2 class="section-title">
+            🧬 Saved Soil Report
+        </h2>
+
+        <p class="section-subtitle">
+
+            These values are automatically passed to the
+            Fertilizer Advisor.
+
+        </p>
+
+
+        {% set soil_values =
+            soil_report.get("values", {}) %}
+
+
+        <div class="soil-grid">
+
+
+            <div class="soil-item">
+
+                <div class="soil-label">
+                    Nitrogen
+                </div>
+
+                <div class="soil-value">
+
+                    {{ soil_values.get(
+                        "nitrogen",
+                        "--"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+            <div class="soil-item">
+
+                <div class="soil-label">
+                    Phosphorus
+                </div>
+
+                <div class="soil-value">
+
+                    {{ soil_values.get(
+                        "phosphorus",
+                        "--"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+            <div class="soil-item">
+
+                <div class="soil-label">
+                    Potassium
+                </div>
+
+                <div class="soil-value">
+
+                    {{ soil_values.get(
+                        "potassium",
+                        "--"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+            <div class="soil-item">
+
+                <div class="soil-label">
+                    pH
+                </div>
+
+                <div class="soil-value">
+
+                    {{ soil_values.get(
+                        "ph",
+                        "--"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+            <div class="soil-item">
+
+                <div class="soil-label">
+                    Organic Carbon
+                </div>
+
+                <div class="soil-value">
+
+                    {{ soil_values.get(
+                        "organic_carbon",
+                        "--"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+            <div class="soil-item">
+
+                <div class="soil-label">
+                    EC
+                </div>
+
+                <div class="soil-value">
+
+                    {{ soil_values.get(
+                        "electrical_conductivity",
+                        "--"
+                    ) }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         CROP INPUT
+    ====================================================== -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            🌱 Select Current Crop
+        </h2>
+
+
+        <p class="section-subtitle">
+
+            Enter the current crop. The AI will combine the
+            saved soil report, disease analysis and crop-health
+            information for this farm.
+
+        </p>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('fertilizer_advisor') }}"
+            class="crop-form"
+        >
+
+
+            <div class="form-group">
+
+                <label for="crop_name">
+
+                    Current Crop
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="crop_name"
+                    name="crop_name"
+                    value="{{ crop_name or '' }}"
+                    placeholder="Example: Onion, Cotton, Tomato"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="generate-btn"
+            >
+
+                🧪 Generate Combined Plan
+
+            </button>
+
+
+        </form>
+
+
+        {% if result and not result.get("success") %}
+
+        <div class="error-box">
+
+            ⚠️
+
+            {{ result.get(
+                "error",
+                "Unable to generate fertilizer advice."
+            ) }}
+
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =====================================================
+         RESULT
+    ====================================================== -->
+
+    {% if result and result.get("success") %}
+
+        {% set data = result.get("result", {}) %}
+
+
+        <div class="section">
+
+
+            <!-- =================================================
+                 RESULT HEADER
+            ================================================== -->
+
+            <div class="result-header">
+
+                <div>
+
+                    <h2 class="section-title">
+
+                        🧪 Fertilizer Recommendation
+
+                    </h2>
+
+
+                    <p class="section-subtitle">
+
+                        AI-generated guidance for
+
+                        <strong>
+
+                            {{ data.get(
+                                "crop",
+                                crop_name
+                            ) }}
+
+                        </strong>
+
+                    </p>
+
+                </div>
+
+
+                <div class="result-badge">
+
+                    ✓ Analysis Complete
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 OVERALL MESSAGE
+            ================================================== -->
+
+            {% if data.get("overall_message") %}
+
+            <div class="overall-message">
+
+                {{ data.get(
+                    "overall_message"
+                ) }}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 COMBINED ANALYSIS STATUS
+            ================================================== -->
+
+            {% set basis =
+                data.get(
+                    "analysis_basis",
+                    {}
+                )
+            %}
+
+
+            <div class="analysis-grid">
+
+
+                <!-- SOIL -->
+
+                <div class="analysis-card">
+
+                    <div class="analysis-icon">
+                        🧪
+                    </div>
+
+                    <h3>
+                        Soil Report
+                    </h3>
+
+
+                    {% if basis.get(
+                        "soil_report_used"
+                    ) %}
+
+                    <div class="analysis-status status-available">
+
+                        ✓ Used
+
+                    </div>
+
+                    <p>
+
+                        Primary basis for nutrient
+                        recommendation.
+
+                    </p>
+
+                    {% else %}
+
+                    <div class="analysis-status status-missing">
+
+                        ⚠ Not Used
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DISEASE -->
+
+                <div class="analysis-card">
+
+                    <div class="analysis-icon">
+                        🩺
+                    </div>
+
+                    <h3>
+                        Disease Detection
+                    </h3>
+
+
+                    {% if basis.get(
+                        "disease_detection_used"
+                    ) %}
+
+                    <div class="analysis-status status-available">
+
+                        ✓ Used
+
+                    </div>
+
+                    <p>
+
+                        Used as supporting crop-condition
+                        evidence.
+
+                    </p>
+
+                    {% else %}
+
+                    <div class="analysis-status status-missing">
+
+                        ⚪ Not Available
+
+                    </div>
+
+                    <p>
+
+                        No disease analysis was available.
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CROP HEALTH -->
+
+                <div class="analysis-card">
+
+                    <div class="analysis-icon">
+                        🌱
+                    </div>
+
+                    <h3>
+                        Crop Health
+                    </h3>
+
+
+                    {% if basis.get(
+                        "crop_health_used"
+                    ) %}
+
+                    <div class="analysis-status status-available">
+
+                        ✓ Used
+
+                    </div>
+
+                    <p>
+
+                        Used as supporting plant-health
+                        evidence.
+
+                    </p>
+
+                    {% else %}
+
+                    <div class="analysis-status status-missing">
+
+                        ⚪ Not Available
+
+                    </div>
+
+                    <p>
+
+                        No crop-health analysis was available.
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 DISEASE ASSESSMENT
+            ================================================== -->
+
+            <div class="two-column">
+
+
+                <div class="info-card">
+
+                    <h3>
+
+                        🩺 Disease Assessment
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ data.get(
+                            "disease_assessment",
+                            "Disease Detection data was not available."
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     CROP HEALTH ASSESSMENT
+                ================================================== -->
+
+                <div class="info-card">
+
+                    <h3>
+
+                        🌱 Crop Health Assessment
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ data.get(
+                            "crop_health_assessment",
+                            "Crop Health Analysis data was not available."
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 COMBINED AI REASONING
+            ================================================== -->
+
+            {% if data.get(
+                "combined_reasoning"
+            ) %}
+
+            <div class="reasoning-box">
+
+                <h3>
+
+                    🧠 Combined AI Reasoning
+
+                </h3>
+
+
+                <p>
+
+                    {{ data.get(
+                        "combined_reasoning"
+                    ) }}
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 NUTRIENT STATUS
+            ================================================== -->
+
+            <h3
+                class="section-title"
+                style="margin-top:25px;"
+            >
+
+                📊 Nutrient Status
+
+            </h3>
+
+
+            {% set nutrients =
+                data.get(
+                    "nutrient_status",
+                    {}
+                )
+            %}
+
+
+            <div class="nutrient-grid">
+
+
+                <div class="nutrient-card">
+
+                    <h4>
+                        Nitrogen (N)
+                    </h4>
+
+                    <p>
+
+                        {{ nutrients.get(
+                            "nitrogen",
+                            "Not available"
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="nutrient-card">
+
+                    <h4>
+                        Phosphorus (P)
+                    </h4>
+
+                    <p>
+
+                        {{ nutrients.get(
+                            "phosphorus",
+                            "Not available"
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="nutrient-card">
+
+                    <h4>
+                        Potassium (K)
+                    </h4>
+
+                    <p>
+
+                        {{ nutrients.get(
+                            "potassium",
+                            "Not available"
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="nutrient-card">
+
+                    <h4>
+                        Soil pH
+                    </h4>
+
+                    <p>
+
+                        {{ nutrients.get(
+                            "ph",
+                            "Not available"
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="nutrient-card">
+
+                    <h4>
+                        Organic Carbon
+                    </h4>
+
+                    <p>
+
+                        {{ nutrients.get(
+                            "organic_carbon",
+                            "Not available"
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="nutrient-card">
+
+                    <h4>
+                        Electrical Conductivity
+                    </h4>
+
+                    <p>
+
+                        {{ nutrients.get(
+                            "electrical_conductivity",
+                            "Not available"
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 FERTILIZER PLAN
+            ================================================== -->
+
+            <h3
+                class="section-title"
+                style="margin-top:25px;"
+            >
+
+                🌱 Fertilizer Plan
+
+            </h3>
+
+
+            {% set fertilizer_plan =
+                data.get(
+                    "fertilizer_plan",
+                    []
+                )
+            %}
+
+
+            {% if fertilizer_plan %}
+
+            <div class="plan-list">
+
+
+                {% for item in fertilizer_plan %}
+
+                <div class="plan-card">
+
+
+                    <div class="plan-top">
+
+
+                        <div class="fertilizer-name">
+
+                            {{ item.get(
+                                "fertilizer",
+                                "Fertilizer recommendation"
+                            ) }}
+
+                        </div>
+
+
+                        {% if item.get(
+                            "application_stage"
+                        ) %}
+
+                        <div class="stage">
+
+                            {{ item.get(
+                                "application_stage"
+                            ) }}
+
+                        </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    {% if item.get("purpose") %}
+
+                    <p>
+
+                        <strong>
+                            Purpose:
+                        </strong>
+
+                        {{ item.get(
+                            "purpose"
+                        ) }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                    {% if item.get("guidance") %}
+
+                    <p>
+
+                        <strong>
+                            Guidance:
+                        </strong>
+
+                        {{ item.get(
+                            "guidance"
+                        ) }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+            {% else %}
+
+
+            <div class="empty-result">
+
+                <div class="empty-icon">
+                    🌱
+                </div>
+
+                No fertilizer plan was returned.
+
+            </div>
+
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 TIMING + METHOD
+            ================================================== -->
+
+            <div class="two-column">
+
+
+                <div class="info-card">
+
+                    <h3>
+
+                        🕒 Application Timing
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ data.get(
+                            "application_timing",
+                            "No timing guidance available."
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <h3>
+
+                        🚜 Application Method
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ data.get(
+                            "application_method",
+                            "No application method available."
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 SOIL IMPROVEMENT + IRRIGATION
+            ================================================== -->
+
+            <div class="two-column">
+
+
+                <!-- SOIL IMPROVEMENT -->
+
+                <div class="info-card">
+
+                    <h3>
+
+                        🌿 Soil Improvement
+
+                    </h3>
+
+
+                    {% set improvements =
+                        data.get(
+                            "soil_improvement",
+                            []
+                        )
+                    %}
+
+
+                    {% if improvements %}
+
+                    <ul class="recommendation-list">
+
+
+                        {% for item in improvements %}
+
+                        <li>
+
+                            {{ item }}
+
+                        </li>
+
+                        {% endfor %}
+
+
+                    </ul>
+
+                    {% else %}
+
+                    <p>
+
+                        No additional soil-improvement
+                        recommendation was provided.
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- IRRIGATION -->
+
+                <div class="info-card">
+
+                    <h3>
+
+                        💧 Irrigation Note
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ data.get(
+                            "irrigation_note",
+                            "No irrigation note available."
+                        ) }}
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 WARNINGS
+            ================================================== -->
+
+            {% set warnings =
+                data.get(
+                    "warnings",
+                    []
+                )
+            %}
+
+
+            {% if warnings %}
+
+            <div class="warning-section">
+
+                <h3>
+
+                    ⚠️ Important Notes
+
+                </h3>
+
+
+                <ul>
+
+
+                    {% for warning in warnings %}
+
+                    <li>
+
+                        {{ warning }}
+
+                    </li>
+
+                    {% endfor %}
+
+
+                </ul>
+
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>

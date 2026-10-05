@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Risk & Yield Analysis | Smart Kisan AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f5f7f2;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 18px 50px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #14532d, #2f7d32);
+            color: #fff;
+            border-radius: 24px;
+            padding: 28px;
+            margin-bottom: 22px;
+            box-shadow: 0 12px 30px rgba(20, 83, 45, 0.16);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .hero p {
+            margin: 0;
+            opacity: 0.9;
+            line-height: 1.55;
+        }
+
+        .farm-strip {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 18px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        .card h2,
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 650;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        button {
+            margin-top: 17px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 12px;
+            background: #166534;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.93;
+        }
+
+        .error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .overview-card {
+            border-radius: 18px;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+        }
+
+        .big-status {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .subtext {
+            color: #6b7280;
+            line-height: 1.55;
+            margin-top: 10px;
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .risk-card {
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            background: #fafafa;
+            min-height: 155px;
+        }
+
+        .risk-icon {
+            font-size: 25px;
+        }
+
+        .risk-title {
+            font-weight: 750;
+            margin-top: 7px;
+        }
+
+        .risk-level {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .risk-reason {
+            margin-top: 10px;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .high .risk-level {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .medium .risk-level {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .low .risk-level {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .unknown .risk-level {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .yield-box {
+            border-radius: 18px;
+            padding: 22px;
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+        }
+
+        .yield-title {
+            font-size: 14px;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .yield-value {
+            font-size: 25px;
+            font-weight: 800;
+            margin-top: 5px;
+        }
+
+        .list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .list li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .notice {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #854d0e;
+            border-radius: 14px;
+            padding: 15px 16px;
+            line-height: 1.55;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .risk-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            .form-grid,
+            .overview,
+            .risk-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <h1>📊 Farm Risk & Yield Analysis</h1>
+
+        <p>
+            Understand the main risks affecting your farm by combining
+            the available Smart Kisan analyses.
+        </p>
+
+        <div class="farm-strip">
+
+            <span class="pill">
+                Farm: {{ active_farm.farm_name }}
+            </span>
+
+            <span class="pill">
+                {{ active_farm.village }}, {{ active_farm.district }}
+            </span>
+
+            <span class="pill">
+                Soil: {{ active_farm.soil_type }}
+            </span>
+
+            <span class="pill">
+                Area: {{ active_farm.area }} {{ active_farm.area_unit }}
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- RUN ANALYSIS -->
+    <section class="card">
+
+        <h2>Run Farm Analysis</h2>
+
+        <p class="subtext">
+            Crop and growth stage are the only new inputs.
+            The analysis reuses the farm-specific results already
+            available in Smart Kisan.
+        </p>
+
+
+        {% if result and not result.success %}
+
+            <div class="error">
+                {{ result.error }}
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+                <!-- CROP -->
+                <div>
+
+                    <label for="crop_name">
+                        Current Crop
+                    </label>
+
+                    <input
+                        id="crop_name"
+                        name="crop_name"
+                        type="text"
+                        value="{{ form_data.crop_name }}"
+                        placeholder="Example: Soybean"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- GROWTH STAGE -->
+                <div>
+
+                    <label for="growth_stage">
+                        Growth Stage
+                    </label>
+
+                    <select
+                        id="growth_stage"
+                        name="growth_stage"
+                        required
+                    >
+
+                        <option value="">
+                            Select growth stage
+                        </option>
+
+                        {% for stage in [
+                            "Sowing",
+                            "Germination",
+                            "Vegetative",
+                            "Flowering",
+                            "Fruit / Pod Development",
+                            "Maturity",
+                            "Harvest"
+                        ] %}
+
+                            <option
+                                value="{{ stage }}"
+                                {% if form_data.growth_stage == stage %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ stage }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button type="submit">
+                Analyze Farm Risk
+            </button>
+
+        </form>
+
+    </section>
+
+
+    {% if result and result.success %}
+
+
+        <!-- OVERVIEW -->
+        <section class="overview">
+
+
+            <!-- OVERALL RISK -->
+            <div class="overview-card">
+
+                <div class="yield-title">
+                    OVERALL FARM RISK
+                </div>
+
+                <div class="big-status">
+
+                    <span>
+                        {{ result.overall_icon }}
+                    </span>
+
+                    <span>
+                        {{ result.overall }}
+                    </span>
+
+                </div>
+
+                <div class="subtext">
+                    {{ result.risk_summary }}
+                </div>
+
+                <div class="meta">
+                    Assessed:
+                    {{ result.data_available }}
+                    /
+                    {{ result.data_total }}
+                    risk sources
+                </div>
+
+            </div>
+
+
+            <!-- YIELD OUTLOOK -->
+            <div class="yield-box">
+
+                <div class="yield-title">
+                    YIELD OUTLOOK
+                </div>
+
+                <div class="yield-value">
+                    {{ result.yield_outlook }}
+                </div>
+
+                <div class="subtext">
+                    {{ result.yield_message }}
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RISK BREAKDOWN -->
+        <section class="card">
+
+            <h2>
+                Risk Breakdown
+            </h2>
+
+
+            <div class="risk-grid">
+
+                {% for key, item in result.risks.items() %}
+
+                    <div class="risk-card {{ item.class }}">
+
+                        <div class="risk-icon">
+                            {{ item.icon }}
+                        </div>
+
+                        <div class="risk-title">
+                            {{ item.title }}
+                        </div>
+
+                        <span class="risk-level">
+
+                            {{ item.icon }}
+                            {{ item.label }}
+
+                        </span>
+
+                        <div class="risk-reason">
+                            {{ item.reason }}
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- MAIN RISK FACTORS -->
+        <section class="card">
+
+            <h2>
+                ⚠️ Main Risk Factors
+            </h2>
+
+            <ul class="list">
+
+                {% for item in result.main_risk_factors %}
+
+                    <li>
+                        {{ item }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </section>
+
+
+        <!-- RECOMMENDED ACTIONS -->
+        <section class="card">
+
+            <h2>
+                ✅ Recommended Actions
+            </h2>
+
+            <ul class="list">
+
+                {% for item in result.actions %}
+
+                    <li>
+                        {{ item }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </section>
+
+
+        <!-- WARNING -->
+        <section class="card">
+
+            <h2>
+                Important Note
+            </h2>
+
+            <div class="notice">
+                {{ result.warning }}
+            </div>
+
+        </section>
+
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

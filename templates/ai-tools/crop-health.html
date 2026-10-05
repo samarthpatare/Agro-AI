@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Crop Health Analysis | Smart Kisan AI
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f4f8f5;
+
+            color: #183125;
+        }
+
+        .page {
+
+            width:
+                min(
+                    1120px,
+                    calc(100% - 32px)
+                );
+
+            margin:
+                32px auto 50px;
+        }
+
+        .hero {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 18px;
+
+            margin-bottom:
+                22px;
+        }
+
+        .eyebrow {
+
+            color:
+                #159447;
+
+            font-size:
+                13px;
+
+            font-weight:
+                800;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .08em;
+        }
+
+        h1 {
+
+            margin:
+                5px 0 8px;
+
+            font-size:
+                32px;
+        }
+
+        .subtitle {
+
+            margin: 0;
+
+            color:
+                #607167;
+
+            line-height:
+                1.6;
+        }
+
+        .farm-chip {
+
+            padding:
+                12px 15px;
+
+            background:
+                white;
+
+            border:
+                1px solid #dbe8df;
+
+            border-radius:
+                14px;
+
+            font-weight:
+                700;
+        }
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                360px 1fr;
+
+            gap:
+                22px;
+        }
+
+        .card {
+
+            background:
+                white;
+
+            border:
+                1px solid #deebe2;
+
+            border-radius:
+                20px;
+
+            padding:
+                22px;
+
+            box-shadow:
+                0 14px 35px
+                rgba(
+                    20,
+                    70,
+                    40,
+                    .06
+                );
+        }
+
+        label {
+
+            display:
+                block;
+
+            margin:
+                0 0 8px;
+
+            font-weight:
+                700;
+
+            font-size:
+                14px;
+        }
+
+        input[type="text"] {
+
+            width:
+                100%;
+
+            padding:
+                12px 13px;
+
+            border:
+                1px solid #ccdcd1;
+
+            border-radius:
+                11px;
+
+            font:
+                inherit;
+
+            background:
+                white;
+        }
+
+        .field {
+
+            margin-bottom:
+                18px;
+        }
+
+        .upload {
+
+            border:
+                2px dashed #b9d9c2;
+
+            border-radius:
+                16px;
+
+            padding:
+                20px;
+
+            text-align:
+                center;
+
+            cursor:
+                pointer;
+
+            background:
+                #f8fcf9;
+        }
+
+        .upload:hover {
+
+            background:
+                #f1f9f3;
+        }
+
+        .upload strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                5px;
+        }
+
+        .upload span {
+
+            font-size:
+                13px;
+
+            color:
+                #68766e;
+        }
+
+        #crop_image {
+
+            display:
+                none;
+        }
+
+        #preview {
+
+            display:
+                none;
+
+            width:
+                100%;
+
+            max-height:
+                250px;
+
+            object-fit:
+                cover;
+
+            border-radius:
+                14px;
+
+            margin-top:
+                15px;
+        }
+
+        .analyze-btn {
+
+            width:
+                100%;
+
+            border:
+                0;
+
+            border-radius:
+                12px;
+
+            padding:
+                13px 16px;
+
+            font:
+                inherit;
+
+            font-weight:
+                800;
+
+            color:
+                white;
+
+            background:
+                #159447;
+
+            cursor:
+                pointer;
+        }
+
+        .analyze-btn:hover {
+
+            background:
+                #0f7b39;
+        }
+
+        .hint {
+
+            color:
+                #66756d;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.5;
+
+            margin-top:
+                12px;
+        }
+
+        .error {
+
+            margin-top:
+                15px;
+
+            padding:
+                13px;
+
+            border-radius:
+                12px;
+
+            background:
+                #fff3f1;
+
+            color:
+                #a23c2e;
+
+            font-size:
+                14px;
+        }
+
+        .empty {
+
+            min-height:
+                430px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            text-align:
+                center;
+
+            color:
+                #728078;
+        }
+
+        .empty .icon {
+
+            font-size:
+                50px;
+
+            margin-bottom:
+                10px;
+        }
+
+        .result-head {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                20px;
+
+            align-items:
+                center;
+
+            margin-bottom:
+                18px;
+        }
+
+        .result-head h2 {
+
+            margin:
+                5px 0 0;
+        }
+
+        .status {
+
+            padding:
+                8px 12px;
+
+            border-radius:
+                999px;
+
+            background:
+                #eaf7ee;
+
+            color:
+                #12723a;
+
+            font-weight:
+                800;
+
+            font-size:
+                13px;
+        }
+
+        .score-wrap {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                95px 1fr;
+
+            gap:
+                16px;
+
+            align-items:
+                center;
+        }
+
+        .score {
+
+            width:
+                95px;
+
+            height:
+                95px;
+
+            border-radius:
+                50%;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            background:
+                #f0f8f2;
+
+            border:
+                8px solid #cdebd4;
+
+            font-size:
+                23px;
+
+            font-weight:
+                900;
+
+            color:
+                #14733b;
+        }
+
+        .progress {
+
+            height:
+                10px;
+
+            background:
+                #e8eee9;
+
+            border-radius:
+                99px;
+
+            overflow:
+                hidden;
+        }
+
+        .progress > div {
+
+            height:
+                100%;
+
+            background:
+                #159447;
+
+            width:
+                0;
+        }
+
+        .meta-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap:
+                12px;
+
+            margin-top:
+                18px;
+        }
+
+        .meta {
+
+            background:
+                #f7faf8;
+
+            padding:
+                13px;
+
+            border-radius:
+                12px;
+        }
+
+        .meta small {
+
+            display:
+                block;
+
+            color:
+                #718078;
+
+            margin-bottom:
+                4px;
+        }
+
+        .section {
+
+            margin-top:
+                22px;
+        }
+
+        .section h3 {
+
+            margin:
+                0 0 10px;
+
+            font-size:
+                16px;
+        }
+
+        .items {
+
+            display:
+                grid;
+
+            gap:
+                9px;
+        }
+
+        .item {
+
+            padding:
+                12px 14px;
+
+            border-radius:
+                11px;
+
+            background:
+                #f7faf8;
+
+            line-height:
+                1.5;
+        }
+
+        .warning {
+
+            margin-top:
+                18px;
+
+            padding:
+                13px 14px;
+
+            border-radius:
+                11px;
+
+            background:
+                #fff8e8;
+
+            color:
+                #7d5b13;
+        }
+
+        @media (
+            max-width: 850px
+        ) {
+
+            .grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .meta-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .hero,
+            .result-head {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <div class="hero">
+
+        <div>
+
+            <div class="eyebrow">
+                🌱 Smart Kisan AI
+            </div>
+
+            <h1>
+                Crop Health Analysis
+            </h1>
+
+            <p class="subtitle">
+
+                Upload a crop image to check
+                visible plant health, stress,
+                growth stage and care needs.
+
+            </p>
+
+        </div>
+
+
+        <div class="farm-chip">
+
+            Farm:
+            {{ active_farm.farm_name }}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <div class="grid">
+
+
+        <!-- =====================================
+             UPLOAD CARD
+        ====================================== -->
+
+        <div class="card">
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+
+                <div class="field">
+
+                    <label
+                        for="crop_name"
+                    >
+                        Crop name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="crop_name"
+                        name="crop_name"
+                        placeholder="Example: Tomato"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Crop image
+                    </label>
+
+
+                    <label
+                        class="upload"
+                        for="crop_image"
+                    >
+
+                        <strong>
+                            📷 Choose a clear crop image
+                        </strong>
+
+                        <span>
+                            JPG, JPEG, PNG or WEBP
+                            • Max 20 MB
+                        </span>
+
+                    </label>
+
+
+                    <input
+                        id="crop_image"
+                        name="crop_image"
+                        type="file"
+                        accept="
+                            .jpg,
+                            .jpeg,
+                            .png,
+                            .webp,
+                            image/jpeg,
+                            image/png,
+                            image/webp
+                        "
+                        required
+                    >
+
+
+                    <img
+                        id="preview"
+                        alt="Crop preview"
+                    >
+
+                </div>
+
+
+                <button
+                    class="analyze-btn"
+                    type="submit"
+                >
+
+                    Analyze Crop Health
+
+                </button>
+
+
+                <div class="hint">
+
+                    For better results,
+                    photograph the plant or leaves
+                    clearly in good daylight.
+
+                </div>
+
+            </form>
+
+
+            <!-- ERROR -->
+
+            {% if result and not result.success %}
+
+                <div class="error">
+
+                    {{ result.error }}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================
+             RESULT CARD
+        ====================================== -->
+
+        <div class="card">
+
+            {% if result and result.success %}
+
+                {% set r = result.result %}
+
+
+                <!-- RESULT HEADER -->
+
+                <div class="result-head">
+
+                    <div>
+
+                        <div class="eyebrow">
+                            Analysis Complete
+                        </div>
+
+                        <h2>
+                            {{ r.crop }}
+                        </h2>
+
+                    </div>
+
+
+                    <div class="status">
+
+                        {{ r.health_status }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- HEALTH SCORE -->
+
+                <div class="score-wrap">
+
+
+                    <div class="score">
+
+                        {{ r.health_score }}
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Overall Health Score
+                        </strong>
+
+
+                        <div
+                            class="progress"
+                            style="
+                                margin:
+                                10px 0 6px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    width:
+                                    { { r.health_score }}%;
+                                "
+                            ></div>
+
+                        </div>
+
+
+                        <small
+                            style="
+                                color:
+                                #6d7b73;
+                            "
+                        >
+
+                            Confidence:
+                            {{ r.confidence }}%
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- META DATA -->
+
+                <div class="meta-grid">
+
+
+                    <div class="meta">
+
+                        <small>
+                            Growth stage
+                        </small>
+
+                        <strong>
+                            {{ r.growth_stage }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="meta">
+
+                        <small>
+                            Leaf condition
+                        </small>
+
+                        <strong>
+                            {{ r.leaf_condition }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="meta">
+
+                        <small>
+                            Image quality
+                        </small>
+
+                        <strong>
+                            {{ r.image_quality }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     MACRO
+                ================================== -->
+
+                {% macro section(
+                    title,
+                    values
+                ) %}
+
+                    {% if values %}
+
+                        <div class="section">
+
+                            <h3>
+                                {{ title }}
+                            </h3>
+
+                            <div class="items">
+
+                                {% for item in values %}
+
+                                    <div class="item">
+
+                                        {{ item }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endmacro %}
+
+
+                <!-- VISIBLE STRESS -->
+
+                {{ section(
+                    "Visible Stress",
+                    r.visible_stress
+                ) }}
+
+
+                <!-- POSSIBLE CAUSES -->
+
+                {{ section(
+                    "Possible Causes",
+                    r.possible_causes
+                ) }}
+
+
+                <!-- RECOMMENDATIONS -->
+
+                {{ section(
+                    "Recommended Actions",
+                    r.recommendations
+                ) }}
+
+
+                <!-- PREVENTION -->
+
+                {{ section(
+                    "Preventive Care",
+                    r.prevention
+                ) }}
+
+
+                <!-- WARNING -->
+
+                {% if r.warning %}
+
+                    <div class="warning">
+
+                        ⚠️
+                        {{ r.warning }}
+
+                    </div>
+
+                {% endif %}
+
+
+            {% else %}
+
+
+                <!-- EMPTY STATE -->
+
+                <div class="empty">
+
+                    <div>
+
+                        <div class="icon">
+                            🌿
+                        </div>
+
+                        <h2>
+                            Ready to analyze your crop
+                        </h2>
+
+                        <p>
+
+                            Upload a clear plant image
+                            and the AI will assess
+                            its visible health condition.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     IMAGE PREVIEW
+========================================== -->
+
+<script>
+
+const input =
+    document.getElementById(
+        "crop_image"
+    );
+
+const preview =
+    document.getElementById(
+        "preview"
+    );
+
+
+if (input && preview) {
+
+    input.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                input.files &&
+                input.files[0];
+
+            if (!file) {
+
+                preview.style.display =
+                    "none";
+
+                preview.removeAttribute(
+                    "src"
+                );
+
+                return;
+
+            }
+
+
+            preview.src =
+                URL.createObjectURL(
+                    file
+                );
+
+            preview.style.display =
+                "block";
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

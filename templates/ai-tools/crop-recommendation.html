@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        AI Crop Recommendation | Smart Kisan
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4fbf6,
+                    #eef8f1
+                );
+
+            color: #1f2d24;
+            min-height: 100vh;
+        }
+
+        /* =================================================
+           HEADER
+        ================================================= */
+
+        .topbar {
+            background: white;
+
+            padding: 18px 5%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom: 1px solid #e5eee8;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 22px;
+            font-weight: 800;
+
+            color: #159447;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: #e9f8ee;
+
+            font-size: 22px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            color: #159447;
+
+            background: #edf9f1;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #dff3e5;
+        }
+
+        /* =================================================
+           MAIN
+        ================================================= */
+
+        .container {
+            width: min(
+                1100px,
+                calc(100% - 30px)
+            );
+
+            margin: 35px auto 60px;
+        }
+
+        .hero {
+            text-align: center;
+
+            margin-bottom: 28px;
+        }
+
+        .hero-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            color: #126f37;
+
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            max-width: 720px;
+
+            margin: auto;
+
+            color: #66766d;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+        }
+
+        /* =================================================
+           FARM INFORMATION
+        ================================================= */
+
+        .farm-card {
+            background: white;
+
+            border: 1px solid #e0eee4;
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(20, 80, 40, 0.05);
+        }
+
+        .farm-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .farm-header h2 {
+            font-size: 18px;
+            color: #126f37;
+        }
+
+        .location-badge {
+            background: #eaf8ee;
+
+            color: #13833e;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .farm-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .farm-item {
+            background: #f7fbf8;
+
+            border-radius: 12px;
+
+            padding: 13px;
+        }
+
+        .farm-item small {
+            display: block;
+
+            color: #7a8980;
+
+            font-size: 11px;
+
+            margin-bottom: 5px;
+        }
+
+        .farm-item strong {
+            font-size: 14px;
+
+            color: #26392d;
+        }
+
+        /* =================================================
+           FORM CARD
+        ================================================= */
+
+        .card {
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            border: 1px solid #e0eee4;
+
+            box-shadow:
+                0 10px 35px
+                rgba(20, 80, 40, 0.06);
+
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            margin-bottom: 6px;
+
+            color: #126f37;
+
+            font-size: 21px;
+        }
+
+        .card-description {
+            color: #718078;
+
+            font-size: 13px;
+
+            margin-bottom: 24px;
+
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            color: #365243;
+
+            margin:
+                22px 0 14px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 17px;
+        }
+
+        .field {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #405148;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border: 1px solid #d8e5dc;
+
+            border-radius: 10px;
+
+            background: #fbfdfb;
+
+            outline: none;
+
+            font-size: 14px;
+
+            color: #25352b;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: #159447;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(21, 148, 71, 0.10);
+        }
+
+        .field input:disabled,
+        .field select:disabled {
+            background: #f1f6f2;
+            color: #66766d;
+        }
+
+        .hint {
+            font-size: 11px;
+
+            color: #89958d;
+        }
+
+        /* =================================================
+           BUTTON
+        ================================================= */
+
+        .button-row {
+            margin-top: 28px;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+        .recommend-btn {
+            border: none;
+
+            cursor: pointer;
+
+            padding: 15px 35px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #159447,
+                    #0c7134
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 20px
+                rgba(21, 148, 71, 0.20);
+
+            transition:
+                transform .2s,
+                box-shadow .2s;
+        }
+
+        .recommend-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(21, 148, 71, 0.25);
+        }
+
+        .recommend-btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =================================================
+           RESULTS
+        ================================================= */
+
+        .results {
+            margin-top: 25px;
+        }
+
+        .results-header {
+            margin-bottom: 18px;
+        }
+
+        .results-header h2 {
+            color: #126f37;
+
+            font-size: 22px;
+        }
+
+        .results-header p {
+            color: #718078;
+
+            margin-top: 5px;
+
+            font-size: 13px;
+        }
+
+        .best-crop {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf9ee,
+                    #f8fcf9
+                );
+
+            border: 1px solid #bfe5ca;
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            margin-bottom: 18px;
+        }
+
+        .best-label {
+            display: inline-block;
+
+            background: #159447;
+
+            color: white;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .best-crop h3 {
+            font-size: 28px;
+
+            color: #126f37;
+
+            margin-bottom: 7px;
+        }
+
+        .best-score {
+            font-size: 14px;
+
+            color: #4c6656;
+
+            margin-bottom: 15px;
+        }
+
+        .reason {
+            color: #506258;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+        .crop-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .crop-card {
+            background: white;
+
+            border: 1px solid #e1ebe4;
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(20, 80, 40, 0.04);
+        }
+
+        .rank {
+            display: inline-flex;
+
+            width: 30px;
+            height: 30px;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #edf8f0;
+
+            color: #159447;
+
+            font-weight: 800;
+
+            font-size: 12px;
+
+            margin-bottom: 10px;
+        }
+
+        .crop-card h3 {
+            color: #263c2e;
+
+            margin-bottom: 7px;
+
+            font-size: 18px;
+        }
+
+        .crop-score {
+            font-size: 13px;
+
+            color: #159447;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+        }
+
+        .crop-reason {
+            font-size: 12px;
+
+            color: #718078;
+
+            line-height: 1.6;
+        }
+
+        /* =================================================
+           MESSAGE
+        ================================================= */
+
+        .message {
+            padding: 15px 18px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .error-message {
+            background: #fff1f1;
+
+            color: #a33a3a;
+
+            border: 1px solid #f0cccc;
+        }
+
+        .info-message {
+            background: #eef7ff;
+
+            color: #316284;
+
+            border: 1px solid #d3e8f6;
+        }
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        @media (max-width: 850px) {
+
+            .farm-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .crop-grid {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 14px 20px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .container {
+                width:
+                    calc(100% - 20px);
+
+                margin-top: 22px;
+            }
+
+            .hero h1 {
+                font-size: 26px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .farm-grid,
+            .form-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .farm-header {
+                align-items: flex-start;
+
+                gap: 10px;
+
+                flex-direction: column;
+            }
+
+            .recommend-btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🌾
+        </div>
+
+        Smart Kisan AI
+
+    </div>
+
+    <a
+        href="{{ url_for('ai_tools') }}"
+        class="back-btn"
+    >
+        ← AI Tools
+    </a>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            🌱
+        </div>
+
+        <h1>
+            AI Crop Recommendation
+        </h1>
+
+        <p>
+            Get crop recommendations based on your
+            Maharashtra farm location, soil report,
+            season, irrigation and environmental
+            conditions.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         ACTIVE FARM
+    ================================================= -->
+
+    {% if active_farm %}
+
+    <section class="farm-card">
+
+        <div class="farm-header">
+
+            <h2>
+                📍 Your Active Farm
+            </h2>
+
+            <span class="location-badge">
+                Maharashtra
+            </span>
+
+        </div>
+
+        <div class="farm-grid">
+
+            <div class="farm-item">
+
+                <small>Farm Name</small>
+
+                <strong>
+                    {{ active_farm["farm_name"] or "--" }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>Location</small>
+
+                <strong>
+
+                    {{ active_farm["village"] or "--" }},
+                    {{ active_farm["taluka"] or "--" }}
+
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>District</small>
+
+                <strong>
+                    {{ active_farm["district"] or "--" }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>Farm Area</small>
+
+                <strong>
+
+                    {{ active_farm["area"] or "--" }}
+                    {{ active_farm["area_unit"] or "" }}
+
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>Soil Type</small>
+
+                <strong>
+                    {{ active_farm["soil_type"] or "--" }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>Irrigation</small>
+
+                <strong>
+                    {{ active_farm["irrigation"] or "--" }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>Water Source</small>
+
+                <strong>
+                    {{ active_farm["water_source"] or "--" }}
+                </strong>
+
+            </div>
+
+
+            <div class="farm-item">
+
+                <small>Current Season</small>
+
+                <strong>
+                    {{ active_farm["season"] or "--" }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         INPUT FORM
+    ================================================= -->
+
+    <section class="card">
+
+        <h2 class="card-title">
+            🧪 Soil & Farm Conditions
+        </h2>
+
+        <p class="card-description">
+
+            Enter the values from your latest soil
+            test report. Your farm location and
+            other farm information are automatically
+            taken from the active farm.
+
+        </p>
+
+
+        <form
+            id="cropRecommendationForm"
+            method="POST"
+            action="{{ url_for('crop_recommendation') }}"
+        >
+
+
+            <!-- SOIL -->
+
+            <div class="section-title">
+                Soil Test Values
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <!-- pH -->
+
+                <div class="field">
+
+                    <label for="ph">
+                        Soil pH
+                    </label>
+
+                    <input
+                        type="number"
+                        id="ph"
+                        name="ph"
+                        step="0.01"
+                        min="3"
+                        max="10"
+                        placeholder="Example: 6.8"
+                        value="{{ form_data.get('ph', '') if form_data else '' }}"
+                        required
+                    >
+
+                    <span class="hint">
+                        Usually measured on a 0–14 scale
+                    </span>
+
+                </div>
+
+
+                <!-- N -->
+
+                <div class="field">
+
+                    <label for="nitrogen">
+                        Nitrogen (N)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="nitrogen"
+                        name="nitrogen"
+                        step="0.01"
+                        min="0"
+                        placeholder="kg/ha"
+                        value="{{ form_data.get('nitrogen', '') if form_data else '' }}"
+                        required
+                    >
+
+                    <span class="hint">
+                        Available nitrogen
+                    </span>
+
+                </div>
+
+
+                <!-- P -->
+
+                <div class="field">
+
+                    <label for="phosphorus">
+                        Phosphorus (P)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="phosphorus"
+                        name="phosphorus"
+                        step="0.01"
+                        min="0"
+                        placeholder="kg/ha"
+                        value="{{ form_data.get('phosphorus', '') if form_data else '' }}"
+                        required
+                    >
+
+                    <span class="hint">
+                        Available phosphorus
+                    </span>
+
+                </div>
+
+
+                <!-- K -->
+
+                <div class="field">
+
+                    <label for="potassium">
+                        Potassium (K)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="potassium"
+                        name="potassium"
+                        step="0.01"
+                        min="0"
+                        placeholder="kg/ha"
+                        value="{{ form_data.get('potassium', '') if form_data else '' }}"
+                        required
+                    >
+
+                    <span class="hint">
+                        Available potassium
+                    </span>
+
+                </div>
+
+
+                <!-- ORGANIC CARBON -->
+
+                <div class="field">
+
+                    <label for="organic_carbon">
+                        Organic Carbon
+                    </label>
+
+                    <input
+                        type="number"
+                        id="organic_carbon"
+                        name="organic_carbon"
+                        step="0.01"
+                        min="0"
+                        max="10"
+                        placeholder="%"
+                        value="{{ form_data.get('organic_carbon', '') if form_data else '' }}"
+                        required
+                    >
+
+                    <span class="hint">
+                        Soil organic carbon %
+                    </span>
+
+                </div>
+
+
+                <!-- EC -->
+
+                <div class="field">
+
+                    <label for="electrical_conductivity">
+                        Electrical Conductivity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="electrical_conductivity"
+                        name="electrical_conductivity"
+                        step="0.01"
+                        min="0"
+                        placeholder="dS/m"
+                        value="{{ form_data.get('electrical_conductivity', '') if form_data else '' }}"
+                    >
+
+                    <span class="hint">
+                        Optional soil EC
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- FARM CONDITIONS -->
+
+            <div class="section-title">
+                Farm Conditions
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <!-- REGION -->
+
+                <div class="field">
+
+                    <label for="region">
+                        Maharashtra Region
+                    </label>
+
+                    <select
+                        id="region"
+                        name="region"
+                    >
+
+                        <option value="">
+                            Auto-detect from district
+                        </option>
+
+                        <option value="Konkan">
+                            Konkan
+                        </option>
+
+                        <option value="Western Maharashtra">
+                            Western Maharashtra
+                        </option>
+
+                        <option value="Marathwada">
+                            Marathwada
+                        </option>
+
+                        <option value="Khandesh">
+                            Khandesh
+                        </option>
+
+                        <option value="Vidarbha">
+                            Vidarbha
+                        </option>
+
+                    </select>
+
+                    <span class="hint">
+                        Dataset region classification
+                    </span>
+
+                </div>
+
+
+                <!-- SEASON -->
+
+                <div class="field">
+
+                    <label for="season">
+                        Season
+                    </label>
+
+                    <select
+                        id="season"
+                        name="season"
+                        required
+                    >
+
+                        <option value="">
+                            Select season
+                        </option>
+
+                        <option
+                            value="Kharif"
+                            {% if active_farm and active_farm["season"]|lower == "kharif" %}
+                            selected
+                            {% endif %}
+                        >
+                            Kharif
+                        </option>
+
+                        <option
+                            value="Rabi"
+                            {% if active_farm and active_farm["season"]|lower == "rabi" %}
+                            selected
+                            {% endif %}
+                        >
+                            Rabi
+                        </option>
+
+                        <option
+                            value="Zaid"
+                            {% if active_farm and active_farm["season"]|lower in ["zaid", "summer"] %}
+                            selected
+                            {% endif %}
+                        >
+                            Zaid / Summer
+                        </option>
+
+                        <option
+                            value="Perennial"
+                            {% if active_farm and active_farm["season"]|lower == "perennial" %}
+                            selected
+                            {% endif %}
+                        >
+                            Perennial
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- IRRIGATION -->
+
+                <div class="field">
+
+                    <label for="irrigation">
+                        Irrigation
+                    </label>
+
+                    <select
+                        id="irrigation"
+                        name="irrigation"
+                    >
+
+                        <option value="">
+                            Use farm information
+                        </option>
+
+                        <option value="Rainfed">
+                            Rainfed
+                        </option>
+
+                        <option value="Drip">
+                            Drip
+                        </option>
+
+                        <option value="Sprinkler">
+                            Sprinkler
+                        </option>
+
+                        <option value="Canal">
+                            Canal
+                        </option>
+
+                        <option value="Well">
+                            Well
+                        </option>
+
+                        <option value="Borewell">
+                            Borewell
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FARM AREA -->
+
+                <div class="field">
+
+                    <label for="farm_area">
+                        Farm Area
+                    </label>
+
+                    <input
+                        type="number"
+                        id="farm_area"
+                        name="farm_area"
+                        step="0.01"
+                        min="0.01"
+                        value="{{ active_farm['area'] if active_farm else '' }}"
+                        readonly
+                    >
+
+                    <span class="hint">
+                        Taken from active farm
+                    </span>
+
+                </div>
+
+
+                <!-- SOIL TYPE -->
+
+                <div class="field">
+
+                    <label for="soil_type">
+                        Soil Type
+                    </label>
+
+                    <select
+                        id="soil_type"
+                        name="soil_type"
+                    >
+
+                        <option value="">
+                            Use farm soil type
+                        </option>
+
+                        <option
+                            value="Black Cotton"
+                            {% if active_farm and active_farm["soil_type"]|lower in ["black", "black cotton", "black soil"] %}
+                            selected
+                            {% endif %}
+                        >
+                            Black Cotton Soil
+                        </option>
+
+                        <option
+                            value="Laterite"
+                            {% if active_farm and active_farm["soil_type"]|lower == "laterite" %}
+                            selected
+                            {% endif %}
+                        >
+                            Laterite Soil
+                        </option>
+
+                        <option
+                            value="Red"
+                            {% if active_farm and active_farm["soil_type"]|lower == "red" %}
+                            selected
+                            {% endif %}
+                        >
+                            Red Soil
+                        </option>
+
+                        <option
+                            value="Alluvial"
+                            {% if active_farm and active_farm["soil_type"]|lower == "alluvial" %}
+                            selected
+                            {% endif %}
+                        >
+                            Alluvial Soil
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PREVIOUS CROP -->
+
+                <div class="field">
+
+                    <label for="previous_crop">
+                        Previous Crop
+                    </label>
+
+                    <input
+                        type="text"
+                        id="previous_crop"
+                        name="previous_crop"
+                        value="{{ active_farm['previous_crop'] if active_farm else '' }}"
+                        readonly
+                    >
+
+                    <span class="hint">
+                        Taken from active farm
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="recommend-btn"
+                    id="recommendButton"
+                >
+
+                    🌾 Analyse & Recommend Crops
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =================================================
+         RESULT
+    ================================================= -->
+
+    {% if result %}
+
+    <section class="results">
+
+
+        {% if result.get("success") == false %}
+
+            <div class="message error-message">
+
+                ❌
+
+                {{ result.get(
+                    "error",
+                    "Unable to generate crop recommendations."
+                ) }}
+
+            </div>
+
+        {% else %}
+
+            <div class="results-header">
+
+                <h2>
+                    🌾 Recommended Crops
+                </h2>
+
+                <p>
+                    Recommendations are ranked using
+                    farm location, season, soil and
+                    crop suitability.
+                </p>
+
+            </div>
+
+
+            <!-- BEST CROP -->
+
+            {% set recommendations =
+                result.get(
+                    "recommendations",
+                    []
+                )
+            %}
+
+
+            {% if recommendations %}
+
+                {% set best =
+                    recommendations[0]
+                %}
+
+                <div class="best-crop">
+
+                    <span class="best-label">
+                        🥇 BEST RECOMMENDATION
+                    </span>
+
+                    <h3>
+                        {{ best.get(
+                            "crop",
+                            best.get(
+                                "name",
+                                "Recommended Crop"
+                            )
+                        ) }}
+                    </h3>
+
+                    <div class="best-score">
+
+                        Suitability:
+
+                        <strong>
+                            {{ best.get(
+                                "score",
+                                best.get(
+                                    "suitability",
+                                    "--"
+                                )
+                            ) }}
+                        </strong>
+
+                    </div>
+
+                    <div class="reason">
+
+                        {{ best.get(
+                            "reason",
+                            best.get(
+                                "explanation",
+                                "This crop matches the available farm conditions."
+                            )
+                        ) }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- OTHER CROPS -->
+
+                {% if recommendations|length > 1 %}
+
+                <div class="crop-grid">
+
+                    {% for crop in recommendations[1:] %}
+
+                    <div class="crop-card">
+
+                        <span class="rank">
+                            {{ loop.index + 1 }}
+                        </span>
+
+                        <h3>
+
+                            {{ crop.get(
+                                "crop",
+                                crop.get(
+                                    "name",
+                                    "Crop"
+                                )
+                            ) }}
+
+                        </h3>
+
+                        <div class="crop-score">
+
+                            Suitability:
+
+                            {{ crop.get(
+                                "score",
+                                crop.get(
+                                    "suitability",
+                                    "--"
+                                )
+                            ) }}
+
+                        </div>
+
+                        <div class="crop-reason">
+
+                            {{ crop.get(
+                                "reason",
+                                crop.get(
+                                    "explanation",
+                                    "Suitable according to the available farm conditions."
+                                )
+                            ) }}
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% endif %}
+
+
+            {% else %}
+
+                <div class="message info-message">
+
+                    ℹ️ No suitable crops were found
+                    for the supplied conditions.
+
+                    Please verify your soil report
+                    values and farm information.
+
+                </div>
+
+            {% endif %}
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    const form =
+        document.getElementById(
+            "cropRecommendationForm"
+        );
+
+    const button =
+        document.getElementById(
+            "recommendButton"
+        );
+
+
+    if (form) {
+
+        form.addEventListener(
+            "submit",
+            function () {
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    "⏳ Analysing Farm & Soil...";
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | Smart Kisan AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+            background: #071b0e;
+        }
+
+        .auth-page {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(3, 20, 9, .96),
+                    rgba(7, 67, 31, .91)
+                ),
+                url("{{ url_for('static', filename='images/farmer-details.png') }}")
+                center / cover no-repeat;
+        }
+
+        .auth-page::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            top: -220px;
+            right: -180px;
+            border-radius: 50%;
+            background: rgba(61, 197, 103, .16);
+            filter: blur(10px);
+        }
+
+        .auth-page::after {
+            content: "";
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            bottom: -250px;
+            left: -180px;
+            border-radius: 50%;
+            background: rgba(33, 159, 76, .14);
+        }
+
+        .auth-wrapper {
+            width: min(100%, 1050px);
+            min-height: 630px;
+            display: grid;
+            grid-template-columns: 1fr 430px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .96);
+            box-shadow:
+                0 35px 100px rgba(0, 0, 0, .35);
+        }
+
+        /* LEFT VISUAL */
+
+        .auth-visual {
+            position: relative;
+            min-height: 630px;
+            overflow: hidden;
+            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(4, 28, 13, .10),
+                    rgba(3, 22, 9, .88)
+                ),
+                url("{{ url_for('static', filename='images/farmer-details.png') }}")
+                center / cover no-repeat;
+        }
+
+        .auth-visual-content {
+            position: absolute;
+            left: 45px;
+            right: 45px;
+            bottom: 45px;
+        }
+
+        .auth-visual-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,.20);
+            border-radius: 25px;
+            background: rgba(0,0,0,.20);
+            backdrop-filter: blur(10px);
+            font-size: 11px;
+            font-weight: 750;
+            margin-bottom: 15px;
+        }
+
+        .auth-visual-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #73dd91;
+            box-shadow: 0 0 12px #73dd91;
+        }
+
+        .auth-visual h1 {
+            font-size: clamp(38px, 5vw, 60px);
+            line-height: 1.02;
+            letter-spacing: -2px;
+            margin: 0 0 15px;
+        }
+
+        .auth-visual h1 span {
+            color: #72da96;
+        }
+
+        .auth-visual p {
+            max-width: 510px;
+            color: #d2e2d7;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .visual-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .visual-feature {
+            padding: 8px 11px;
+            border-radius: 9px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.12);
+            backdrop-filter: blur(8px);
+            font-size: 10px;
+            font-weight: 650;
+        }
+
+        /* RIGHT FORM */
+
+        .auth-form-panel {
+            padding: 42px 38px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo-icon {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: #eaf8ee;
+            font-size: 23px;
+        }
+
+        .auth-logo-name {
+            font-size: 19px;
+            font-weight: 850;
+            color: #102419;
+        }
+
+        .auth-logo-name span {
+            color: #159447;
+        }
+
+        .auth-form-panel h2 {
+            color: #122419;
+            font-size: 29px;
+            margin: 0 0 7px;
+            letter-spacing: -.7px;
+        }
+
+        .auth-subtitle {
+            color: #718078;
+            font-size: 13px;
+            margin: 0 0 27px;
+        }
+
+        .alert {
+            padding: 11px 13px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .alert-error {
+            background: #fff1f1;
+            color: #a52828;
+            border: 1px solid #f0cccc;
+        }
+
+        .alert-success {
+            background: #edf9f0;
+            color: #1f733c;
+            border: 1px solid #cce8d3;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #26362d;
+            font-size: 12px;
+            font-weight: 750;
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 49px;
+            padding: 11px 13px;
+            border: 1px solid #dce6df;
+            border-radius: 11px;
+            background: #fbfdfb;
+            color: #1e3026;
+            outline: none;
+            font-size: 14px;
+            transition: .2s ease;
+        }
+
+        .form-control:focus {
+            border-color: #159447;
+            background: white;
+            box-shadow:
+                0 0 0 3px rgba(21,148,71,.10);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-control {
+            padding-right: 48px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 37px;
+            height: 37px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .show-password:hover {
+            background: #eef7f1;
+        }
+
+        .auth-button {
+            width: 100%;
+            min-height: 51px;
+            border: 0;
+            border-radius: 12px;
+            background: #159447;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 800;
+            box-shadow:
+                0 12px 25px rgba(21,148,71,.20);
+            transition: .2s ease;
+        }
+
+        .auth-button:hover {
+            background: #0b6c32;
+            transform: translateY(-1px);
+        }
+
+        .auth-switch {
+            margin-top: 22px;
+            text-align: center;
+            color: #718078;
+            font-size: 13px;
+        }
+
+        .auth-switch a {
+            color: #159447;
+            font-weight: 800;
+        }
+
+        .back-home {
+            margin-top: 14px;
+            text-align: center;
+            color: #77847c;
+            font-size: 12px;
+        }
+
+        .back-home a {
+            color: #159447;
+            font-weight: 700;
+        }
+
+        @media (max-width: 800px) {
+
+            .auth-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .auth-visual {
+                min-height: 290px;
+            }
+
+            .auth-visual-content {
+                left: 28px;
+                right: 28px;
+                bottom: 28px;
+            }
+
+            .auth-visual h1 {
+                font-size: 37px;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .auth-page {
+                padding: 12px;
+            }
+
+            .auth-wrapper {
+                border-radius: 22px;
+            }
+
+            .auth-form-panel {
+                padding: 30px 22px;
+            }
+
+            .auth-visual {
+                min-height: 250px;
+            }
+
+            .visual-features {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-wrapper">
+
+        <div class="auth-visual">
+
+            <div class="auth-visual-content">
+
+                <div class="auth-visual-badge">
+                    <span></span>
+                    SMART AGRICULTURE
+                </div>
+
+                <h1>
+                    Smart Farming.
+                    <br>
+                    <span>Better Future.</span>
+                </h1>
+
+                <p>
+                    Welcome back to Smart Kisan AI.
+                    Manage your farm and access smart agriculture
+                    tools from one simple platform.
+                </p>
+
+                <div class="visual-features">
+
+                    <div class="visual-feature">
+                        🌾 Crop Information
+                    </div>
+
+                    <div class="visual-feature">
+                        🌦️ Live Weather
+                    </div>
+
+                    <div class="visual-feature">
+                        🤖 AI Tools
+                    </div>
+
+                    <div class="visual-feature">
+                        🏛️ Government Schemes
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="auth-form-panel">
+
+            <div class="auth-logo">
+
+                <div class="auth-logo-icon">
+                    🌾
+                </div>
+
+                <div class="auth-logo-name">
+                    Smart Kisan <span>AI</span>
+                </div>
+
+            </div>
+
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="auth-subtitle">
+                Login to continue to your Smart Kisan dashboard.
+            </p>
+
+
+            {% with messages =
+                get_flashed_messages(
+                    with_categories=true
+                )
+            %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="
+                            alert
+                            {% if category == 'success' %}
+                                alert-success
+                            {% else %}
+                                alert-error
+                            {% endif %}
+                        ">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form
+                method="POST"
+                action="{{ url_for('login') }}"
+            >
+
+                <div class="form-group">
+
+                    <label for="mobile">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="mobile"
+                        name="mobile"
+                        class="form-control"
+                        placeholder="Enter 10-digit mobile number"
+                        inputmode="numeric"
+                        maxlength="10"
+                        pattern="[6-9][0-9]{9}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter your password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            id="showPassword"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Login to Smart Kisan
+                </button>
+
+            </form>
+
+
+            <div class="auth-switch">
+
+                Don't have an account?
+
+                <a href="{{ url_for('register') }}">
+                    Create Account
+                </a>
+
+            </div>
+
+
+            <div class="back-home">
+
+                <a href="{{ url_for('home') }}">
+                    ← Back to Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const button =
+            document.getElementById(
+                "showPassword"
+            );
+
+        const password =
+            document.getElementById(
+                "password"
+            );
+
+        if (button && password) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        password.type === "password"
+                    ) {
+
+                        password.type = "text";
+                        button.textContent = "🙈";
+
+                    } else {
+
+                        password.type = "password";
+                        button.textContent = "👁";
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
